@@ -1,23 +1,27 @@
 {
-    "name": "yiisoft/_____",
+    "name": "yiisoft/i18n-translator",
     "type": "library",
-    "description": "_____",
+    "description": "Yii i18n translator",
     "keywords": [
-        "_____"
+        "i18n",
+        "translation",
+        "internationalization"
     ],
     "homepage": "https://www.yiiframework.com/",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/_____/issues?state=open",
+        "issues": "https://github.com/yiisoft/i18n-translator/issues?state=open",
         "forum": "https://www.yiiframework.com/forum/",
         "wiki": "https://www.yiiframework.com/wiki/",
         "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/_____"
+        "source": "https://github.com/yiisoft/i18n-translator"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "psr/event-dispatcher": "1.0.0",
+        "yiisoft/i18n": "^3.0@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.4",
@@ -25,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yiisoft\\_____\\": "src"
+            "Yiisoft\\I18n\\Translator\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yiisoft\\_____\\Tests\\": "tests"
+            "Yiisoft\\I18n\\Translator\\Tests\\": "tests"
         }
     },
     "extra": {
