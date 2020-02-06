@@ -20,6 +20,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.4",
+        "ext-intl": "*",
         "psr/event-dispatcher": "1.0.0",
         "yiisoft/i18n": "^3.0@dev"
     },
