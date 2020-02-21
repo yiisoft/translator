@@ -1,21 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\I18n\Translator\Event;
 
 class MissingTranslationEvent
 {
-    /**
-     * @var string
-     */
-    private $category;
-    /**
-     * @var string
-     */
-    private $language;
-    /**
-     * @var string
-     */
-    private $message;
+    private string $category;
+    private string $language;
+    private string $message;
 
     public function __construct(string $category, string $language, string $message)
     {
@@ -24,25 +17,16 @@ class MissingTranslationEvent
         $this->message = $message;
     }
 
-    /**
-     * @return string
-     */
     public function getCategory(): string
     {
         return $this->category;
     }
 
-    /**
-     * @return string
-     */
     public function getLanguage(): string
     {
         return $this->language;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
