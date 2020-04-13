@@ -56,7 +56,7 @@ class Translator implements TranslatorInterface
 
     public function translate(
         string $id,
-        array $parameters = [],
+        array $arguments = [],
         string $category = null,
         string $localeString = null
     ): ?string {
@@ -77,13 +77,13 @@ class Translator implements TranslatorInterface
             $fallback = $locale->fallbackLocale();
 
             if ($fallback->asString() !== $locale->asString()) {
-                return $this->translate($id, $parameters, $category, $fallback->asString());
+                return $this->translate($id, $arguments, $category, $fallback->asString());
             }
 
             $defaultFallback = (new Locale($this->getDefaultLocale()))->fallbackLocale();
 
             if ($defaultFallback->asString() !== $fallback->asString()) {
-                return $this->translate($id, $parameters, $category, $this->getDefaultLocale());
+                return $this->translate($id, $arguments, $category, $this->getDefaultLocale());
             }
 
             $message = $id;
@@ -93,7 +93,7 @@ class Translator implements TranslatorInterface
             return $message;
         }
 
-        return $this->messageFormatter->format($message, $parameters, $localeString);
+        return $this->messageFormatter->format($message, $arguments, $localeString);
     }
 
     protected function getDefaultCategory(): string
