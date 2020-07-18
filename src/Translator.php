@@ -103,6 +103,6 @@ class Translator implements TranslatorInterface
 
     protected function getDefaultLocale(): string
     {
-        return $this->defaultLocale ?? \Locale::getDefault();
+        return $this->defaultLocale ?? 'en';
     }
 }
