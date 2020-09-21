@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Yiisoft\Translator;
-
 
 final class Category
 {

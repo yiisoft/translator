@@ -30,12 +30,14 @@ class Translator implements TranslatorInterface
     public function translate(string $id, array $parameters = [], string $category = null, string $locale = null): string
     {
         $locale = $locale ?? $this->defaultLocale;
-        if (empty($locale))
+        if (empty($locale)) {
             return $id;
+        }
 
         $category = $category ?? $this->defaultCategory;
-        if (empty($category) or empty($this->categories[$category]))
+        if (empty($category) or empty($this->categories[$category])) {
             return $id;
+        }
 
         $message = $this->categories[$category]->getReader()->getMessage($id, $category, $locale, $parameters);
         $message = $this->categories[$category]->getFormatter()->format($message, $parameters, $locale);
