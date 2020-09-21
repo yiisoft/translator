@@ -2,107 +2,44 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\I18n\Translator;
-
-use Yiisoft\I18n\Locale;
-use Yiisoft\I18n\MessageReaderInterface;
-use Yiisoft\I18n\TranslatorInterface;
-use Yiisoft\I18n\MessageFormatterInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Yiisoft\I18n\Translator\Event\MissingTranslationEvent;
+namespace Yiisoft\Translator;
 
 class Translator implements TranslatorInterface
 {
-    private EventDispatcherInterface $eventDispatcher;
-    private MessageReaderInterface $messageReader;
-    private ?MessageFormatterInterface $messageFormatter;
-    private ?string $locale = null;
-    private ?string $defaultLocale = null;
+    private string $defaultLocale = '';
 
-    public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        MessageReaderInterface $messageReader,
-        MessageFormatterInterface $messageFormatter = null
-    ) {
-        $this->messageReader = $messageReader;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->messageFormatter = $messageFormatter;
-    }
+    private string $defaultCategory = '';
 
     /**
-     * Sets the current locale.
-     *
-     * @param string $locale The locale
+     * @var Category[]
      */
-    public function setLocale(string $locale): void
+    private array $categories = [];
+
+    public function __construct(string $defaultCategory, string $defaultLocale, MessageReaderInterface $reader, MessageFormatterInterface $formatter)
     {
-        $this->locale = $locale;
+        $this->defaultCategory = $defaultCategory;
+        $this->defaultLocale = $defaultLocale;
+        $this->addCategorySource($defaultCategory, $reader, $formatter);
     }
 
-    /**
-     * Returns the current locale.
-     *
-     * @return string The locale
-     */
-    public function getLocale(): string
+    public function addCategorySource(string $category, MessageReaderInterface $reader, MessageFormatterInterface $formatter): void
     {
-        return $this->locale ?? $this->getDefaultLocale();
+        $this->categories[$category] = new Category($reader, $formatter);
     }
 
-    public function setDefaultLocale(string $locale): void
+    public function translate(string $id, array $parameters = [], string $category = null, string $locale = null): string
     {
-        $this->defaultLocale = $locale;
-    }
+        $locale = $locale ?? $this->defaultLocale;
+        if (empty($locale))
+            return $id;
 
-    public function translate(
-        string $id,
-        array $parameters = [],
-        string $category = null,
-        string $localeString = null
-    ): ?string {
-        if ($localeString === null) {
-            $localeString = $this->getLocale();
-        }
+        $category = $category ?? $this->defaultCategory;
+        if (empty($category) or empty($this->categories[$category]))
+            return $id;
 
-        if ($category === null) {
-            $category = $this->getDefaultCategory();
-        }
+        $message = $this->categories[$category]->getReader()->getMessage($id, $category, $locale, $parameters);
+        $message = $this->categories[$category]->getFormatter()->format($message, $parameters, $locale);
 
-        $message = $this->messageReader->one($id, $localeString . '/' . $category);
-        if ($message === null) {
-            $missingTranslation = new MissingTranslationEvent($category, $localeString, $id);
-            $this->eventDispatcher->dispatch($missingTranslation);
-
-            $locale = new Locale($localeString);
-            $fallback = $locale->fallbackLocale();
-
-            if ($fallback->asString() !== $locale->asString()) {
-                return $this->translate($id, $parameters, $category, $fallback->asString());
-            }
-
-            $defaultFallback = (new Locale($this->getDefaultLocale()))->fallbackLocale();
-
-            if ($defaultFallback->asString() !== $fallback->asString()) {
-                return $this->translate($id, $parameters, $category, $this->getDefaultLocale());
-            }
-
-            $message = $id;
-        }
-
-        if ($this->messageFormatter === null) {
-            return $message;
-        }
-
-        return $this->messageFormatter->format($message, $parameters, $localeString);
-    }
-
-    protected function getDefaultCategory(): string
-    {
-        return 'default';
-    }
-
-    protected function getDefaultLocale(): string
-    {
-        return $this->defaultLocale ?? 'en';
+        return $message;
     }
 }
