@@ -1,7 +1,7 @@
 {
-    "name": "yiisoft/i18n-translator",
+    "name": "yiisoft/translator",
     "type": "library",
-    "description": "Yii i18n translator",
+    "description": "Yii message translator",
     "keywords": [
         "i18n",
         "translation",
@@ -10,11 +10,11 @@
     "homepage": "https://www.yiiframework.com/",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/i18n-translator/issues?state=open",
+        "issues": "https://github.com/yiisoft/translator/issues?state=open",
         "forum": "https://www.yiiframework.com/forum/",
         "wiki": "https://www.yiiframework.com/wiki/",
         "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/i18n-translator"
+        "source": "https://github.com/yiisoft/translator"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yiisoft\\I18n\\Translator\\": "src"
+            "Yiisoft\\Translator\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yiisoft\\I18n\\Translator\\Tests\\": "tests"
+            "Yiisoft\\Translator\\Tests\\": "tests"
         }
     },
     "extra": {
