@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\I18n\Translator\Event;
+namespace Yiisoft\Translator\Event;
 
 class MissingTranslationEvent
 {
