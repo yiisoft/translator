@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\I18n\Translator;
+namespace Yiisoft\Translator;
 
 use Yiisoft\I18n\Locale;
 use Yiisoft\I18n\MessageReaderInterface;
 use Yiisoft\I18n\TranslatorInterface;
 use Yiisoft\I18n\MessageFormatterInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Yiisoft\I18n\Translator\Event\MissingTranslationEvent;
+use Yiisoft\Translator\Event\MissingTranslationEvent;
 
 class Translator implements TranslatorInterface
 {
