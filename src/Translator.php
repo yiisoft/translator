@@ -53,14 +53,14 @@ class Translator implements TranslatorInterface
             $missingTranslation = new MissingTranslationEvent($category, $locale, $id);
             $this->eventDispatcher->dispatch($missingTranslation);
 
-            $locale = new Locale($locale);
-            $fallback = $locale->fallbackLocale();
+            $localeObject = new Locale($locale);
+            $fallback = $localeObject->fallbackLocale();
 
-            if ($fallback->asString() !== $locale->asString()) {
+            if ($fallback->asString() !== $localeObject->asString()) {
                 $message = $this->categories[$category]->getReader()->getMessage($id, $category, $fallback->asString(), $parameters);
-                if ($message === null) {
-                    $message = $id;
-                }
+            }
+            if ($message === null) {
+                $message = $id;
             }
         }
 
