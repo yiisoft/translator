@@ -1,6 +1,8 @@
 <?php
 
-namespace Yii\Translator\Tests;
+declare(strict_types=1);
+
+namespace Yiisoft\Translator\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
