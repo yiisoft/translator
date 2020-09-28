@@ -1,18 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Translator;
 
 final class Category
 {
-    /**
-     * @var MessageReaderInterface
-     */
-    private $reader;
+    private MessageReaderInterface $reader;
 
-    /**
-     * @var MessageFormatterInterface
-     */
-    private $formatter;
+    private MessageFormatterInterface $formatter;
 
     public function __construct(MessageReaderInterface $reader, MessageFormatterInterface $formatter)
     {
