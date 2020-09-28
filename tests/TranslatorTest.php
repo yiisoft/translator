@@ -51,16 +51,17 @@ final class TranslatorTest extends TestCase
         string $category,
         string $locale,
         string $expected
-    ): void
-    {
+    ): void {
         $messageReader = $this->createMessageReader($this->getMessages());
         $messageFormatter = $this->createMessageFormatter();
 
-        $translator = new Translator($category,
+        $translator = new Translator(
+            $category,
             $locale,
             $messageReader,
             $messageFormatter,
-            $this->createMock(EventDispatcherInterface::class));
+            $this->createMock(EventDispatcherInterface::class)
+        );
 
         $this->assertEquals($expected, $translator->translate($id, $parameters, $category, $locale));
     }
@@ -73,8 +74,7 @@ final class TranslatorTest extends TestCase
         array $parameters,
         string $category,
         string $locale
-    ): void
-    {
+    ): void {
         $messageReader = $this->createMessageReader($this->getMessages());
         $messageFormatter = $this->createMessageFormatter();
         /**
@@ -87,11 +87,13 @@ final class TranslatorTest extends TestCase
             ->method('dispatch')
             ->with(new MissingTranslationEvent($category, $locale, $id));
 
-        $translator = new Translator($category,
+        $translator = new Translator(
+            $category,
             $locale,
             $messageReader,
             $messageFormatter,
-            $eventDispatcher);
+            $eventDispatcher
+        );
 
         $translator->translate($id, $parameters, $category, $locale);
     }
@@ -116,7 +118,6 @@ final class TranslatorTest extends TestCase
     private function createMessageFormatter(): MessageFormatterInterface
     {
         return (new class() implements MessageFormatterInterface {
-
             public function format(string $message, array $parameters, string $locale): string
             {
                 return $message;
