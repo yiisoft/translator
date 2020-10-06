@@ -78,8 +78,7 @@ final class TranslatorTest extends TestCase
         string $category,
         string $locale,
         string $expected
-    ): void
-    {
+    ): void {
         $messageReader = $this->createMessageReader($this->getMessages());
         $messageFormatter = $this->createMessageFormatter();
 
@@ -103,8 +102,7 @@ final class TranslatorTest extends TestCase
         string $category,
         string $locale,
         string $expected
-    ): void
-    {
+    ): void {
         $messageReader = $this->createMessageReader($this->getMessages());
         $messageFormatter = $this->createMessageFormatter();
         /**
