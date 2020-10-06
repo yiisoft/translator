@@ -7,152 +7,149 @@ namespace Yiisoft\Translator\Tests;
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
-use Yiisoft\I18n\MessageFormatterInterface;
-use Yiisoft\I18n\MessageReaderInterface;
 use Yiisoft\Translator\Translator;
+use Yiisoft\Translator\MessageFormatterInterface;
+use Yiisoft\Translator\MessageReaderInterface;
 
 final class TranslatorTest extends TestCase
 {
-    /**
-     * @dataProvider getTranslations
-     * @param string|null $id
-     * @param string|null $translation
-     * @param string $context
-     * @param string|null $expected
-     * @param array $parameters
-     * @param string|null $category
-     */
-    public function testTranslation(
-        ?string $id,
-        ?string $translation,
-        string $context,
-        ?string $expected,
-        array $parameters,
-        ?string $category
-    ): void {
-        $messageReader = $this->createMessageReader([$id => $translation], $context);
-
-        $messageFormatter = null;
-        if ([] !== $parameters) {
-            $messageFormatter = $this->getMockBuilder(MessageFormatterInterface::class)->getMock();
-            $messageFormatter
-                ->method('format')
-                ->willReturn($this->formatMessage($translation, $parameters));
-        }
-
-        /**
-         * @var $translator Translator
-         */
-        $translator = $this->getMockBuilder(Translator::class)
-            ->setConstructorArgs(
-                [
-                    $this->createMock(EventDispatcherInterface::class),
-                    $messageReader,
-                    $messageFormatter
-                ]
-            )
-            ->enableProxyingToOriginalMethods()
-            ->getMock();
-
-        $this->assertEquals($expected, $translator->translate($id, $parameters, $category));
+    private function getMessages(): array
+    {
+        return [
+            'app' => [
+                'de' => [
+                    'test.id1' => 'app: Test 1 on the (de)',
+                    'test.id2' => 'app: Test 2 on the (de)',
+                    'test.id3' => 'app: Test 3 on the (de)',
+                ],
+                'de-DE' => [
+                    'test.id1' => 'app: Test 1 on the (de-DE)',
+                    'test.id2' => 'app: Test 2 on the (de-DE)',
+                ],
+                'de-DE-Latin' => [
+                    'test.id1' => 'app: Test 1 on the (de-DE-Latin)',
+                ],
+            ]
+        ];
     }
 
-    public function testFallbackLocale(): void
+    private function getMessagesEx(string $category = 'app', string $locale = 'de-DE'): array
     {
-        $category = 'test';
-        $message = 'test';
-        $fallbackMessage = 'test de locale';
-
-        /**
-         * @var $translator Translator
-         */
-        $translator = $this->getMockBuilder(Translator::class)
-            ->setConstructorArgs(
-                [
-                    $this->createMock(EventDispatcherInterface::class),
-                    $this->createMessageReader([$message => $fallbackMessage], 'de/' . $category),
+        return [
+            $category => [
+                $locale => [
+                    'test.id1' => $category . ': Test 1 on the (' . $locale . ')',
+                    'test.id2' => $category . ': Test 2 on the (' . $locale . ')',
+                    'test.id3' => $category . ': Test 3 on the (' . $locale . ')',
                 ]
-            )
-            ->enableProxyingToOriginalMethods()
-            ->getMock();
-
-        $translator->setDefaultLocale('de');
-
-        $this->assertEquals($fallbackMessage, $translator->translate($message, [], $category, 'en'));
-    }
-
-    public function testMissingEventTriggered(): void
-    {
-        $category = 'test';
-        $language = 'en';
-        $message = 'Message';
-
-        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
-            ->onlyMethods(['dispatch'])
-            ->getMock();
-
-        /**
-         * @var $translator Translator
-         */
-        $translator = $this->getMockBuilder(Translator::class)
-            ->setConstructorArgs(
-                [
-                    $eventDispatcher,
-                    $this->createMessageReader([$message => 'test'], 'de'),
-                ]
-            )
-            ->enableProxyingToOriginalMethods()
-            ->getMock();
-
-        $eventDispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->willReturn(new MissingTranslationEvent($category, $language, $message));
-
-        $translator->translate($message, [], $category, $language);
+            ]
+        ];
     }
 
     public function getTranslations(): array
     {
         return [
-            ['test', 'test', '', 'test', [], null],
-            ['test {param}', 'translated {param}', '', 'translated param-value', ['param' => 'param-value'], null],
+            ['test.id1', [], 'app', 'de', 'app: Test 1 on the (de)'],
+            ['test.id2', [], 'app', 'de', 'app: Test 2 on the (de)'],
+            ['test.id3', [], 'app', 'de', 'app: Test 3 on the (de)'],
+            ['test.id1', [], 'app', 'de-DE', 'app: Test 1 on the (de-DE)'],
+            ['test.id2', [], 'app', 'de-DE', 'app: Test 2 on the (de-DE)'],
+            ['test.id3', [], 'app', 'de-DE', 'app: Test 3 on the (de)'],
+            ['test.id1', [], 'app', 'de-DE-Latin', 'app: Test 1 on the (de-DE-Latin)'],
+            ['test.id2', [], 'app', 'de-DE-Latin', 'app: Test 2 on the (de-DE)'],
+            ['test.id3', [], 'app', 'de-DE-Latin', 'app: Test 3 on the (de)'],
         ];
     }
 
-    private function formatMessage(string $message, array $parameters): string
+    public function getMissingTranslations(): array
     {
-        foreach ($parameters as $key => $value) {
-            $message = str_replace('{' . $key . '}', $value, $message);
-        }
-
-        return $message;
+        return [
+            ['test.id1', [], 'app', 'ru', 'test.id1'],
+            ['test.id1', [], 'app2', 'de', 'test.id1'],
+        ];
     }
 
-    private function createMessageReader(array $messages, string $context): MessageReaderInterface
+    /**
+     * @dataProvider getTranslations
+     */
+    public function testTranslation(
+        string $id,
+        array $parameters,
+        string $category,
+        string $locale,
+        string $expected
+    ): void {
+        $messageReader = $this->createMessageReader($this->getMessages());
+        $messageFormatter = $this->createMessageFormatter();
+
+        $translator = new Translator(
+            $category,
+            $locale,
+            $messageReader,
+            $messageFormatter,
+            $this->createMock(EventDispatcherInterface::class)
+        );
+
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $category, $locale));
+    }
+
+    /**
+     * @dataProvider getMissingTranslations
+     */
+    public function testMissingTranslation(
+        string $id,
+        array $parameters,
+        string $category,
+        string $locale,
+        string $expected
+    ): void {
+        $messageReader = $this->createMessageReader($this->getMessages());
+        $messageFormatter = $this->createMessageFormatter();
+        /**
+         * @var EventDispatcherInterface
+         */
+        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+
+        $eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(new MissingTranslationEvent($category, $locale, $id));
+
+        $translator = new Translator(
+            $category,
+            $locale,
+            $messageReader,
+            $messageFormatter,
+            $eventDispatcher
+        );
+
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $category, $locale));
+    }
+
+    private function createMessageReader(array $messages): MessageReaderInterface
     {
-        return new class($messages, $context) implements MessageReaderInterface {
-            private array $messages = [];
+        return (new class($messages) implements MessageReaderInterface {
+            private array $messages;
 
-            public function __construct(array $messages, string $context)
+            public function __construct(array $messages)
             {
-                $this->messages[$context] = $messages;
+                $this->messages = $messages;
             }
 
-            public function all($context = null): array
+            public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
             {
-                return $this->messages[$context] ?? [];
+                return $this->messages[$category][$locale][$id] ?? null;
             }
+        });
+    }
 
-            public function one(string $id, $context = null): ?string
+    private function createMessageFormatter(): MessageFormatterInterface
+    {
+        return (new class() implements MessageFormatterInterface {
+            public function format(string $message, array $parameters, string $locale): string
             {
-                return $this->all($context)[$id] ?? null;
+                return $message;
             }
-
-            public function plural(string $id, int $count, $context = null): ?string
-            {
-                return $this->messages[$id] ?? null;
-            }
-        };
+        });
     }
 }
