@@ -11,8 +11,8 @@ interface TranslatorInterface
      *
      * @param string $id the id of the message to be translated. It can be either artificial ID or the source message.
      * @param array  $parameters An array of parameters for the message
-     * @param string $category the message category
-     * @param string $locale the target locale
+     * @param string|null $category the message category
+     * @param string|null $locale the target locale
      * @return string the translated message or source string id if translation wasn't found or isn't required
      */
     public function translate(

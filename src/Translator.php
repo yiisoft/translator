@@ -44,7 +44,7 @@ class Translator implements TranslatorInterface
         }
 
         $category = $category ?? $this->defaultCategory;
-        if (empty($category) or empty($this->categories[$category])) {
+        if (empty($category) || empty($this->categories[$category])) {
             return $id;
         }
 
@@ -57,11 +57,10 @@ class Translator implements TranslatorInterface
             $fallback = $localeObject->fallbackLocale();
 
             if ($fallback->asString() !== $localeObject->asString()) {
-                $message = $this->categories[$category]->getReader()->getMessage($id, $category, $fallback->asString(), $parameters);
+                return $this->translate($id, $parameters, $category, $fallback->asString());
             }
-            if ($message === null) {
-                $message = $id;
-            }
+
+            $message = $id;
         }
 
         $message = $this->categories[$category]->getFormatter()->format($message, $parameters, $locale);
