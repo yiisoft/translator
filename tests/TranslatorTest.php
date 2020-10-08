@@ -6,6 +6,7 @@ namespace Yiisoft\Translator\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Yiisoft\Translator\Category;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\MessageFormatterInterface;
@@ -17,6 +18,13 @@ final class TranslatorTest extends TestCase
     {
         return [
             'app' => [
+                'en' => [
+                    'test.id1' => 'app: Test 1 on the (en)',
+                ],
+                'en-US' => [
+                    'test.id2' => 'app: Test 2 on the (en-US)',
+                    'test.id3' => 'app: Test 3 on the (en-US)',
+                ],
                 'de' => [
                     'test.id1' => 'app: Test 1 on the (de)',
                     'test.id2' => 'app: Test 2 on the (de)',
@@ -61,11 +69,20 @@ final class TranslatorTest extends TestCase
         ];
     }
 
+    public function getFallbackTranslations(): array
+    {
+        return [
+            ['test.id1', [], 'app', 'it', 'en', 'app: Test 1 on the (en)'],
+            ['test.id2', [], 'app', 'ru', 'en-US', 'app: Test 2 on the (en-US)'],
+            ['test.id3', [], 'app', 'ru-RU', 'en-US', 'app: Test 3 on the (en-US)'],
+        ];
+    }
+
     public function getMissingTranslations(): array
     {
         return [
-            ['test.id1', [], 'app', 'ru', 'test.id1'],
-            ['test.id1', [], 'app2', 'de', 'test.id1'],
+            ['test.id1', [], 'app', 'ru', 'en-US', 'app: Test 1 on the (en)'],
+            ['test.id1', [], 'app2', 'de', 'en-US', 'test.id1'],
         ];
     }
 
@@ -75,7 +92,7 @@ final class TranslatorTest extends TestCase
     public function testTranslation(
         string $id,
         array $parameters,
-        string $category,
+        string $categoryName,
         string $locale,
         string $expected
     ): void {
@@ -83,14 +100,35 @@ final class TranslatorTest extends TestCase
         $messageFormatter = $this->createMessageFormatter();
 
         $translator = new Translator(
-            $category,
-            $locale,
-            $messageReader,
-            $messageFormatter,
+            new Category($categoryName, $messageReader, $messageFormatter),
             $this->createMock(EventDispatcherInterface::class)
         );
+        $translator->setLocale($locale);
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
+    }
 
-        $this->assertEquals($expected, $translator->translate($id, $parameters, $category, $locale));
+    /**
+     * @dataProvider getFallbackTranslations
+     */
+    public function testFallbackTranslation(
+        string $id,
+        array $parameters,
+        string $categoryName,
+        string $locale,
+        string $fallbackLocale,
+        string $expected
+    ) {
+        $messageReader = $this->createMessageReader($this->getMessages());
+        $messageFormatter = $this->createMessageFormatter();
+
+        $translator = new Translator(
+            new Category($categoryName, $messageReader, $messageFormatter),
+            $this->createMock(EventDispatcherInterface::class)
+        );
+        $translator->setLocale($locale);
+        $translator->setFallbackLocale($fallbackLocale);
+
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
 
     /**
@@ -99,31 +137,32 @@ final class TranslatorTest extends TestCase
     public function testMissingTranslation(
         string $id,
         array $parameters,
-        string $category,
+        string $categoryName,
         string $locale,
+        string $fallbackLocale,
         string $expected
     ): void {
         $messageReader = $this->createMessageReader($this->getMessages());
         $messageFormatter = $this->createMessageFormatter();
-        /**
-         * @var EventDispatcherInterface
-         */
-        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
 
+        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
         $eventDispatcher
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('dispatch')
-            ->with(new MissingTranslationEvent($category, $locale, $id));
+            ->withConsecutive(
+                [new MissingTranslationEvent($categoryName, $locale, $id)],
+                [new MissingTranslationEvent($categoryName, $fallbackLocale, $id)],
+            );
+
+        /** @var EventDispatcherInterface $eventDispatcher */
 
         $translator = new Translator(
-            $category,
-            $locale,
-            $messageReader,
-            $messageFormatter,
+            new Category($categoryName, $messageReader, $messageFormatter),
             $eventDispatcher
         );
+        $translator->setLocale($locale);
 
-        $this->assertEquals($expected, $translator->translate($id, $parameters, $category, $locale));
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
 
     private function createMessageReader(array $messages): MessageReaderInterface
