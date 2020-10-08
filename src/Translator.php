@@ -69,7 +69,7 @@ class Translator implements TranslatorInterface
             $sourceCategory = $this->categories[$category];
         }
 
-        $message = $sourceCategory->getReader()->getMessage($id, $category, $locale, $parameters);
+        $message = $sourceCategory->getReader()->getMessage($id, $locale, $parameters);
 
         if ($message === null) {
             $missingTranslation = new MissingTranslationEvent($sourceCategory->getName(), $locale, $id);

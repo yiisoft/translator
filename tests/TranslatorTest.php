@@ -83,7 +83,7 @@ final class TranslatorTest extends TestCase
         string $locale,
         string $expected
     ): void {
-        $messageReader = $this->createMessageReader($this->getMessages());
+        $messageReader = $this->createMessageReader($categoryName, $this->getMessages());
         $messageFormatter = $this->createMessageFormatter();
 
         $translator = new Translator(
@@ -105,7 +105,7 @@ final class TranslatorTest extends TestCase
         string $fallbackLocale,
         string $expected
     ) {
-        $messageReader = $this->createMessageReader($this->getMessages());
+        $messageReader = $this->createMessageReader($categoryName, $this->getMessages());
         $messageFormatter = $this->createMessageFormatter();
 
         $translator = new Translator(
@@ -129,7 +129,7 @@ final class TranslatorTest extends TestCase
         string $fallbackLocale,
         string $expected
     ): void {
-        $messageReader = $this->createMessageReader($this->getMessages());
+        $messageReader = $this->createMessageReader($categoryName, $this->getMessages());
         $messageFormatter = $this->createMessageFormatter();
 
         $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
@@ -152,19 +152,21 @@ final class TranslatorTest extends TestCase
         $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
 
-    private function createMessageReader(array $messages): MessageReaderInterface
+    private function createMessageReader(string $category, array $messages): MessageReaderInterface
     {
-        return (new class($messages) implements MessageReaderInterface {
+        return (new class($category, $messages) implements MessageReaderInterface {
+            private string $category;
             private array $messages;
 
-            public function __construct(array $messages)
+            public function __construct(string $category, array $messages)
             {
+                $this->category = $category;
                 $this->messages = $messages;
             }
 
-            public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
+            public function getMessage(string $id, string $locale, array $parameters = []): ?string
             {
-                return $this->messages[$category][$locale][$id] ?? null;
+                return $this->messages[$this->category][$locale][$id] ?? null;
             }
         });
     }
