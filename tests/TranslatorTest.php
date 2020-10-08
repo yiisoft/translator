@@ -41,19 +41,6 @@ final class TranslatorTest extends TestCase
         ];
     }
 
-    private function getMessagesEx(string $category = 'app', string $locale = 'de-DE'): array
-    {
-        return [
-            $category => [
-                $locale => [
-                    'test.id1' => $category . ': Test 1 on the (' . $locale . ')',
-                    'test.id2' => $category . ': Test 2 on the (' . $locale . ')',
-                    'test.id3' => $category . ': Test 3 on the (' . $locale . ')',
-                ]
-            ]
-        ];
-    }
-
     public function getTranslations(): array
     {
         return [
