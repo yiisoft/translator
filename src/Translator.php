@@ -82,13 +82,8 @@ class Translator implements TranslatorInterface
             }
 
             if (!empty($this->fallbackLocale)) {
-                $fallbackLocaleObject = new Locale($this->fallbackLocale);
-                $defaultFallback = $fallbackLocaleObject->fallbackLocale();
-
-                if (
-                    $fallbackLocaleObject->asString() !== $localeObject->asString() &&
-                    $defaultFallback->asString() !== $localeObject->asString()
-                ) {
+                $fallbackLocaleObject = (new Locale($this->fallbackLocale))->fallbackLocale();
+                if ($fallbackLocaleObject->asString() !== $localeObject->asString()) {
                     return $this->translate($id, $parameters, $category, $fallbackLocaleObject->asString());
                 }
             }
