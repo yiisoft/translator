@@ -20,13 +20,11 @@ final class TranslatorTest extends TestCase
             'app' => [
                 'en' => [
                     'test.id1' => 'app: Test 1 on the (en)',
+                    'test.id2' => 'app: Test 2 on the (en)',
+                    'test.id3' => 'app: Test 3 on the (en)',
                 ],
                 'ua' => [
                     'test.id1' => 'app: Test 1 on the (ua)',
-                ],
-                'en-US' => [
-                    'test.id2' => 'app: Test 2 on the (en-US)',
-                    'test.id3' => 'app: Test 3 on the (en-US)',
                 ],
                 'de' => [
                     'test.id1' => 'app: Test 1 on the (de)',
@@ -63,8 +61,8 @@ final class TranslatorTest extends TestCase
     {
         return [
             ['test.id1', [], 'app', 'it', 'en', 'app: Test 1 on the (en)'],
-            ['test.id2', [], 'app', 'ru', 'en-US', 'app: Test 2 on the (en-US)'],
-            ['test.id3', [], 'app', 'ru-RU', 'en-US', 'app: Test 3 on the (en-US)'],
+            ['test.id2', [], 'app', 'ru', 'en', 'app: Test 2 on the (en)'],
+            ['test.id3', [], 'app', 'ru-RU', 'en', 'app: Test 3 on the (en)'],
         ];
     }
 
