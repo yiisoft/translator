@@ -68,7 +68,7 @@ final class TranslatorTest extends TestCase
     public function getMissingTranslations(): array
     {
         return [
-            ['test.id1', [], 'app', 'ru', 'en-US', 'app: Test 1 on the (en)'],
+            ['test.id1', [], 'app', 'ru', 'en-US', 'test.id1'],
             ['test.id1', [], 'app2', 'de', 'en-US', 'test.id1'],
         ];
     }
@@ -88,9 +88,9 @@ final class TranslatorTest extends TestCase
 
         $translator = new Translator(
             new Category($categoryName, $messageReader, $messageFormatter),
-            $this->createMock(EventDispatcherInterface::class)
+            $this->createMock(EventDispatcherInterface::class),
+            $locale
         );
-        $translator->setLocale($locale);
         $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
 
@@ -110,10 +110,10 @@ final class TranslatorTest extends TestCase
 
         $translator = new Translator(
             new Category($categoryName, $messageReader, $messageFormatter),
-            $this->createMock(EventDispatcherInterface::class)
+            $this->createMock(EventDispatcherInterface::class),
+            $locale,
+            $fallbackLocale
         );
-        $translator->setLocale($locale);
-        $translator->setFallbackLocale($fallbackLocale);
 
         $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }

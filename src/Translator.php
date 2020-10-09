@@ -9,10 +9,10 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
 
 class Translator implements TranslatorInterface
 {
-    private Category $defaultCategory;
+    private string $defaultCategory;
     private EventDispatcherInterface $eventDispatcher;
-    private string $locale = 'en-US';
-    private string $fallbackLocale = 'en-US';
+    private string $locale;
+    private ?string $fallbackLocale;
     /**
      * @var Category[]
      */
@@ -20,10 +20,16 @@ class Translator implements TranslatorInterface
 
     public function __construct(
         Category $defaultCategory,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        string $locale = 'en-US',
+        string $fallbackLocale = null
     ) {
-        $this->defaultCategory = $defaultCategory;
+        $this->defaultCategory = $defaultCategory->getName();
         $this->eventDispatcher = $eventDispatcher;
+        $this->locale = $locale;
+        $this->fallbackLocale = $fallbackLocale;
+
+        $this->addCategorySource($defaultCategory);
     }
 
     public function addCategorySource(Category $category): void
@@ -63,12 +69,13 @@ class Translator implements TranslatorInterface
         string $locale = null
     ): string {
         $locale = $locale ?? $this->getLocale();
-        $sourceCategory = $this->defaultCategory;
 
-        if (!empty($category) && !empty($this->categories[$category])) {
-            $sourceCategory = $this->categories[$category];
+        $category = $category ?? $this->defaultCategory;
+        if (empty($this->categories[$category])) {
+            return $id;
         }
 
+        $sourceCategory = $this->categories[$category];
         $message = $sourceCategory->getReader()->getMessage($id, $locale, $parameters);
 
         if ($message === null) {
@@ -82,14 +89,16 @@ class Translator implements TranslatorInterface
                 return $this->translate($id, $parameters, $category, $fallback->asString());
             }
 
-            $fallbackLocaleObject = new Locale($this->fallbackLocale);
-            $defaultFallback = $fallbackLocaleObject->fallbackLocale();
+            if (!empty($this->fallbackLocale)) {
+                $fallbackLocaleObject = new Locale($this->fallbackLocale);
+                $defaultFallback = $fallbackLocaleObject->fallbackLocale();
 
-            if (
-                $fallbackLocaleObject->asString() !== $localeObject->asString() &&
-                $defaultFallback->asString() !== $localeObject->asString()
-            ) {
-                return $this->translate($id, $parameters, $category, $fallbackLocaleObject->asString());
+                if (
+                    $fallbackLocaleObject->asString() !== $localeObject->asString() &&
+                    $defaultFallback->asString() !== $localeObject->asString()
+                ) {
+                    return $this->translate($id, $parameters, $category, $fallbackLocaleObject->asString());
+                }
             }
 
             $message = $id;
