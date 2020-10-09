@@ -7,6 +7,7 @@ namespace Yiisoft\Translator\Tests;
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Translator\Category;
+use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\MessageFormatterInterface;
@@ -170,6 +171,25 @@ final class TranslatorTest extends TestCase
         );
 
         $this->assertEquals($expected, $translator->withLocale($locale)->translate($id, $parameters, $categoryName));
+    }
+
+    public function testTranslationMissingCategory()
+    {
+        $categoryName = 'miss';
+        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+        $eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(new MissingTranslationCategoryEvent($categoryName));
+
+        /** @var EventDispatcherInterface $eventDispatcher */
+        $translator = new Translator(
+            $this->createCategory('app', $this->getMessages()),
+            'en-US',
+            $eventDispatcher
+        );
+
+        $translator->translate('miss', [], 'miss');
     }
 
     private function createCategory(string $categoryName, array $messages): Category
