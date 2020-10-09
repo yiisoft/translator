@@ -49,6 +49,11 @@ class Translator implements TranslatorInterface
         return $new;
     }
 
+    public function getLocale(): string
+    {
+        return $this->defaultLocale;
+    }
+
     public function translate(
         string $id,
         array $parameters = [],
