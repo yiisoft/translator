@@ -52,11 +52,6 @@ class Translator implements TranslatorInterface
         return $this->locale;
     }
 
-    public function setFallbackLocale(string $locale): void
-    {
-        $this->fallbackLocale = $locale;
-    }
-
     public function getFallbackLocale(): ?string
     {
         return $this->fallbackLocale;
