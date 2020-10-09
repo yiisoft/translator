@@ -21,6 +21,9 @@ final class TranslatorTest extends TestCase
                 'en' => [
                     'test.id1' => 'app: Test 1 on the (en)',
                 ],
+                'ua' => [
+                    'test.id1' => 'app: Test 1 on the (ua)',
+                ],
                 'en-US' => [
                     'test.id2' => 'app: Test 2 on the (en-US)',
                     'test.id3' => 'app: Test 3 on the (en-US)',
@@ -73,6 +76,14 @@ final class TranslatorTest extends TestCase
         ];
     }
 
+    public function getTranslationsWithLocale(): array
+    {
+        return [
+            ['test.id1', [], 'app', 'en-US', 'ua', 'app: Test 1 on the (ua)'],
+            ['test.id2', [], 'app', 'en', 'de', 'app: Test 2 on the (de)'],
+        ];
+    }
+
     /**
      * @dataProvider getTranslations
      */
@@ -83,13 +94,10 @@ final class TranslatorTest extends TestCase
         string $locale,
         string $expected
     ): void {
-        $messageReader = $this->createMessageReader($categoryName, $this->getMessages());
-        $messageFormatter = $this->createMessageFormatter();
-
         $translator = new Translator(
-            new Category($categoryName, $messageReader, $messageFormatter),
+            $this->createCategory($categoryName, $this->getMessages()),
+            $locale,
             $this->createMock(EventDispatcherInterface::class),
-            $locale
         );
         $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
@@ -105,13 +113,10 @@ final class TranslatorTest extends TestCase
         string $fallbackLocale,
         string $expected
     ) {
-        $messageReader = $this->createMessageReader($categoryName, $this->getMessages());
-        $messageFormatter = $this->createMessageFormatter();
-
         $translator = new Translator(
-            new Category($categoryName, $messageReader, $messageFormatter),
-            $this->createMock(EventDispatcherInterface::class),
+            $this->createCategory($categoryName, $this->getMessages()),
             $locale,
+            $this->createMock(EventDispatcherInterface::class),
             $fallbackLocale
         );
 
@@ -129,9 +134,6 @@ final class TranslatorTest extends TestCase
         string $fallbackLocale,
         string $expected
     ): void {
-        $messageReader = $this->createMessageReader($categoryName, $this->getMessages());
-        $messageFormatter = $this->createMessageFormatter();
-
         $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
         $eventDispatcher
             ->expects($this->any())
@@ -144,12 +146,41 @@ final class TranslatorTest extends TestCase
         /** @var EventDispatcherInterface $eventDispatcher */
 
         $translator = new Translator(
-            new Category($categoryName, $messageReader, $messageFormatter),
+            $this->createCategory($categoryName, $this->getMessages()),
+            $locale,
             $eventDispatcher
         );
-        $translator->setLocale($locale);
 
         $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
+    }
+
+    /**
+     * @dataProvider getTranslationsWithLocale
+     */
+    public function testTranslationWithLocale(
+        string $id,
+        array $parameters,
+        string $categoryName,
+        string $defaultLocale,
+        string $locale,
+        string $expected
+    ) {
+        $translator = new Translator(
+            $this->createCategory($categoryName, $this->getMessages()),
+            $defaultLocale,
+            $this->createMock(EventDispatcherInterface::class),
+        );
+
+        $this->assertEquals($expected, $translator->withLocale($locale)->translate($id, $parameters, $categoryName));
+    }
+
+    private function createCategory(string $categoryName, array $messages): Category
+    {
+        return new Category(
+            $categoryName,
+            $this->createMessageReader($categoryName, $messages),
+            $this->createMessageFormatter()
+        );
     }
 
     private function createMessageReader(string $category, array $messages): MessageReaderInterface

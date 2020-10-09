@@ -22,13 +22,13 @@ final class Category
         return $this->name;
     }
 
-    public function getReader(): MessageReaderInterface
+    public function getMessage(string $id, string $locale, array $parameters = []): ?string
     {
-        return $this->reader;
+        return $this->reader->getMessage($id, $locale, $parameters);
     }
 
-    public function getFormatter(): MessageFormatterInterface
+    public function format(string $message, array $parameters, string $locale): string
     {
-        return $this->formatter;
+        return $this->formatter->format($message, $parameters, $locale);
     }
 }

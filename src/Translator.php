@@ -10,8 +10,8 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
 class Translator implements TranslatorInterface
 {
     private string $defaultCategory;
+    private string $defaultLocale;
     private EventDispatcherInterface $eventDispatcher;
-    private string $locale;
     private ?string $fallbackLocale;
     /**
      * @var Category[]
@@ -20,13 +20,13 @@ class Translator implements TranslatorInterface
 
     public function __construct(
         Category $defaultCategory,
+        string $defaultLocale,
         EventDispatcherInterface $eventDispatcher,
-        string $locale = 'en-US',
         string $fallbackLocale = null
     ) {
         $this->defaultCategory = $defaultCategory->getName();
         $this->eventDispatcher = $eventDispatcher;
-        $this->locale = $locale;
+        $this->defaultLocale = $defaultLocale;
         $this->fallbackLocale = $fallbackLocale;
 
         $this->addCategorySource($defaultCategory);
@@ -42,19 +42,11 @@ class Translator implements TranslatorInterface
      *
      * @param string $locale
      */
-    public function setLocale(string $locale): void
+    public function withLocale(string $locale): self
     {
-        $this->locale = $locale;
-    }
-
-    public function getLocale(): string
-    {
-        return $this->locale;
-    }
-
-    public function getFallbackLocale(): ?string
-    {
-        return $this->fallbackLocale;
+        $new = clone $this;
+        $new->defaultLocale = $locale;
+        return $new;
     }
 
     public function translate(
@@ -63,7 +55,7 @@ class Translator implements TranslatorInterface
         string $category = null,
         string $locale = null
     ): string {
-        $locale = $locale ?? $this->getLocale();
+        $locale = $locale ?? $this->defaultLocale;
 
         $category = $category ?? $this->defaultCategory;
         if (empty($this->categories[$category])) {
@@ -71,7 +63,7 @@ class Translator implements TranslatorInterface
         }
 
         $sourceCategory = $this->categories[$category];
-        $message = $sourceCategory->getReader()->getMessage($id, $locale, $parameters);
+        $message = $sourceCategory->getMessage($id, $locale, $parameters);
 
         if ($message === null) {
             $missingTranslation = new MissingTranslationEvent($sourceCategory->getName(), $locale, $id);
@@ -99,6 +91,6 @@ class Translator implements TranslatorInterface
             $message = $id;
         }
 
-        return $sourceCategory->getFormatter()->format($message, $parameters, $locale);
+        return $sourceCategory->format($message, $parameters, $locale);
     }
 }
