@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Translator;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 
 class Translator implements TranslatorInterface
@@ -63,7 +64,9 @@ class Translator implements TranslatorInterface
         $locale = $locale ?? $this->defaultLocale;
 
         $category = $category ?? $this->defaultCategory;
+
         if (empty($this->categories[$category])) {
+            $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
             return $id;
         }
 
@@ -71,8 +74,7 @@ class Translator implements TranslatorInterface
         $message = $sourceCategory->getMessage($id, $locale, $parameters);
 
         if ($message === null) {
-            $missingTranslation = new MissingTranslationEvent($sourceCategory->getName(), $locale, $id);
-            $this->eventDispatcher->dispatch($missingTranslation);
+            $this->eventDispatcher->dispatch(new MissingTranslationEvent($sourceCategory->getName(), $locale, $id));
 
             $localeObject = new Locale($locale);
             $fallback = $localeObject->fallbackLocale();

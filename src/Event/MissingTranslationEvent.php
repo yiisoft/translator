@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Translator\Event;
 
-class MissingTranslationEvent
+final class MissingTranslationEvent
 {
     private string $category;
     private string $language;
