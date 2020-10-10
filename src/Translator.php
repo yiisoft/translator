@@ -11,7 +11,7 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
 class Translator implements TranslatorInterface
 {
     private string $defaultCategory;
-    private string $defaultLocale;
+    private string $locale;
     private EventDispatcherInterface $eventDispatcher;
     private ?string $fallbackLocale;
     /**
@@ -21,13 +21,13 @@ class Translator implements TranslatorInterface
 
     public function __construct(
         Category $defaultCategory,
-        string $defaultLocale,
+        string $locale,
         EventDispatcherInterface $eventDispatcher,
         string $fallbackLocale = null
     ) {
         $this->defaultCategory = $defaultCategory->getName();
         $this->eventDispatcher = $eventDispatcher;
-        $this->defaultLocale = $defaultLocale;
+        $this->locale = $locale;
         $this->fallbackLocale = $fallbackLocale;
 
         $this->addCategorySource($defaultCategory);
@@ -43,16 +43,14 @@ class Translator implements TranslatorInterface
      *
      * @param string $locale
      */
-    public function withLocale(string $locale): self
+    public function setLocale(string $locale): void
     {
-        $new = clone $this;
-        $new->defaultLocale = $locale;
-        return $new;
+        $this->locale = $locale;
     }
 
     public function getLocale(): string
     {
-        return $this->defaultLocale;
+        return $this->locale;
     }
 
     public function translate(
@@ -61,7 +59,7 @@ class Translator implements TranslatorInterface
         string $category = null,
         string $locale = null
     ): string {
-        $locale = $locale ?? $this->defaultLocale;
+        $locale = $locale ?? $this->locale;
 
         $category = $category ?? $this->defaultCategory;
 
