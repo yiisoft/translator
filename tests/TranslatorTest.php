@@ -6,6 +6,8 @@ namespace Yiisoft\Translator\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Yiisoft\Translator\Category;
+use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\MessageFormatterInterface;
@@ -17,6 +19,14 @@ final class TranslatorTest extends TestCase
     {
         return [
             'app' => [
+                'en' => [
+                    'test.id1' => 'app: Test 1 on the (en)',
+                    'test.id2' => 'app: Test 2 on the (en)',
+                    'test.id3' => 'app: Test 3 on the (en)',
+                ],
+                'ua' => [
+                    'test.id1' => 'app: Test 1 on the (ua)',
+                ],
                 'de' => [
                     'test.id1' => 'app: Test 1 on the (de)',
                     'test.id2' => 'app: Test 2 on the (de)',
@@ -29,19 +39,6 @@ final class TranslatorTest extends TestCase
                 'de-DE-Latin' => [
                     'test.id1' => 'app: Test 1 on the (de-DE-Latin)',
                 ],
-            ]
-        ];
-    }
-
-    private function getMessagesEx(string $category = 'app', string $locale = 'de-DE'): array
-    {
-        return [
-            $category => [
-                $locale => [
-                    'test.id1' => $category . ': Test 1 on the (' . $locale . ')',
-                    'test.id2' => $category . ': Test 2 on the (' . $locale . ')',
-                    'test.id3' => $category . ': Test 3 on the (' . $locale . ')',
-                ]
             ]
         ];
     }
@@ -61,11 +58,28 @@ final class TranslatorTest extends TestCase
         ];
     }
 
+    public function getFallbackTranslations(): array
+    {
+        return [
+            ['test.id1', [], 'app', 'it', 'en', 'app: Test 1 on the (en)'],
+            ['test.id2', [], 'app', 'ru', 'en', 'app: Test 2 on the (en)'],
+            ['test.id3', [], 'app', 'ru-RU', 'en', 'app: Test 3 on the (en)'],
+        ];
+    }
+
     public function getMissingTranslations(): array
     {
         return [
-            ['test.id1', [], 'app', 'ru', 'test.id1'],
-            ['test.id1', [], 'app2', 'de', 'test.id1'],
+            ['test.id1', [], 'app', 'ru', 'en-US', 'test.id1'],
+            ['test.id1', [], 'app2', 'de', 'en-US', 'test.id1'],
+        ];
+    }
+
+    public function getTranslationsWithLocale(): array
+    {
+        return [
+            ['test.id1', [], 'app', 'en-US', 'ua', 'app: Test 1 on the (ua)'],
+            ['test.id2', [], 'app', 'en', 'de', 'app: Test 2 on the (de)'],
         ];
     }
 
@@ -75,22 +89,37 @@ final class TranslatorTest extends TestCase
     public function testTranslation(
         string $id,
         array $parameters,
-        string $category,
+        string $categoryName,
         string $locale,
         string $expected
     ): void {
-        $messageReader = $this->createMessageReader($this->getMessages());
-        $messageFormatter = $this->createMessageFormatter();
-
         $translator = new Translator(
-            $category,
+            $this->createCategory($categoryName, $this->getMessages()),
             $locale,
-            $messageReader,
-            $messageFormatter,
-            $this->createMock(EventDispatcherInterface::class)
+            $this->createMock(EventDispatcherInterface::class),
+        );
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
+    }
+
+    /**
+     * @dataProvider getFallbackTranslations
+     */
+    public function testFallbackTranslation(
+        string $id,
+        array $parameters,
+        string $categoryName,
+        string $locale,
+        string $fallbackLocale,
+        string $expected
+    ) {
+        $translator = new Translator(
+            $this->createCategory($categoryName, $this->getMessages()),
+            $locale,
+            $this->createMock(EventDispatcherInterface::class),
+            $fallbackLocale
         );
 
-        $this->assertEquals($expected, $translator->translate($id, $parameters, $category, $locale));
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
 
     /**
@@ -99,46 +128,94 @@ final class TranslatorTest extends TestCase
     public function testMissingTranslation(
         string $id,
         array $parameters,
-        string $category,
+        string $categoryName,
         string $locale,
+        string $fallbackLocale,
         string $expected
     ): void {
-        $messageReader = $this->createMessageReader($this->getMessages());
-        $messageFormatter = $this->createMessageFormatter();
-        /**
-         * @var EventDispatcherInterface
-         */
         $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
-
         $eventDispatcher
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('dispatch')
-            ->with(new MissingTranslationEvent($category, $locale, $id));
+            ->withConsecutive(
+                [new MissingTranslationEvent($categoryName, $locale, $id)],
+                [new MissingTranslationEvent($categoryName, $fallbackLocale, $id)],
+            );
+
+        /** @var EventDispatcherInterface $eventDispatcher */
 
         $translator = new Translator(
-            $category,
+            $this->createCategory($categoryName, $this->getMessages()),
             $locale,
-            $messageReader,
-            $messageFormatter,
             $eventDispatcher
         );
 
-        $this->assertEquals($expected, $translator->translate($id, $parameters, $category, $locale));
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
 
-    private function createMessageReader(array $messages): MessageReaderInterface
+    /**
+     * @dataProvider getTranslationsWithLocale
+     */
+    public function testTranslationWithLocale(
+        string $id,
+        array $parameters,
+        string $categoryName,
+        string $defaultLocale,
+        string $locale,
+        string $expected
+    ) {
+        $translator = new Translator(
+            $this->createCategory($categoryName, $this->getMessages()),
+            $defaultLocale,
+            $this->createMock(EventDispatcherInterface::class),
+        );
+
+        $this->assertEquals($expected, $translator->withLocale($locale)->translate($id, $parameters, $categoryName));
+    }
+
+    public function testTranslationMissingCategory()
     {
-        return (new class($messages) implements MessageReaderInterface {
+        $categoryName = 'miss';
+        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+        $eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(new MissingTranslationCategoryEvent($categoryName));
+
+        /** @var EventDispatcherInterface $eventDispatcher */
+        $translator = new Translator(
+            $this->createCategory('app', $this->getMessages()),
+            'en-US',
+            $eventDispatcher
+        );
+
+        $translator->translate('miss', [], 'miss');
+    }
+
+    private function createCategory(string $categoryName, array $messages): Category
+    {
+        return new Category(
+            $categoryName,
+            $this->createMessageReader($categoryName, $messages),
+            $this->createMessageFormatter()
+        );
+    }
+
+    private function createMessageReader(string $category, array $messages): MessageReaderInterface
+    {
+        return (new class($category, $messages) implements MessageReaderInterface {
+            private string $category;
             private array $messages;
 
-            public function __construct(array $messages)
+            public function __construct(string $category, array $messages)
             {
+                $this->category = $category;
                 $this->messages = $messages;
             }
 
-            public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
+            public function getMessage(string $id, string $locale, array $parameters = []): ?string
             {
-                return $this->messages[$category][$locale][$id] ?? null;
+                return $this->messages[$this->category][$locale][$id] ?? null;
             }
         });
     }

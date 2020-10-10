@@ -9,5 +9,5 @@ interface MessageReaderInterface
     /**
      * @return string|null the translated message or null if translation wasn't found
      */
-    public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string;
+    public function getMessage(string $id, string $locale, array $parameters = []): ?string;
 }

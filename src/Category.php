@@ -6,23 +6,29 @@ namespace Yiisoft\Translator;
 
 final class Category
 {
+    private string $name;
     private MessageReaderInterface $reader;
-
     private MessageFormatterInterface $formatter;
 
-    public function __construct(MessageReaderInterface $reader, MessageFormatterInterface $formatter)
+    public function __construct(string $name, MessageReaderInterface $reader, MessageFormatterInterface $formatter)
     {
+        $this->name = $name;
         $this->reader = $reader;
         $this->formatter = $formatter;
     }
 
-    public function getReader(): MessageReaderInterface
+    public function getName(): string
     {
-        return $this->reader;
+        return $this->name;
     }
 
-    public function getFormatter(): MessageFormatterInterface
+    public function getMessage(string $id, string $locale, array $parameters = []): ?string
     {
-        return $this->formatter;
+        return $this->reader->getMessage($id, $locale, $parameters);
+    }
+
+    public function format(string $message, array $parameters, string $locale): string
+    {
+        return $this->formatter->format($message, $parameters, $locale);
     }
 }
