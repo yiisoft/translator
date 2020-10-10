@@ -156,7 +156,7 @@ final class TranslatorTest extends TestCase
     /**
      * @dataProvider getTranslationsWithLocale
      */
-    public function testTranslationWithLocale(
+    public function testTranslationSetLocale(
         string $id,
         array $parameters,
         string $categoryName,
@@ -170,7 +170,9 @@ final class TranslatorTest extends TestCase
             $this->createMock(EventDispatcherInterface::class),
         );
 
-        $this->assertEquals($expected, $translator->withLocale($locale)->translate($id, $parameters, $categoryName));
+        $translator->setLocale($locale);
+
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName));
     }
 
     public function testTranslationMissingCategory()
