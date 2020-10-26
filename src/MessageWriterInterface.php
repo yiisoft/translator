@@ -6,5 +6,5 @@ namespace Yiisoft\Translator;
 
 interface MessageWriterInterface
 {
-    public function write(array $messages): void;
+    public function write(string $category, string $locale, array $messages): void;
 }
