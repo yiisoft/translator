@@ -54,7 +54,7 @@ final class Locale
     private $calendar;
 
     /**
-     * @var string ICU collation
+     * @var string|null ICU collation
      */
     private $collation;
 
@@ -185,7 +185,7 @@ final class Locale
      * @return string|null Two-letter ISO-639-2 language code
      * @see http://www.loc.gov/standards/iso639-2/
      */
-    public function language(): string
+    public function language(): ?string
     {
         return $this->language;
     }
