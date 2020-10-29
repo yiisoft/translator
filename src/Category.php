@@ -13,7 +13,7 @@ final class Category
     public function __construct(string $name, MessageReaderInterface $reader, MessageFormatterInterface $formatter)
     {
         if (!preg_match('/^[a-z0-9_-]+$/si', $name)) {
-            throw new \RuntimeException('Category name is invalid - only letters and numbers are allowed.');
+            throw new \RuntimeException('Category name is invalid. Only letters and numbers are allowed.');
         }
         $this->name = $name;
         $this->reader = $reader;
