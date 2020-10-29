@@ -215,7 +215,7 @@ final class TranslatorTest extends TestCase
                 $this->messages = $messages;
             }
 
-            public function getMessage(string $id, string $locale, array $parameters = []): ?string
+            public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
             {
                 return $this->messages[$this->category][$locale][$id] ?? null;
             }
