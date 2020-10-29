@@ -26,7 +26,7 @@ final class CategoryTest extends TestCase
     public function testNameException(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Category name is invalid - only letters and numbers are allowed.');
+        $this->expectExceptionMessage('Category name is invalid. Only letters and numbers are allowed.');
         new Category(
             'test category name',
             $this->createMessageReader(),
