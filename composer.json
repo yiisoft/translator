@@ -41,9 +41,6 @@
             "dev-master": "3.0.x-dev"
         }
     },
-    "scripts": {
-        "phan": "phan --progress-bar -o analysis.txt"
-    },
     "config": {
         "sort-packages": true
     }
