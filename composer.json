@@ -23,7 +23,7 @@
         "psr/event-dispatcher": "1.0.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.3",
+        "phpunit/phpunit": "^9.4",
         "roave/infection-static-analysis-plugin": "^1.3",
         "vimeo/psalm": "^4.2",
         "phan/phan": "^3.0"
