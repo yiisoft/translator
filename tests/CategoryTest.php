@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Translator\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Translator\Category;
-use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
-use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
 
@@ -36,21 +33,21 @@ final class CategoryTest extends TestCase
 
     private function createMessageReader(): MessageReaderInterface
     {
-        return (new class() implements MessageReaderInterface {
+        return new class() implements MessageReaderInterface {
             public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
             {
                 return null;
             }
-        });
+        };
     }
 
     private function createMessageFormatter(): MessageFormatterInterface
     {
-        return (new class() implements MessageFormatterInterface {
+        return new class() implements MessageFormatterInterface {
             public function format(string $message, array $parameters, string $locale): string
             {
                 return $message;
             }
-        });
+        };
     }
 }

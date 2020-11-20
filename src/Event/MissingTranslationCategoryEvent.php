@@ -8,7 +8,6 @@ final class MissingTranslationCategoryEvent
 {
     private string $category;
 
-
     public function __construct(string $category)
     {
         $this->category = $category;
