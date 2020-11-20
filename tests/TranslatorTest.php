@@ -9,9 +9,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Translator\Category;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
-use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
+use Yiisoft\Translator\Translator;
 
 final class TranslatorTest extends TestCase
 {
@@ -39,7 +39,7 @@ final class TranslatorTest extends TestCase
                 'de-DE-Latin' => [
                     'test.id1' => 'app: Test 1 on the (de-DE-Latin)',
                 ],
-            ]
+            ],
         ];
     }
 
@@ -205,7 +205,7 @@ final class TranslatorTest extends TestCase
 
     private function createMessageReader(string $category, array $messages): MessageReaderInterface
     {
-        return (new class($category, $messages) implements MessageReaderInterface {
+        return new class($category, $messages) implements MessageReaderInterface {
             private string $category;
             private array $messages;
 
@@ -219,16 +219,16 @@ final class TranslatorTest extends TestCase
             {
                 return $this->messages[$this->category][$locale][$id] ?? null;
             }
-        });
+        };
     }
 
     private function createMessageFormatter(): MessageFormatterInterface
     {
-        return (new class() implements MessageFormatterInterface {
+        return new class() implements MessageFormatterInterface {
             public function format(string $message, array $parameters, string $locale): string
             {
                 return $message;
             }
-        });
+        };
     }
 }
