@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace Yiisoft\Translator;
 
+/**
+ * Message formatter formats the message using parameters and taking locale into account.
+ */
 interface MessageFormatterInterface
 {
     /**
-     * @param string $message
-     * @param array $parameters
-     * @param string $locale
+     * Formats the message using parameters and taking locale into account.
      *
-     * @return string
+     * @param string $message A message to format.
+     * @param array $parameters Parameters to replace in the message in `['name1' => 'value1', 'name2' => 'value2']` format.
+     * @param string $locale Locale to use when formatting. Usually affects formatting numbers, dates etc.
+     *
+     * @return string Formatted message.
      */
     public function format(string $message, array $parameters, string $locale): string;
 }

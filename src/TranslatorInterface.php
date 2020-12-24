@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Yiisoft\Translator;
 
+/**
+ * Translator translates a message into the specified language.
+ */
 interface TranslatorInterface
 {
     /**
-     * Translates a message to the specified language.
+     * Translates a message into the specified language.
      *
-     * @param string $id the id of the message to be translated. It can be either artificial ID or the source message.
-     * @param array  $parameters An array of parameters for the message
-     * @param string|null $category the message category
-     * @param string|null $locale the target locale
+     * @param string $id The ID of the message to be translated. It can be either artificial ID or the source message.
+     * @param array  $parameters An array of parameters for the message.
+     * @param string|null $category The message category. Null means default category.
+     * @param string|null $locale The target locale. Null means default locale.
      *
-     * @return string the translated message or source string id if translation wasn't found or isn't required
+     * @return string The translated message or source string ID if translation was not found or is not required.
      */
     public function translate(
         string $id,

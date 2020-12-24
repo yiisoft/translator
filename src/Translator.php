@@ -8,6 +8,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 
+/**
+ * Translator translates a message into the specified language.
+ */
 class Translator implements TranslatorInterface
 {
     private string $defaultCategory;
@@ -19,6 +22,12 @@ class Translator implements TranslatorInterface
      */
     private array $categories = [];
 
+    /**
+     * @param Category $defaultCategory Default category to use if category is not specified explicitly.
+     * @param string $locale Default locale to use if locale is not specified explicitly.
+     * @param EventDispatcherInterface $eventDispatcher Event dispatcher for translation events.
+     * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
+     */
     public function __construct(
         Category $defaultCategory,
         string $locale,
@@ -33,13 +42,16 @@ class Translator implements TranslatorInterface
         $this->addCategorySource($defaultCategory);
     }
 
+    /**
+     * @param Category $category Add category.
+     */
     public function addCategorySource(Category $category): void
     {
         $this->categories[$category->getName()] = $category;
     }
 
     /**
-     * Sets the current application locale.
+     * Set the default locale.
      *
      * @param string $locale
      */
@@ -48,6 +60,9 @@ class Translator implements TranslatorInterface
         $this->locale = $locale;
     }
 
+    /**
+     * @return string Default locale.
+     */
     public function getLocale(): string
     {
         return $this->locale;
