@@ -34,6 +34,7 @@ final class Category
      * @param string $id Message ID.
      * @param string $locale Locale to get message for.
      * @param array $parameters Message parameters.
+     *
      * @return string|null Message string or null if message was not found.
      */
     public function getMessage(string $id, string $locale, array $parameters = []): ?string
@@ -47,6 +48,7 @@ final class Category
      * @param string $message Message to be formatted.
      * @param array $parameters Parameters to use.
      * @param string $locale Locale to use. Usually affects formatting numbers, dates etc.
+     *
      * @return string Formatted message.
      */
     public function format(string $message, array $parameters, string $locale): string
