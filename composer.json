@@ -21,7 +21,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "psr/event-dispatcher": "1.0.0",
-        "yiisoft/i18n": "dev-master@dev"
+        "yiisoft/i18n": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4",
