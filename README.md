@@ -29,13 +29,13 @@ composer require yiisoft/translator
 There are two types of additional packages. Message source provide suppor of various message storage formats such as PHP arrays or GNU gettext. Message formatters provide extra syntax that is recognized in translated messages.
 
 ### Message sources
-* translator-message-php - PHP file message storage.
-* translator-message-db - Database message storage.
-* translator-message-gettext - gettext message storage.
+* [translator-message-php](https://github.com/yiisoft/translator-message-php) - PHP file message storage.
+* [translator-message-db](https://github.com/yiisoft/translator-message-db) - Database message storage.
+* [translator-message-gettext](https://github.com/yiisoft/translator-message-gettext) - gettext message storage.
 
 ### Message formatters
-* translator-formatter-intl - Intl (i18n) formatter
-* translator-formatter-simple - Simple formatter to use if you do not need additional syntax such as in case with gettext message source.
+* [translator-formatter-intl](https://github.com/yiisoft/translator-formatter-intl) - Intl (i18n) formatter
+* [translator-formatter-simple](https://github.com/yiisoft/translator-formatter-simple) - Simple formatter to use if you do not need additional syntax such as in case with gettext message source.
 
 ## Configuration
 
@@ -87,7 +87,7 @@ $translator->addCategorySource($additionalCategory);
 
 ## General usage
 
-**Translation with usage of default language and default category of messages**
+###Translation with usage of default language and default category of messages
 ```php
 // single translation
 $messageIdentificator = 'submit';
@@ -100,19 +100,19 @@ echo $translator->translate($messageIdentificator, ['n' => 3]);
 // output: `3 humans`
 ```
 
-**Translation with specify category and language**
+###Translation with specify category and language
 ```php
 $messageIdentificator = 'submit';
 echo $translator->translate($messageIdentificator, [], 'moduleId', 'ru');
 // output: `Отправить сообщение`
 ```
 
-**Get current locale from translator**
+###Get current locale from translator
 ```php
 $currentLocale = $translator->getLocale();
 ```
 
-**Change default locale in translator**
+###Change default locale in translator
 ```php
 $newDefaultLocale = 'de-DE';
 $translator->setLocale($newDefaultLocale);
