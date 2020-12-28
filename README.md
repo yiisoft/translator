@@ -5,8 +5,7 @@
 </p>
 <h1 align="center">Message Translator</h1>
 
-<p>This package designed to translate messages.</p>
-<p>The package allows you to implement internationalization in both Yii-based applications and stand-alone PHP applications.</p>
+This package allow to translate messages into seveal languages. It can work with both Yii-based applications and standalone PHP applications.</p>
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/translator/v/stable.png)](https://packagist.org/packages/yiisoft/translator)
 [![Total Downloads](https://poser.pugx.org/yiisoft/translator/downloads.png)](https://packagist.org/packages/yiisoft/translator)
