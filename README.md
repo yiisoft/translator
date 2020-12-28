@@ -2,11 +2,11 @@
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://github.com/yiisoft.png" height="100px">
     </a>
-    <h1 align="center">Message Translator</h1>
-    <br>
 </p>
+<h1 align="center">Message Translator</h1>
 
-The package ...
+<p>This package designed to translate messages.</p>
+<p>The package allows you to implement internationalization in both Yii-based applications and stand-alone PHP applications.</p>
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/translator/v/stable.png)](https://packagist.org/packages/yiisoft/translator)
 [![Total Downloads](https://poser.pugx.org/yiisoft/translator/downloads.png)](https://packagist.org/packages/yiisoft/translator)
@@ -17,8 +17,108 @@ The package ...
 [![static analysis](https://github.com/yiisoft/translator/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/translator/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yiisoft/translator/coverage.svg)](https://shepherd.dev/github/yiisoft/translator)
 
+## Installation
+
+The preferred way to install this package is through [Composer](https://getcomposer.org/download/):
+```bash
+composer require yiisoft/translator
+```
+
+## Additional packages
+
+**Message sources**
+* translator-message-php - based on php files
+* translator-message-db - based on database
+* translator-message-gettext - based on gettext files
+
+**Message formatters**
+* translator-formatter-intl - Intl (i18n) formatter
+* translator-formatter-simple - Simple formatter, for usage with gettext message source
+
+## Configuration
+
+**Quick start**
+```php
+/** @var \Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher */
+
+$defaultCategoryName = 'app';
+$locale = 'ru';
+$fallbackLocale = 'en';
+
+$pathToTranslations = './messages/';
+// MessageSource based on php files
+$messageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToTranslations);
+// Intl message formatter
+$formatter = new \Yiisoft\Translator\Formatter\Intl\IntlMessageFormatter(); 
+
+$category = new Yiisoft\Translator\Category(
+    $defaultCategoryName, 
+    $messageSource,
+    $formatter
+);
+
+$translator = new Yiisoft\Translator\Translator(
+    $category,
+    $locale,
+    $eventDispatcher,
+    $fallbackLocale
+);
+```
+
+**When using multiple translation sources**
+```php
+$categoryName = 'module';
+$pathToModuleTranslations = './module/messages/';
+$moduleMessageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToModuleTranslations);
+
+// Simple message formatter
+$formatter = new \Yiisoft\Translator\Formatter\Simple\SimpleMessageFormatter();
+
+$additionalCategory = new Yiisoft\Translator\Category(
+    $categoryName, 
+    $moduleMessageSource,
+    $formatter
+);
+$translator->addCategorySource($additionalCategory);
+```
+
+
 ## General usage
-TBD
+
+**Translation with usage of default language and default category of messages**
+```php
+// single translation
+$messageIdentificator = 'submit';
+echo $translator->translate($messageIdentificator);
+// output: `Submit message`
+
+// translation with plural
+$messageIdentificator = 'multiHumans';
+echo $translator->translate($messageIdentificator, ['n' => 3]);
+// output: `3 humans`
+```
+
+**Translation with specify category and language**
+```php
+$messageIdentificator = 'submit';
+echo $translator->translate($messageIdentificator, [], 'moduleId', 'ru');
+// output: `Отправить сообщение`
+```
+
+**Get current locale from translator**
+```php
+$currentLocale = $translator->getLocale();
+```
+
+**Change default locale in translator**
+```php
+$newDefaultLocale = 'de-DE';
+$translator->setLocale($newDefaultLocale);
+```
+
+## Additional info
+
+In package contains interfaces for development custom translate packages (formatters, readers, writers)
 
 ## Unit testing
 
