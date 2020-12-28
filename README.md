@@ -25,18 +25,21 @@ composer require yiisoft/translator
 
 ## Additional packages
 
-**Message sources**
-* translator-message-php - based on php files
-* translator-message-db - based on database
-* translator-message-gettext - based on gettext files
 
-**Message formatters**
+There are two types of additional packages. Message source provide suppor of various message storage formats such as PHP arrays or GNU gettext. Message formatters provide extra syntax that is recognized in translated messages.
+
+### Message sources
+* translator-message-php - PHP file message storage.
+* translator-message-db - Database message storage.
+* translator-message-gettext - gettext message storage.
+
+### Message formatters
 * translator-formatter-intl - Intl (i18n) formatter
-* translator-formatter-simple - Simple formatter, for usage with gettext message source
+* translator-formatter-simple - Simple formatter to use if you do not need additional syntax such as in case with gettext message source.
 
 ## Configuration
 
-**Quick start**
+### Quick start
 ```php
 /** @var \Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher */
 
@@ -45,7 +48,7 @@ $locale = 'ru';
 $fallbackLocale = 'en';
 
 $pathToTranslations = './messages/';
-// MessageSource based on php files
+// MessageSource based on PHP files
 $messageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToTranslations);
 // Intl message formatter
 $formatter = new \Yiisoft\Translator\Formatter\Intl\IntlMessageFormatter(); 
@@ -64,7 +67,7 @@ $translator = new Yiisoft\Translator\Translator(
 );
 ```
 
-**When using multiple translation sources**
+### Multiple translation sources
 ```php
 $categoryName = 'module';
 $pathToModuleTranslations = './module/messages/';
