@@ -16,29 +16,29 @@ This package allow to translate messages into several languages. It can work wit
 [![static analysis](https://github.com/yiisoft/translator/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/translator/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yiisoft/translator/coverage.svg)](https://shepherd.dev/github/yiisoft/translator)
 
-##Installation
+## Installation
 
 The preferred way to install this package is through [Composer](https://getcomposer.org/download/):
 ```bash
 composer require yiisoft/translator
 ```
 
-##Additional packages
+## Additional packages
 
 There are two types of additional packages. Message source provide support of various message storage formats such as PHP arrays or GNU gettext. Message formatters provide extra syntax that is recognized in translated messages.
 
-###Message sources
+### Message sources
 * [translator-message-php](https://github.com/yiisoft/translator-message-php) - PHP file message storage.
 * [translator-message-db](https://github.com/yiisoft/translator-message-db) - Database message storage.
 * [translator-message-gettext](https://github.com/yiisoft/translator-message-gettext) - gettext message storage.
 
-###Message formatters
+### Message formatters
 * [translator-formatter-intl](https://github.com/yiisoft/translator-formatter-intl) - Intl (i18n) formatter
 * [translator-formatter-simple](https://github.com/yiisoft/translator-formatter-simple) - Simple formatter to use if you do not need additional syntax such as in case with gettext message source.
 
-##Configuration
+## Configuration
 
-###Quick start
+### Quick start
 ```php
 /** @var \Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher */
 
@@ -66,7 +66,7 @@ $translator = new Yiisoft\Translator\Translator(
 );
 ```
 
-###Multiple translation sources
+### Multiple translation sources
 ```php
 $categoryName = 'module';
 $pathToModuleTranslations = './module/messages/';
@@ -83,9 +83,9 @@ $additionalCategory = new Yiisoft\Translator\Category(
 $translator->addCategorySource($additionalCategory);
 ```
 
-##General usage
+## General usage
 
-###Translation with usage of default language and default category of messages
+### Translation with usage of default language and default category of messages
 ```php
 // single translation
 $messageIdentificator = 'submit';
@@ -98,19 +98,19 @@ echo $translator->translate($messageIdentificator, ['n' => 3]);
 // output: `3 humans`
 ```
 
-###Translation with specify category and language
+### Translation with specify category and language
 ```php
 $messageIdentificator = 'submit';
 echo $translator->translate($messageIdentificator, [], 'moduleId', 'ru');
 // output: `Отправить сообщение`
 ```
 
-###Get current locale from translator
+### Get current locale from translator
 ```php
 $currentLocale = $translator->getLocale();
 ```
 
-###Change default locale in translator
+### Change default locale in translator
 ```php
 $newDefaultLocale = 'de-DE';
 $translator->setLocale($newDefaultLocale);
@@ -119,7 +119,7 @@ $translator->setLocale($newDefaultLocale);
 ##Additional info
 In package contains interfaces for development custom translate packages (formatters, readers, writers)
 
-##Unit testing
+## Unit testing
 
 The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
 
@@ -127,7 +127,7 @@ The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
 ./vendor/bin/phpunit
 ```
 
-###Mutation testing
+### Mutation testing
 
 The package tests are checked with [Infection](https://infection.github.io/) mutation framework. To run it:
 
@@ -135,7 +135,7 @@ The package tests are checked with [Infection](https://infection.github.io/) mut
 ./vendor/bin/infection
 ```
 
-##Static analysis
+## Static analysis
 
 The code is statically analyzed with [Psalm](https://psalm.dev/). To run static analysis:
 
@@ -143,11 +143,11 @@ The code is statically analyzed with [Psalm](https://psalm.dev/). To run static 
 ./vendor/bin/psalm
 ```
 
-###Support the project
+### Support the project
 
 [![Open Collective](https://img.shields.io/badge/Open%20Collective-sponsor-7eadf1?logo=open%20collective&logoColor=7eadf1&labelColor=555555)](https://opencollective.com/yiisoft)
 
-###Follow updates
+### Follow updates
 
 [![Official website](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](https://www.yiiframework.com/)
 [![Twitter](https://img.shields.io/badge/twitter-follow-1DA1F2?logo=twitter&logoColor=1DA1F2&labelColor=555555?style=flat)](https://twitter.com/yiiframework)
@@ -155,7 +155,7 @@ The code is statically analyzed with [Psalm](https://psalm.dev/). To run static 
 [![Facebook](https://img.shields.io/badge/facebook-join-1DA1F2?style=flat&logo=facebook&logoColor=ffffff)](https://www.facebook.com/groups/yiitalk)
 [![Slack](https://img.shields.io/badge/slack-join-1DA1F2?style=flat&logo=slack)](https://yiiframework.com/go/slack)
 
-##License
+## License
 
 The Yii Message Translator is free software. It is released under the terms of the BSD License.
 Please see [`LICENSE`](./LICENSE.md) for more information.
