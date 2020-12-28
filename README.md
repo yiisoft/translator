@@ -47,8 +47,10 @@ $locale = 'ru';
 $fallbackLocale = 'en';
 
 $pathToTranslations = './messages/';
+
 // MessageSource based on PHP files
 $messageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToTranslations);
+
 // Intl message formatter
 $formatter = new \Yiisoft\Translator\Formatter\Intl\IntlMessageFormatter(); 
 
@@ -85,7 +87,7 @@ $translator->addCategorySource($additionalCategory);
 
 ## General usage
 
-### Translation with usage of default language and default category of messages
+### Using default language and default category
 ```php
 // single translation
 $messageIdentificator = 'submit';
@@ -98,26 +100,21 @@ echo $translator->translate($messageIdentificator, ['n' => 3]);
 // output: `3 humans`
 ```
 
-### Translation with specify category and language
+### Specifying category and language
 ```php
 $messageIdentificator = 'submit';
 echo $translator->translate($messageIdentificator, [], 'moduleId', 'ru');
 // output: `Отправить сообщение`
 ```
 
-### Get current locale from translator
-```php
-$currentLocale = $translator->getLocale();
-```
-
-### Change default locale in translator
+### Change default locale
 ```php
 $newDefaultLocale = 'de-DE';
 $translator->setLocale($newDefaultLocale);
 ```
 
-##Additional info
-In package contains interfaces for development custom translate packages (formatters, readers, writers)
+## Additional info
+The package contains interfaces for development of custom formatters, readers, and writers.
 
 ## Unit testing
 
