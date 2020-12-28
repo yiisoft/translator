@@ -5,7 +5,7 @@
 </p>
 <h1 align="center">Message Translator</h1>
 
-This package allow to translate messages into seveal languages. It can work with both Yii-based applications and standalone PHP applications.</p>
+This package allow to translate messages into several languages. It can work with both Yii-based applications and standalone PHP applications.</p>
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/translator/v/stable.png)](https://packagist.org/packages/yiisoft/translator)
 [![Total Downloads](https://poser.pugx.org/yiisoft/translator/downloads.png)](https://packagist.org/packages/yiisoft/translator)
@@ -26,7 +26,7 @@ composer require yiisoft/translator
 ## Additional packages
 
 
-There are two types of additional packages. Message source provide suppor of various message storage formats such as PHP arrays or GNU gettext. Message formatters provide extra syntax that is recognized in translated messages.
+There are two types of additional packages. Message source provide support of various message storage formats such as PHP arrays or GNU gettext. Message formatters provide extra syntax that is recognized in translated messages.
 
 ### Message sources
 * [translator-message-php](https://github.com/yiisoft/translator-message-php) - PHP file message storage.
