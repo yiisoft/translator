@@ -16,7 +16,7 @@ class Translator implements TranslatorInterface
 {
     private string $defaultCategory;
     private string $locale;
-    private EventDispatcherInterface $eventDispatcher;
+    private ?EventDispatcherInterface $eventDispatcher;
     private ?string $fallbackLocale;
     /**
      * @var Category[]
@@ -26,14 +26,14 @@ class Translator implements TranslatorInterface
     /**
      * @param Category $defaultCategory Default category to use if category is not specified explicitly.
      * @param string $locale Default locale to use if locale is not specified explicitly.
-     * @param EventDispatcherInterface $eventDispatcher Event dispatcher for translation events.
+     * @param EventDispatcherInterface $eventDispatcher Event dispatcher for translation events. Null for none.
      * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
      */
     public function __construct(
         Category $defaultCategory,
         string $locale,
-        EventDispatcherInterface $eventDispatcher,
-        string $fallbackLocale = null
+        ?EventDispatcherInterface $eventDispatcher = null,
+        ?string $fallbackLocale = null
     ) {
         $this->defaultCategory = $defaultCategory->getName();
         $this->eventDispatcher = $eventDispatcher;
@@ -80,7 +80,9 @@ class Translator implements TranslatorInterface
         $category = $category ?? $this->defaultCategory;
 
         if (empty($this->categories[$category])) {
-            $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
+            if ($this->eventDispatcher !== null) {
+                $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
+            }
             return $id;
         }
 
@@ -88,7 +90,9 @@ class Translator implements TranslatorInterface
         $message = $sourceCategory->getMessage($id, $locale, $parameters);
 
         if ($message === null) {
-            $this->eventDispatcher->dispatch(new MissingTranslationEvent($sourceCategory->getName(), $locale, $id));
+            if ($this->eventDispatcher !== null) {
+                $this->eventDispatcher->dispatch(new MissingTranslationEvent($sourceCategory->getName(), $locale, $id));
+            }
 
             $localeObject = new Locale($locale);
             $fallback = $localeObject->fallbackLocale();

@@ -66,6 +66,8 @@ $translator = new Yiisoft\Translator\Translator(
     $eventDispatcher,
     $fallbackLocale
 );
+// or simple usage, if you don't need event dispatcher for translation events.
+$translator = new Yiisoft\Translator\Translator($category, $locale);
 ```
 
 ### Multiple translation sources

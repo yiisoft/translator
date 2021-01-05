@@ -102,6 +102,23 @@ final class TranslatorTest extends TestCase
     }
 
     /**
+     * @dataProvider getTranslations
+     */
+    public function testTranslationWithoutEventDispatcher(
+        string $id,
+        array $parameters,
+        string $categoryName,
+        string $locale,
+        string $expected
+    ): void {
+        $translator = new Translator(
+            $this->createCategory($categoryName, $this->getMessages()),
+            $locale
+        );
+        $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
+    }
+
+    /**
      * @dataProvider getFallbackTranslations
      */
     public function testFallbackTranslation(
