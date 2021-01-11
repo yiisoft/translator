@@ -9,10 +9,10 @@ class EventTest extends TestCase
 {
     public function testMissingTranslationEvent(): void
     {
-        $event = new MissingTranslationEvent('app', 'en', 'missed_message');
+        $event = new MissingTranslationEvent('app', 'en', 'missing_message');
         $this->assertEquals('app', $event->getCategory());
         $this->assertEquals('en', $event->getLanguage());
-        $this->assertEquals('missed_message', $event->getMessage());
+        $this->assertEquals('missing_message', $event->getMessage());
     }
 
     public function testMissingTranslationCategoryEvent(): void

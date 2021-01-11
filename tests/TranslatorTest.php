@@ -251,7 +251,7 @@ final class TranslatorTest extends TestCase
         $eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with(new MissingTranslationEvent('app', 'en', 'missed_message'));
+            ->with(new MissingTranslationEvent('app', 'en', 'missing_message'));
 
         /** @var EventDispatcherInterface $eventDispatcher */
         $translator = new Translator(
@@ -261,7 +261,7 @@ final class TranslatorTest extends TestCase
             $eventDispatcher
         );
 
-        $translator->translate('missed_message', [], 'app');
+        $translator->translate('missing_message', [], 'app');
     }
 
     private function createCategory(string $categoryName, array $messages): Category
