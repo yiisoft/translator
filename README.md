@@ -63,10 +63,10 @@ $category = new Yiisoft\Translator\Category(
 $translator = new Yiisoft\Translator\Translator(
     $category,
     $locale,
-    $eventDispatcher,
-    $fallbackLocale
+    $fallbackLocale,
+    $eventDispatcher
 );
-// or simple usage, if you don't need event dispatcher for translation events.
+// or simple usage, if you don't need event dispatcher for translation events and fallback locale
 $translator = new Yiisoft\Translator\Translator($category, $locale);
 ```
 
