@@ -27,7 +27,7 @@ class Translator implements TranslatorInterface
      * @param Category $defaultCategory Default category to use if category is not specified explicitly.
      * @param string $locale Default locale to use if locale is not specified explicitly.
      * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
-     * @param EventDispatcherInterface $eventDispatcher Event dispatcher for translation events. Null for none.
+     * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
     public function __construct(
         Category $defaultCategory,
