@@ -51,7 +51,7 @@ class Translator implements TranslatorInterface
         $this->categories[$category->getName()] = $category;
     }
 
-    public function addMultiCategorySource(array $categories): void
+    public function addMultipleCategorySource(array $categories): void
     {
         foreach ($categories as $category) {
             $this->addCategorySource($category);
@@ -113,11 +113,6 @@ class Translator implements TranslatorInterface
         return $sourceCategory->format($message, $parameters, $locale);
     }
 
-    /**
-     * @param string $category
-     * @return TranslatorInterface
-     * Change default category (if exists return new Translator)
-     */
     public function withCategory(string $category): TranslatorInterface
     {
         if (!isset($this->categories[$category])) {
@@ -129,11 +124,6 @@ class Translator implements TranslatorInterface
         return $new;
     }
 
-    /**
-     * @param string $locale
-     * @return TranslatorInterface
-     * Change locale and return new Translator
-     */
     public function withLocale(string $locale): TranslatorInterface
     {
         $new = clone $this;

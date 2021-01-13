@@ -193,7 +193,7 @@ final class TranslatorTest extends TestCase
                 ],
             ],
         ]), $locale);
-        $translator->addMultiCategorySource([
+        $translator->addMultipleCategorySource([
             $this->createCategory('app2', [
                 'app2' => [
                     'en' => [

@@ -17,7 +17,7 @@ interface TranslatorInterface
     /**
      * @param Category[] $categories Adding many categories.
      */
-    public function addMultiCategorySource(array $categories): void;
+    public function addMultipleCategorySource(array $categories): void;
 
     /**
      * Set the default locale.
