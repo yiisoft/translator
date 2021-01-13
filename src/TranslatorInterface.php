@@ -55,7 +55,7 @@ interface TranslatorInterface
      *
      * @return TranslatorInterface
      */
-    public function withCategory(string $category): TranslatorInterface;
+    public function withCategory(string $category): self;
 
     /**
      * Change locale and return new Translator
@@ -64,5 +64,5 @@ interface TranslatorInterface
      *
      * @return TranslatorInterface
      */
-    public function withLocale(string $locale): TranslatorInterface;
+    public function withLocale(string $locale): self;
 }

@@ -113,7 +113,7 @@ class Translator implements TranslatorInterface
         return $sourceCategory->format($message, $parameters, $locale);
     }
 
-    public function withCategory(string $category): TranslatorInterface
+    public function withCategory(string $category): self
     {
         if (!isset($this->categories[$category])) {
             throw new \RuntimeException('Category with name "' . $category . '" does not exist.');
@@ -124,7 +124,7 @@ class Translator implements TranslatorInterface
         return $new;
     }
 
-    public function withLocale(string $locale): TranslatorInterface
+    public function withLocale(string $locale): self
     {
         $new = clone $this;
         $new->setLocale($locale);

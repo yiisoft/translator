@@ -207,7 +207,7 @@ final class TranslatorTest extends TestCase
                         'test.id1' => 'app3: Test 1 on the (en)',
                     ],
                 ],
-            ])
+            ]),
         ]);
 
         $this->assertEquals('app: Test 1 on the (en)', $translator->translate('test.id1'));
