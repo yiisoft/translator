@@ -129,6 +129,119 @@ final class TranslatorTest extends TestCase
         $this->assertEquals('app2: Test 1 on the (en)', $translator->translate('test.id1', [], 'app2'));
     }
 
+    public function testExceptionOnExistCategories(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Category with name "app" is exist.');
+
+        $locale = 'en';
+
+        $translator = new Translator($this->createCategory('app'), $locale);
+        $translator->addCategorySource($this->createCategory('app'));
+    }
+
+    public function testWithCategory(): void
+    {
+        $locale = 'en';
+        $translator = new Translator(
+            $this->createCategory('app', [
+                'app' => [
+                    'en' => [
+                        'test.id1' => 'app: Test 1 on the (en)',
+                    ],
+                ],
+            ]),
+            $locale
+        );
+        $translator->addCategorySource($this->createCategory('app2', [
+            'app2' => [
+                'en' => [
+                    'test.id1' => 'app2: Test 1 on the (en)',
+                ],
+            ],
+        ]));
+        $this->assertEquals('app: Test 1 on the (en)', $translator->translate('test.id1'));
+
+        $newTranslator = $translator->withCategory('app2');
+        $this->assertNotSame($translator, $newTranslator);
+        $this->assertEquals('app: Test 1 on the (en)', $translator->translate('test.id1'));
+        $this->assertEquals('app2: Test 1 on the (en)', $newTranslator->translate('test.id1'));
+    }
+
+    public function testWithLocale(): void
+    {
+        $locale = 'en';
+        $translator = new Translator($this->createCategory('app', []), $locale);
+
+        $this->assertEquals($locale, $translator->getLocale());
+
+        $newLocale = 'de';
+        $newTranslator = $translator->withLocale($newLocale);
+
+        $this->assertNotSame($translator, $newTranslator);
+        $this->assertEquals($locale, $translator->getLocale());
+        $this->assertEquals($newLocale, $newTranslator->getLocale());
+    }
+
+    public function testAddMultiCategorySource(): void
+    {
+        $locale = 'en';
+        $translator = new Translator($this->createCategory('app', [
+            'app' => [
+                'en' => [
+                    'test.id1' => 'app: Test 1 on the (en)',
+                ],
+            ],
+        ]), $locale);
+        $translator->addMultiCategorySource([
+            $this->createCategory('app2', [
+                'app2' => [
+                    'en' => [
+                        'test.id1' => 'app2: Test 1 on the (en)',
+                    ],
+                ],
+            ]),
+            $this->createCategory('app3', [
+                'app3' => [
+                    'en' => [
+                        'test.id1' => 'app3: Test 1 on the (en)',
+                    ],
+                ],
+            ])
+        ]);
+
+        $this->assertEquals('app: Test 1 on the (en)', $translator->translate('test.id1'));
+        $this->assertEquals('app2: Test 1 on the (en)', $translator->translate('test.id1', [], 'app2'));
+        $this->assertEquals('app3: Test 1 on the (en)', $translator->translate('test.id1', [], 'app3'));
+    }
+
+    public function testWithNotExistCategory(): void
+    {
+        $locale = 'en';
+        $translator = new Translator(
+            $this->createCategory('app', [
+                'app' => [
+                    'en' => [
+                        'test.id1' => 'app: Test 1 on the (en)',
+                    ],
+                ],
+            ]),
+            $locale
+        );
+        $translator->addCategorySource($this->createCategory('app2', [
+            'app2' => [
+                'en' => [
+                    'test.id1' => 'app2: Test 1 on the (en)',
+                ],
+            ],
+        ]));
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Category with name "app3" does not exist.');
+
+        $translator->withCategory('app3');
+    }
+
     /**
      * @dataProvider getTranslations
      */
@@ -264,7 +377,7 @@ final class TranslatorTest extends TestCase
         $translator->translate('missing_message', [], 'app');
     }
 
-    private function createCategory(string $categoryName, array $messages): Category
+    private function createCategory(string $categoryName, array $messages = []): Category
     {
         return new Category(
             $categoryName,
