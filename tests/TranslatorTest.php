@@ -132,7 +132,7 @@ final class TranslatorTest extends TestCase
     public function testExceptionOnExistCategories(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Category with name "app" is exist.');
+        $this->expectExceptionMessage('Category "app" already exists.');
 
         $locale = 'en';
 
@@ -237,7 +237,7 @@ final class TranslatorTest extends TestCase
         ]));
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Category "app3" already exists.');
+        $this->expectExceptionMessage('Category with name "app3" does not exist.');
 
         $translator->withCategory('app3');
     }

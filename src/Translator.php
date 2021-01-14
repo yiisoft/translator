@@ -46,7 +46,7 @@ class Translator implements TranslatorInterface
     public function addCategorySource(Category $category): void
     {
         if (isset($this->categories[$category->getName()])) {
-            throw new \RuntimeException('Category with name "' . $category->getName() . '" is exist.');
+            throw new \RuntimeException('Category "' . $category->getName() . '" already exists.');
         }
         $this->categories[$category->getName()] = $category;
     }
@@ -119,7 +119,7 @@ class Translator implements TranslatorInterface
     public function withCategory(string $category): self
     {
         if (!isset($this->categories[$category])) {
-            throw new \RuntimeException('Category "' . $category . '" already exists.');
+            throw new \RuntimeException('Category with name "' . $category . '" does not exist.');
         }
 
         $new = clone $this;
