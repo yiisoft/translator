@@ -51,7 +51,10 @@ class Translator implements TranslatorInterface
         $this->categories[$category->getName()] = $category;
     }
 
-    public function addMultipleCategorySource(array $categories): void
+    /**
+     * @param Category[] $categories
+     */
+    public function addCategorySources(array $categories): void
     {
         foreach ($categories as $category) {
             $this->addCategorySource($category);
@@ -116,7 +119,7 @@ class Translator implements TranslatorInterface
     public function withCategory(string $category): self
     {
         if (!isset($this->categories[$category])) {
-            throw new \RuntimeException('Category with name "' . $category . '" does not exist.');
+            throw new \RuntimeException('Category "' . $category . '" already exists.');
         }
 
         $new = clone $this;

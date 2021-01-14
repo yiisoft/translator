@@ -193,7 +193,7 @@ final class TranslatorTest extends TestCase
                 ],
             ],
         ]), $locale);
-        $translator->addMultipleCategorySource([
+        $translator->addCategorySources([
             $this->createCategory('app2', [
                 'app2' => [
                     'en' => [
@@ -237,7 +237,7 @@ final class TranslatorTest extends TestCase
         ]));
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Category with name "app3" does not exist.');
+        $this->expectExceptionMessage('Category "app3" already exists.');
 
         $translator->withCategory('app3');
     }

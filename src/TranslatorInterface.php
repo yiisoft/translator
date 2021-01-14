@@ -17,7 +17,7 @@ interface TranslatorInterface
     /**
      * @param Category[] $categories Adding many categories.
      */
-    public function addMultipleCategorySource(array $categories): void;
+    public function addCategorySources(array $categories): void;
 
     /**
      * Set the default locale.
@@ -49,7 +49,7 @@ interface TranslatorInterface
     ): string;
 
     /**
-     * Change default category (if exists return new Translator)
+     * Get a new Translator instance with category to be used by default in case category isn't specified explicitly.
      *
      * @param string $category
      *
@@ -58,7 +58,7 @@ interface TranslatorInterface
     public function withCategory(string $category): self;
 
     /**
-     * Change locale and return new Translator
+     * Get a new Translator instance with locale to be used by default in case locale isn't specified explicitly.
      *
      * @param string $locale
      *
