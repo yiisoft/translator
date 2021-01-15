@@ -23,8 +23,6 @@ interface TranslatorInterface
 
     /**
      * Set the default locale.
-     *
-     * @param string $locale
      */
     public function setLocale(string $locale): void;
 
