@@ -10,7 +10,7 @@ namespace Yiisoft\Translator;
 interface TranslatorInterface
 {
     /**
-     * @param Category $category Add category.
+     * Add category.
      */
     public function addCategorySource(Category $category): void;
 
