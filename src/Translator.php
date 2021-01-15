@@ -116,6 +116,9 @@ class Translator implements TranslatorInterface
         return $sourceCategory->format($message, $parameters, $locale);
     }
 
+    /**
+     * @psalm-immutable
+     */
     public function withCategory(string $category): self
     {
         if (!isset($this->categories[$category])) {
