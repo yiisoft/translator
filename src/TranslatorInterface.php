@@ -53,7 +53,7 @@ interface TranslatorInterface
      *
      * @param string $category
      *
-     * @return TranslatorInterface
+     * @psalm-immutable
      */
     public function withCategory(string $category): self;
 
