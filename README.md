@@ -68,10 +68,14 @@ $translator = new Yiisoft\Translator\Translator(
 );
 // or simple usage, if you don't need event dispatcher for translation events and fallback locale
 $translator = new Yiisoft\Translator\Translator($category, $locale);
+// and with fallback locale
+$translator = new Yiisoft\Translator\Translator($category, $locale, $fallbackLocale);
 ```
 
 ### Multiple translation sources
 ```php
+/** @var \Yiisoft\Translator\TranslatorInterface $translator */
+
 $categoryName = 'module';
 $pathToModuleTranslations = './module/messages/';
 $moduleMessageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToModuleTranslations);
@@ -85,6 +89,18 @@ $additionalCategory = new Yiisoft\Translator\Category(
     $formatter
 );
 $translator->addCategorySource($additionalCategory);
+```
+
+### Adding many category sources by once
+```php
+/** @var \Yiisoft\Translator\TranslatorInterface $translator */
+/** @var \Yiisoft\Translator\Category $additionalCategory1 */
+/** @var \Yiisoft\Translator\Category $additionalCategory2 */
+
+$translator->addCategorySources([
+    $additionalCategory1,
+    $additionalCategory2,
+]);
 ```
 
 ## General usage
@@ -113,6 +129,23 @@ echo $translator->translate($messageIdentificator, [], 'moduleId', 'ru');
 ```php
 $newDefaultLocale = 'de-DE';
 $translator->setLocale($newDefaultLocale);
+```
+
+### Get current locale, if you don't know setted locale
+```php
+echo $translator->getLocale();
+```
+
+### Get a new Translator instance with locale to be used by default in case locale isn't specified explicitly.
+```php
+$newDefaultLocale = 'de-DE';
+echo $translator->withLocale($newDefaultLocale);
+```
+
+### Get a new Translator instance with category to be used by default in case category isn't specified explicitly.
+```php
+$newDefaultCategoryId = 'module2';
+echo $translator->withCategory($newDefaultCategoryId);
 ```
 
 ## Additional info

@@ -43,27 +43,29 @@ class Translator implements TranslatorInterface
         $this->addCategorySource($defaultCategory);
     }
 
-    /**
-     * @param Category $category Add category.
-     */
     public function addCategorySource(Category $category): void
     {
+        if (isset($this->categories[$category->getName()])) {
+            throw new \RuntimeException('Category "' . $category->getName() . '" already exists.');
+        }
         $this->categories[$category->getName()] = $category;
     }
 
     /**
-     * Set the default locale.
-     *
-     * @param string $locale
+     * @param Category[] $categories
      */
+    public function addCategorySources(array $categories): void
+    {
+        foreach ($categories as $category) {
+            $this->addCategorySource($category);
+        }
+    }
+
     public function setLocale(string $locale): void
     {
         $this->locale = $locale;
     }
 
-    /**
-     * @return string Default locale.
-     */
     public function getLocale(): string
     {
         return $this->locale;
@@ -112,5 +114,26 @@ class Translator implements TranslatorInterface
         }
 
         return $sourceCategory->format($message, $parameters, $locale);
+    }
+
+    /**
+     * @psalm-immutable
+     */
+    public function withCategory(string $category): self
+    {
+        if (!isset($this->categories[$category])) {
+            throw new \RuntimeException('Category with name "' . $category . '" does not exist.');
+        }
+
+        $new = clone $this;
+        $new->defaultCategory = $category;
+        return $new;
+    }
+
+    public function withLocale(string $locale): self
+    {
+        $new = clone $this;
+        $new->setLocale($locale);
+        return $new;
     }
 }
