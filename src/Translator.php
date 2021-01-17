@@ -136,4 +136,43 @@ class Translator implements TranslatorInterface
         $new->setLocale($locale);
         return $new;
     }
+
+    /**
+     * @param mixed $translatableObject
+     * @param string $messageClass
+     * @param string $messageFunction
+     * @param string $parametersFunction
+     *
+     * @return mixed
+     */
+    public function translateInstanceOf(
+        $translatableObject,
+        string $messageClass,
+        string $messageFunction = 'getMessage',
+        string $parametersFunction = 'getParameters'
+    ) {
+        if ($translatableObject instanceof $messageClass) {
+            $parameters = $this->translateInstanceOf(
+                $translatableObject->{$parametersFunction}(),
+                $messageClass,
+                $messageFunction,
+                $parametersFunction
+            );
+
+            return $this->translate(
+                $translatableObject->{$messageFunction}(),
+                $parameters
+            );
+        }
+
+        if (!is_iterable($translatableObject)) {
+            return $translatableObject;
+        }
+
+        foreach ($translatableObject as &$value) {
+            $value = $this->translateInstanceOf($value, $messageClass, $messageFunction, $parametersFunction);
+        }
+
+        return $translatableObject;
+    }
 }
