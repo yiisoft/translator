@@ -8,10 +8,10 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Translator\Message;
 use Yiisoft\Translator\Translator;
 
-final class TranslatorInstanceofTest  extends BaseMock
+final class TranslatorInstanceofTest extends BaseMock
 {
-
-    public function testTranslationInstanceof(): void {
+    public function testTranslationInstanceof(): void
+    {
         $categoryName = 'app';
         $locale = 'en';
 
