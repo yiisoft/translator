@@ -113,6 +113,25 @@ final class TranslatorTest extends TestCase
         $this->assertEquals('Without translation', $translator->translate('Without translation', [], ''));
     }
 
+    public function testWithoutDefaultCategoryAndAttemptUsageDefaultCategory(): void
+    {
+        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+        $eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(new MissingTranslationCategoryEvent('`DEFAULT_CATEGORY`'));
+
+        /** @var EventDispatcherInterface $eventDispatcher */
+        $translator = new Translator(
+            'en',
+            null,
+            null,
+            $eventDispatcher
+        );
+
+        $this->assertEquals('Without translation', $translator->translate('Without translation'));
+    }
+
     public function testMultiCategories(): void
     {
         $locale = 'en';

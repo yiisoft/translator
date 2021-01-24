@@ -82,13 +82,9 @@ class Translator implements TranslatorInterface
 
         $category = $category ?? $this->defaultCategory;
 
-        if (empty($category)) {
-            return $id;
-        }
-
-        if (empty($this->categories[$category])) {
+        if (empty($category) || empty($this->categories[$category])) {
             if ($this->eventDispatcher !== null) {
-                $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
+                $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category?:'`DEFAULT_CATEGORY`'));
             }
             return $id;
         }
