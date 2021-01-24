@@ -97,26 +97,33 @@ final class TranslatorTest extends TestCase
         string $expected
     ): void {
         $translator = new Translator(
-            $this->createCategory($categoryName, $this->getMessages()),
             $locale,
+            $this->createCategory($categoryName, $this->getMessages()),
             null,
             $this->createMock(EventDispatcherInterface::class)
         );
         $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
 
+    public function testWithoutDefaultCategory(): void
+    {
+        $locale = 'en';
+        $translator = new Translator($locale, null);
+        $this->assertEquals('Without translation', $translator->translate('Without translation'));
+    }
+
     public function testMultiCategories(): void
     {
         $locale = 'en';
         $translator = new Translator(
+            $locale,
             $this->createCategory('app', [
                 'app' => [
                     'en' => [
                         'test.id1' => 'app: Test 1 on the (en)',
                     ],
                 ],
-            ]),
-            $locale
+            ])
         );
         $translator->addCategorySource($this->createCategory('app2', [
             'app2' => [
@@ -136,7 +143,7 @@ final class TranslatorTest extends TestCase
 
         $locale = 'en';
 
-        $translator = new Translator($this->createCategory('app'), $locale);
+        $translator = new Translator($locale, $this->createCategory('app'));
         $translator->addCategorySource($this->createCategory('app'));
     }
 
@@ -144,14 +151,14 @@ final class TranslatorTest extends TestCase
     {
         $locale = 'en';
         $translator = new Translator(
+            $locale,
             $this->createCategory('app', [
                 'app' => [
                     'en' => [
                         'test.id1' => 'app: Test 1 on the (en)',
                     ],
                 ],
-            ]),
-            $locale
+            ])
         );
         $translator->addCategorySource($this->createCategory('app2', [
             'app2' => [
@@ -171,7 +178,7 @@ final class TranslatorTest extends TestCase
     public function testWithLocale(): void
     {
         $locale = 'en';
-        $translator = new Translator($this->createCategory('app', []), $locale);
+        $translator = new Translator($locale, $this->createCategory('app', []));
 
         $this->assertEquals($locale, $translator->getLocale());
 
@@ -186,13 +193,13 @@ final class TranslatorTest extends TestCase
     public function testAddMultiCategorySource(): void
     {
         $locale = 'en';
-        $translator = new Translator($this->createCategory('app', [
+        $translator = new Translator($locale, $this->createCategory('app', [
             'app' => [
                 'en' => [
                     'test.id1' => 'app: Test 1 on the (en)',
                 ],
             ],
-        ]), $locale);
+        ]));
         $translator->addCategorySources([
             $this->createCategory('app2', [
                 'app2' => [
@@ -219,14 +226,14 @@ final class TranslatorTest extends TestCase
     {
         $locale = 'en';
         $translator = new Translator(
+            $locale,
             $this->createCategory('app', [
                 'app' => [
                     'en' => [
                         'test.id1' => 'app: Test 1 on the (en)',
                     ],
                 ],
-            ]),
-            $locale
+            ])
         );
         $translator->addCategorySource($this->createCategory('app2', [
             'app2' => [
@@ -253,8 +260,8 @@ final class TranslatorTest extends TestCase
         string $expected
     ): void {
         $translator = new Translator(
-            $this->createCategory($categoryName, $this->getMessages()),
-            $locale
+            $locale,
+            $this->createCategory($categoryName, $this->getMessages())
         );
         $this->assertEquals($expected, $translator->translate($id, $parameters, $categoryName, $locale));
     }
@@ -271,8 +278,8 @@ final class TranslatorTest extends TestCase
         string $expected
     ): void {
         $translator = new Translator(
-            $this->createCategory($categoryName, $this->getMessages()),
             $locale,
+            $this->createCategory($categoryName, $this->getMessages()),
             $fallbackLocale,
             $this->createMock(EventDispatcherInterface::class)
         );
@@ -303,8 +310,8 @@ final class TranslatorTest extends TestCase
         /** @var EventDispatcherInterface $eventDispatcher */
 
         $translator = new Translator(
-            $this->createCategory($categoryName, $this->getMessages()),
             $locale,
+            $this->createCategory($categoryName, $this->getMessages()),
             null,
             $eventDispatcher
         );
@@ -324,8 +331,8 @@ final class TranslatorTest extends TestCase
         string $expected
     ): void {
         $translator = new Translator(
-            $this->createCategory($categoryName, $this->getMessages()),
             $defaultLocale,
+            $this->createCategory($categoryName, $this->getMessages()),
             null,
             $this->createMock(EventDispatcherInterface::class)
         );
@@ -349,8 +356,8 @@ final class TranslatorTest extends TestCase
 
         /** @var EventDispatcherInterface $eventDispatcher */
         $translator = new Translator(
-            $this->createCategory('app', $this->getMessages()),
             'en-US',
+            $this->createCategory('app', $this->getMessages()),
             null,
             $eventDispatcher
         );
@@ -368,8 +375,8 @@ final class TranslatorTest extends TestCase
 
         /** @var EventDispatcherInterface $eventDispatcher */
         $translator = new Translator(
-            $this->createCategory('app', $this->getMessages()),
             'en',
+            $this->createCategory('app', $this->getMessages()),
             null,
             $eventDispatcher
         );
