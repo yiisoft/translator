@@ -110,6 +110,7 @@ final class TranslatorTest extends TestCase
         $locale = 'en';
         $translator = new Translator($locale, null);
         $this->assertEquals('Without translation', $translator->translate('Without translation'));
+        $this->assertEquals('Without translation', $translator->translate('Without translation', [], ''));
     }
 
     public function testMultiCategories(): void
