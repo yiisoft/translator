@@ -16,8 +16,8 @@ class Translator implements TranslatorInterface
 {
     private string $defaultCategory = 'app';
     private string $locale;
-    private ?EventDispatcherInterface $eventDispatcher;
     private ?string $fallbackLocale;
+    private ?EventDispatcherInterface $eventDispatcher;
     /**
      * @var CategorySource[]
      */
@@ -25,23 +25,17 @@ class Translator implements TranslatorInterface
 
     /**
      * @param string $locale Default locale to use if locale is not specified explicitly.
-     * @param CategorySource|null $defaultCategory Default category to use if category is not specified explicitly, or null for use without default category
      * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
     public function __construct(
         string $locale,
-        ?CategorySource $defaultCategory = null,
         ?string $fallbackLocale = null,
         ?EventDispatcherInterface $eventDispatcher = null
     ) {
-        $this->eventDispatcher = $eventDispatcher;
         $this->locale = $locale;
         $this->fallbackLocale = $fallbackLocale;
-        if ($defaultCategory) {
-            $this->defaultCategory = $defaultCategory->getName();
-            $this->addCategorySource($defaultCategory);
-        }
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function addCategorySource(CategorySource $category): void
