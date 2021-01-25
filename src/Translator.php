@@ -14,7 +14,7 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
  */
 class Translator implements TranslatorInterface
 {
-    private string $defaultCategory = '';
+    private string $defaultCategory = 'app';
     private string $locale;
     private ?EventDispatcherInterface $eventDispatcher;
     private ?string $fallbackLocale;
@@ -82,9 +82,9 @@ class Translator implements TranslatorInterface
 
         $category = $category ?? $this->defaultCategory;
 
-        if (empty($category) || empty($this->categories[$category])) {
+        if (empty($this->categories[$category])) {
             if ($this->eventDispatcher !== null) {
-                $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category ?: '`DEFAULT_CATEGORY`'));
+                $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
             }
             return $id;
         }
