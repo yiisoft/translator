@@ -6,7 +6,7 @@ namespace Yiisoft\Translator\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Yiisoft\Translator\Category;
+use Yiisoft\Translator\CategorySource;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\MessageFormatterInterface;
@@ -377,9 +377,9 @@ final class TranslatorTest extends TestCase
         $translator->translate('missing_message', [], 'app');
     }
 
-    private function createCategory(string $categoryName, array $messages = []): Category
+    private function createCategory(string $categoryName, array $messages = []): CategorySource
     {
-        return new Category(
+        return new CategorySource(
             $categoryName,
             $this->createMessageReader($categoryName, $messages),
             $this->createMessageFormatter()

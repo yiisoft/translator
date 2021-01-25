@@ -19,18 +19,18 @@ class Translator implements TranslatorInterface
     private ?EventDispatcherInterface $eventDispatcher;
     private ?string $fallbackLocale;
     /**
-     * @var Category[]
+     * @var CategorySource[]
      */
     private array $categories = [];
 
     /**
-     * @param Category $defaultCategory Default category to use if category is not specified explicitly.
+     * @param CategorySource $defaultCategory Default category to use if category is not specified explicitly.
      * @param string $locale Default locale to use if locale is not specified explicitly.
      * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
     public function __construct(
-        Category $defaultCategory,
+        CategorySource $defaultCategory,
         string $locale,
         ?string $fallbackLocale = null,
         ?EventDispatcherInterface $eventDispatcher = null
@@ -43,7 +43,7 @@ class Translator implements TranslatorInterface
         $this->addCategorySource($defaultCategory);
     }
 
-    public function addCategorySource(Category $category): void
+    public function addCategorySource(CategorySource $category): void
     {
         if (isset($this->categories[$category->getName()])) {
             throw new \RuntimeException('Category "' . $category->getName() . '" already exists.');
@@ -52,7 +52,7 @@ class Translator implements TranslatorInterface
     }
 
     /**
-     * @param Category[] $categories
+     * @param CategorySource[] $categories
      */
     public function addCategorySources(array $categories): void
     {
