@@ -12,12 +12,12 @@ interface TranslatorInterface
     /**
      * Add category.
      */
-    public function addCategorySource(Category $category): void;
+    public function addCategorySource(CategorySource $category): void;
 
     /**
      * Add multiple categories.
      *
-     * @param Category[] $categories
+     * @param CategorySource[] $categories
      */
     public function addCategorySources(array $categories): void;
 

@@ -7,7 +7,7 @@ namespace Yiisoft\Translator;
 /**
  * Represents message category.
  */
-final class Category
+final class CategorySource
 {
     private string $name;
     private MessageReaderInterface $reader;

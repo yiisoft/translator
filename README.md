@@ -39,6 +39,7 @@ There are two types of additional packages. Message source provide support of va
 ## Configuration
 
 ### Quick start
+
 ```php
 /** @var \Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher */
 
@@ -54,7 +55,7 @@ $messageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToTransl
 // Intl message formatter
 $formatter = new \Yiisoft\Translator\Formatter\Intl\IntlMessageFormatter(); 
 
-$category = new Yiisoft\Translator\Category(
+$category = new Yiisoft\Translator\CategorySource(
     $defaultCategoryName, 
     $messageSource,
     $formatter
@@ -73,6 +74,7 @@ $translator = new Yiisoft\Translator\Translator($category, $locale, $fallbackLoc
 ```
 
 ### Multiple translation sources
+
 ```php
 /** @var \Yiisoft\Translator\TranslatorInterface $translator */
 
@@ -83,7 +85,7 @@ $moduleMessageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathTo
 // Simple message formatter
 $formatter = new \Yiisoft\Translator\Formatter\Simple\SimpleMessageFormatter();
 
-$additionalCategory = new Yiisoft\Translator\Category(
+$additionalCategory = new Yiisoft\Translator\CategorySource(
     $categoryName, 
     $moduleMessageSource,
     $formatter
@@ -92,10 +94,11 @@ $translator->addCategorySource($additionalCategory);
 ```
 
 ### Adding many category sources by once
+
 ```php
 /** @var \Yiisoft\Translator\TranslatorInterface $translator */
-/** @var \Yiisoft\Translator\Category $additionalCategory1 */
-/** @var \Yiisoft\Translator\Category $additionalCategory2 */
+/** @var \Yiisoft\Translator\CategorySource $additionalCategory1 */
+/** @var \Yiisoft\Translator\CategorySource $additionalCategory2 */
 
 $translator->addCategorySources([
     $additionalCategory1,
