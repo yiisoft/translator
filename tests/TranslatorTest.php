@@ -12,6 +12,7 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
 use Yiisoft\Translator\Translator;
+use Yiisoft\Translator\TranslatorInterface;
 
 final class TranslatorTest extends TestCase
 {
@@ -149,16 +150,162 @@ final class TranslatorTest extends TestCase
         $this->assertEquals('app2: Test 1 on the (en)', $translator->translate('test.id1', [], 'app2'));
     }
 
-    public function testExceptionOnExistCategories(): void
+    private function createTranslatorWithManySources(string $locale, string $fallbackLocale): TranslatorInterface
     {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Category "app" already exists.');
+        $translator = new Translator($locale, $fallbackLocale);
 
-        $locale = 'en';
+        $translator->addCategorySource($this->createCategory('app', [
+            'app' => [
+                'de' => [
+                    'test.id5' => 'app: Test 5 on the (de). First source',
+                ],
+                'en' => [
+                    'test.id1' => 'app: Test 1 on the (en). First source',
+                    'test.id2' => 'app: Test 2 on the (en). First source',
+                    'test.id3' => 'app: Test 3 on the (en). First source',
+                ],
+                'en-US' => [
+                    'test.id1' => 'app: Test 1 on the (en-US). First source',
+                    'test.id2' => 'app: Test 2 on the (en-US). First source',
+                ],
+            ],
+        ]));
 
-        $translator = new Translator($locale);
-        $translator->addCategorySource($this->createCategory('app'));
-        $translator->addCategorySource($this->createCategory('app'));
+        $translator->addCategorySources([
+            $this->createCategory('app', [
+                'app' => [
+                    'en' => [
+                        'test.id1' => 'app: Test 1 on the (en). Second source',
+                        'test.id2' => 'app: Test 2 on the (en). Second source',
+                    ],
+                ],
+            ]),
+            $this->createCategory('app', [
+                'app' => [
+                    'en-US' => [
+                        'test.id1' => 'app: Test 1 on the (en-US). Third source',
+                    ],
+                ],
+            ]),
+        ]);
+
+        return $translator;
+    }
+
+    public function manyTranslations(): array
+    {
+        return [
+            [
+                'app: Test 1 on the (en-US). Third source',
+                'test.id1',
+                [],
+                'app',
+                'en-US'
+            ],
+            [
+                'app: Test 1 on the (en). Second source',
+                'test.id1',
+                [],
+                'app',
+                'en'
+            ],
+            [
+                'app: Test 1 on the (en). Second source',
+                'test.id1',
+            ],
+            [
+                'app: Test 2 on the (en-US). First source',
+                'test.id2',
+                [],
+                'app',
+                'en-US'
+            ],
+            [
+                'app: Test 2 on the (en). Second source',
+                'test.id2',
+                [],
+                'app',
+                'en'
+            ],
+            [
+                'app: Test 3 on the (en). First source',
+                'test.id3',
+                [],
+                'app',
+                'en-US'
+            ],
+            [
+                'app: Test 3 on the (en). First source',
+                'test.id3',
+                [],
+                'app',
+                'en'
+            ],
+            [
+                'test.id4',
+                'test.id4',
+                [],
+                'app',
+                'en-US'
+            ],
+            [
+                'test.id4',
+                'test.id4',
+                [],
+                'app',
+                'en'
+            ],
+            [
+                'test.id4',
+                'test.id4',
+                [],
+                'app',
+                'de'
+            ],
+            [
+                'test.id4',
+                'test.id4',
+            ],
+            [
+                'app: Test 5 on the (de). First source',
+                'test.id5',
+                [],
+                'app',
+                'en-US'
+            ],
+            [
+                'app: Test 5 on the (de). First source',
+                'test.id5',
+                [],
+                'app',
+                'en'
+            ],
+            [
+                'app: Test 5 on the (de). First source',
+                'test.id5',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider manyTranslations
+     * @param string $expected
+     * @param string $id
+     * @param array $params
+     * @param string|null $category
+     * @param string|null $locale
+     */
+    public function testManySourcesByOneCategory(
+        string $expected,
+        string $id,
+        array $params = [],
+        ?string $category = null,
+        ?string $locale = null
+    ): void
+    {
+        $translator = $this->createTranslatorWithManySources('en', 'de');
+
+        $this->assertEquals($expected, $translator->translate($id, $params, $category, $locale));
     }
 
     public function testWithCategory(): void
