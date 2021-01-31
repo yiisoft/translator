@@ -200,14 +200,14 @@ final class TranslatorTest extends TestCase
                 'test.id1',
                 [],
                 'app',
-                'en-US'
+                'en-US',
             ],
             [
                 'app: Test 1 on the (en). Second source',
                 'test.id1',
                 [],
                 'app',
-                'en'
+                'en',
             ],
             [
                 'app: Test 1 on the (en). Second source',
@@ -218,49 +218,49 @@ final class TranslatorTest extends TestCase
                 'test.id2',
                 [],
                 'app',
-                'en-US'
+                'en-US',
             ],
             [
                 'app: Test 2 on the (en). Second source',
                 'test.id2',
                 [],
                 'app',
-                'en'
+                'en',
             ],
             [
                 'app: Test 3 on the (en). First source',
                 'test.id3',
                 [],
                 'app',
-                'en-US'
+                'en-US',
             ],
             [
                 'app: Test 3 on the (en). First source',
                 'test.id3',
                 [],
                 'app',
-                'en'
+                'en',
             ],
             [
                 'test.id4',
                 'test.id4',
                 [],
                 'app',
-                'en-US'
+                'en-US',
             ],
             [
                 'test.id4',
                 'test.id4',
                 [],
                 'app',
-                'en'
+                'en',
             ],
             [
                 'test.id4',
                 'test.id4',
                 [],
                 'app',
-                'de'
+                'de',
             ],
             [
                 'test.id4',
@@ -271,14 +271,14 @@ final class TranslatorTest extends TestCase
                 'test.id5',
                 [],
                 'app',
-                'en-US'
+                'en-US',
             ],
             [
                 'app: Test 5 on the (de). First source',
                 'test.id5',
                 [],
                 'app',
-                'en'
+                'en',
             ],
             [
                 'app: Test 5 on the (de). First source',
@@ -289,6 +289,7 @@ final class TranslatorTest extends TestCase
 
     /**
      * @dataProvider manyTranslations
+     *
      * @param string $expected
      * @param string $id
      * @param array $params
@@ -301,8 +302,7 @@ final class TranslatorTest extends TestCase
         array $params = [],
         ?string $category = null,
         ?string $locale = null
-    ): void
-    {
+    ): void {
         $translator = $this->createTranslatorWithManySources('en', 'de');
 
         $this->assertEquals($expected, $translator->translate($id, $params, $category, $locale));
