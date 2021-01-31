@@ -40,10 +40,10 @@ class Translator implements TranslatorInterface
 
     public function addCategorySource(CategorySource $category): void
     {
-        if (isset($this->categorySources[$category->getName()])) {
-            array_unshift($this->categorySources[$category->getName()], $category);
-        } else {
+        if (!isset($this->categorySources[$category->getName()])) {
             $this->categorySources[$category->getName()] = [$category];
+        } else {
+            $this->categorySources[$category->getName()][] = $category;
         }
     }
 
@@ -93,7 +93,8 @@ class Translator implements TranslatorInterface
         string $category,
         string $locale
     ): string {
-        foreach ($this->categorySources[$category] as $sourceCategory) {
+        $sourceCategory = end($this->categorySources[$category]);
+        do {
             $message = $sourceCategory->getMessage($id, $locale, $parameters);
 
             if ($message !== null) {
@@ -103,7 +104,7 @@ class Translator implements TranslatorInterface
             if ($this->eventDispatcher !== null) {
                 $this->eventDispatcher->dispatch(new MissingTranslationEvent($sourceCategory->getName(), $locale, $id));
             }
-        }
+        } while(($sourceCategory = prev($this->categorySources[$category])) !== FALSE);
 
         $localeObject = new Locale($locale);
         $fallback = $localeObject->fallbackLocale();
@@ -119,8 +120,8 @@ class Translator implements TranslatorInterface
             }
         }
 
-        $firstCategory = current($this->categorySources[$category]);
-        return $firstCategory->format($id, $parameters, $locale);
+        $categorySource = end($this->categorySources[$category]);
+        return $categorySource->format($id, $parameters, $locale);
     }
 
     /**
