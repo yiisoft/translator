@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Yiisoft\Translator;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
+use RuntimeException;
 use Yiisoft\I18n\Locale;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
+use function array_key_exists;
 
 /**
  * Translator translates a message into the specified language.
@@ -19,9 +21,9 @@ class Translator implements TranslatorInterface
     private ?string $fallbackLocale;
     private ?EventDispatcherInterface $eventDispatcher;
     /**
-     * @var CategorySource[]
+     * @var CategorySource[][] Array of category message sources indexed by category names.
      */
-    private array $categories = [];
+    private array $categorySources = [];
 
     /**
      * @param string $locale Default locale to use if locale is not specified explicitly.
@@ -40,10 +42,11 @@ class Translator implements TranslatorInterface
 
     public function addCategorySource(CategorySource $category): void
     {
-        if (isset($this->categories[$category->getName()])) {
-            throw new \RuntimeException('Category "' . $category->getName() . '" already exists.');
+        if (isset($this->categorySources[$category->getName()])) {
+            $this->categorySources[$category->getName()][] = $category;
+        } else {
+            $this->categorySources[$category->getName()] = [$category];
         }
-        $this->categories[$category->getName()] = $category;
     }
 
     /**
@@ -76,39 +79,51 @@ class Translator implements TranslatorInterface
 
         $category = $category ?? $this->defaultCategory;
 
-        if (empty($this->categories[$category])) {
+        if (empty($this->categorySources[$category])) {
             if ($this->eventDispatcher !== null) {
                 $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
             }
             return $id;
         }
 
-        $sourceCategory = $this->categories[$category];
-        $message = $sourceCategory->getMessage($id, $locale, $parameters);
+        return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
+    }
 
-        if ($message === null) {
+    private function translateUsingCategorySources(
+        string $id,
+        array $parameters,
+        string $category,
+        string $locale
+    ): string {
+        $sourceCategory = end($this->categorySources[$category]);
+        do {
+            $message = $sourceCategory->getMessage($id, $locale, $parameters);
+
+            if ($message !== null) {
+                return $sourceCategory->format($message, $parameters, $locale);
+            }
+
             if ($this->eventDispatcher !== null) {
                 $this->eventDispatcher->dispatch(new MissingTranslationEvent($sourceCategory->getName(), $locale, $id));
             }
+        } while (($sourceCategory = prev($this->categorySources[$category])) !== false);
 
-            $localeObject = new Locale($locale);
-            $fallback = $localeObject->fallbackLocale();
+        $localeObject = new Locale($locale);
+        $fallback = $localeObject->fallbackLocale();
 
-            if ($fallback->asString() !== $localeObject->asString()) {
-                return $this->translate($id, $parameters, $category, $fallback->asString());
-            }
-
-            if (!empty($this->fallbackLocale)) {
-                $fallbackLocaleObject = (new Locale($this->fallbackLocale))->fallbackLocale();
-                if ($fallbackLocaleObject->asString() !== $localeObject->asString()) {
-                    return $this->translate($id, $parameters, $category, $fallbackLocaleObject->asString());
-                }
-            }
-
-            $message = $id;
+        if ($fallback->asString() !== $localeObject->asString()) {
+            return $this->translateUsingCategorySources($id, $parameters, $category, $fallback->asString());
         }
 
-        return $sourceCategory->format($message, $parameters, $locale);
+        if (!empty($this->fallbackLocale)) {
+            $fallbackLocaleObject = (new Locale($this->fallbackLocale))->fallbackLocale();
+            if ($fallbackLocaleObject->asString() !== $localeObject->asString()) {
+                return $this->translateUsingCategorySources($id, $parameters, $category, $fallbackLocaleObject->asString());
+            }
+        }
+
+        $categorySource = end($this->categorySources[$category]);
+        return $categorySource->format($id, $parameters, $locale);
     }
 
     /**
@@ -116,8 +131,8 @@ class Translator implements TranslatorInterface
      */
     public function withCategory(string $category): self
     {
-        if (!isset($this->categories[$category])) {
-            throw new \RuntimeException('Category with name "' . $category . '" does not exist.');
+        if (!isset($this->categorySources[$category])) {
+            throw new RuntimeException('Category with name "' . $category . '" does not exist.');
         }
 
         $new = clone $this;
