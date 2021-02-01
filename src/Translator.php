@@ -19,7 +19,7 @@ class Translator implements TranslatorInterface
     private ?string $fallbackLocale;
     private ?EventDispatcherInterface $eventDispatcher;
     /**
-     * @var CategorySource[][]
+     * @var CategorySource[][] Array of category message sources indexed by category names.
      */
     private array $categorySources = [];
 
@@ -84,10 +84,10 @@ class Translator implements TranslatorInterface
             return $id;
         }
 
-        return $this->translateByCategories($id, $parameters, $category, $locale);
+        return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
     }
 
-    private function translateByCategories(
+    private function translateUsingCategorySources(
         string $id,
         array $parameters,
         string $category,
@@ -110,13 +110,13 @@ class Translator implements TranslatorInterface
         $fallback = $localeObject->fallbackLocale();
 
         if ($fallback->asString() !== $localeObject->asString()) {
-            return $this->translateByCategories($id, $parameters, $category, $fallback->asString());
+            return $this->translateUsingCategorySources($id, $parameters, $category, $fallback->asString());
         }
 
         if (!empty($this->fallbackLocale)) {
             $fallbackLocaleObject = (new Locale($this->fallbackLocale))->fallbackLocale();
             if ($fallbackLocaleObject->asString() !== $localeObject->asString()) {
-                return $this->translateByCategories($id, $parameters, $category, $fallbackLocaleObject->asString());
+                return $this->translateUsingCategorySources($id, $parameters, $category, $fallbackLocaleObject->asString());
             }
         }
 
