@@ -42,7 +42,7 @@ class Translator implements TranslatorInterface
 
     public function addCategorySource(CategorySource $category): void
     {
-        if (!array_key_exists($category->getName(), $this->categorySources)) {
+        if (isset($this->categorySources[$category->getName()])) {
             $this->categorySources[$category->getName()][] = $category;
         } else {
             $this->categorySources[$category->getName()] = [$category];
