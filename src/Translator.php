@@ -9,7 +9,6 @@ use RuntimeException;
 use Yiisoft\I18n\Locale;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
-use function array_key_exists;
 
 /**
  * Translator translates a message into the specified language.
