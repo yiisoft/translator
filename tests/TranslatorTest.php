@@ -296,7 +296,7 @@ final class TranslatorTest extends TestCase
      * @param string|null $category
      * @param string|null $locale
      */
-    public function testManySourcesByOneCategory(
+    public function testManySourcesForSingleCategory(
         string $expected,
         string $id,
         array $params = [],

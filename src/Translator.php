@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Yiisoft\Translator;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
+use RuntimeException;
 use Yiisoft\I18n\Locale;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
+use function array_key_exists;
 
 /**
  * Translator translates a message into the specified language.
@@ -40,10 +42,10 @@ class Translator implements TranslatorInterface
 
     public function addCategorySource(CategorySource $category): void
     {
-        if (!isset($this->categorySources[$category->getName()])) {
-            $this->categorySources[$category->getName()] = [$category];
-        } else {
+        if (!array_key_exists($category->getName(), $this->categorySources)) {
             $this->categorySources[$category->getName()][] = $category;
+        } else {
+            $this->categorySources[$category->getName()] = [$category];
         }
     }
 
@@ -130,7 +132,7 @@ class Translator implements TranslatorInterface
     public function withCategory(string $category): self
     {
         if (!isset($this->categorySources[$category])) {
-            throw new \RuntimeException('Category with name "' . $category . '" does not exist.');
+            throw new RuntimeException('Category with name "' . $category . '" does not exist.');
         }
 
         $new = clone $this;
