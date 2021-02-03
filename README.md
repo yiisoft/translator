@@ -75,7 +75,7 @@ $category = new Yiisoft\Translator\CategorySource(
 $translator->addCategorySource($category);
 ```
 
-### Add more translation category
+### Multiple translation sources
 
 ```php
 /** @var \Yiisoft\Translator\TranslatorInterface $translator */
