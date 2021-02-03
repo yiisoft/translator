@@ -5,7 +5,8 @@
 </p>
 <h1 align="center">Message Translator</h1>
 
-This package allow to translate messages into several languages. It can work with both Yii-based applications and standalone PHP applications.
+This package allows translating messages into several languages. It can work with both Yii-based applications and
+standalone PHP applications.
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/translator/v/stable.png)](https://packagist.org/packages/yiisoft/translator)
 [![Total Downloads](https://poser.pugx.org/yiisoft/translator/downloads.png)](https://packagist.org/packages/yiisoft/translator)
@@ -19,26 +20,42 @@ This package allow to translate messages into several languages. It can work wit
 ## Installation
 
 The preferred way to install this package is through [Composer](https://getcomposer.org/download/):
+
 ```bash
 composer require yiisoft/translator
 ```
 
 ## Additional packages
 
-There are two types of additional packages. Message source provide support of various message storage formats such as PHP arrays or GNU gettext. Message formatters provide extra syntax that is recognized in translated messages.
+There are two types of additional packages. Message source provide support of various message storage formats such as
+PHP arrays or GNU gettext. Message formatters provide extra syntax that is recognized in translated messages.
 
 ### Message sources
+
 * [translator-message-php](https://github.com/yiisoft/translator-message-php) - PHP file message storage.
 * [translator-message-db](https://github.com/yiisoft/translator-message-db) - Database message storage.
 * [translator-message-gettext](https://github.com/yiisoft/translator-message-gettext) - gettext message storage.
 
 ### Message formatters
+
 * [translator-formatter-intl](https://github.com/yiisoft/translator-formatter-intl) - Intl (i18n) formatter
 * [translator-formatter-simple](https://github.com/yiisoft/translator-formatter-simple) - Simple formatter to use if you do not need additional syntax such as in case with gettext message source.
 
 ## Configuration
 
 ### Quick start
+
+First, get a configured instance of event dispatcher. When using a framework it is usually done as:
+
+```php
+public function actionProcess(\Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher)
+{
+    // ...
+}
+```
+
+Configuration depends on the container used so below we'll create an instance manually.
+
 
 ```php
 /** @var \Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher */
@@ -50,30 +67,36 @@ $translator = new Yiisoft\Translator\Translator(
     $fallbackLocale,
     $eventDispatcher
 );
-// or simple usage, if you don't need event dispatcher for translation events and fallback locale
-$translator = new Yiisoft\Translator\Translator($locale);
-// and with fallback locale
-$translator = new Yiisoft\Translator\Translator($locale, $fallbackLocale);
+```
 
-// By default used category with name 'app' and after create Translator instance you can be
-// add CategorySource for your application 
+`$fallbackLocale` and `$eventDispatcher` are optional. Fallback locale is used when no translation was found in the
+main locale. Event dispatcher is used to dispatch missing translation events.
+
+Now we've got an instance, but it has no idea where to get translations from. Let's tell it:
+
+```
+// Default category is used when no category is specified explicitly.
 $defaultCategoryName = 'app';
 $pathToTranslations = './messages/';
 
-// MessageSource based on PHP files
+// We use MessageSource that is based on PHP files.
 $messageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToTranslations);
 
-// Intl message formatter
+// We use Intl message formatter.
 $formatter = new \Yiisoft\Translator\Formatter\Intl\IntlMessageFormatter(); 
 
+// Now get an instance of CategorySource.
 $category = new Yiisoft\Translator\CategorySource(
     $defaultCategoryName, 
     $messageSource,
     $formatter
 );
 
+// And add it.
 $translator->addCategorySource($category);
 ```
+
+That's it. Translator is ready to be used.
 
 ### Multiple translation sources
 
@@ -84,7 +107,7 @@ $categoryName = 'module';
 $pathToModuleTranslations = './module/messages/';
 $moduleMessageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToModuleTranslations);
 
-// Simple message formatter
+// Simple message formatter.
 $formatter = new \Yiisoft\Translator\Formatter\Simple\SimpleMessageFormatter();
 
 $additionalCategory = new Yiisoft\Translator\CategorySource(
@@ -95,7 +118,7 @@ $additionalCategory = new Yiisoft\Translator\CategorySource(
 $translator->addCategorySource($additionalCategory);
 ```
 
-### Adding many category sources by once
+### Adding many category sources at once
 
 ```php
 /** @var \Yiisoft\Translator\TranslatorInterface $translator */
@@ -109,29 +132,34 @@ $translator->addCategorySources([
 ```
 
 ### Overriding translation messages
-When you use module with self-translated messages and want redefine translation message(or few messages),  you can be
-add your category source with `categoryName` as in module.
 
-For process of translations uses LIFO principes and message id from last CategorySource with the same name redefines previous message.
+If you use a module that has message translation and want to redefine default translation messages, you can
+add your category source with the same `categoryName` as used in the module.
+
+During translation `CategorySource`s are used from last to first allowing overriding messages of the same
+category and ID.
+
 ```php
 /** @var \Yiisoft\Translator\TranslatorInterface $translator */
 /** @var \Yiisoft\Translator\Message\Php\MessageSource $yourCustomMessageSource */
 /** @var \Yiisoft\Translator\Formatter\Simple\SimpleMessageFormatter $formatter */
-// You CategorySource for module with category name - validator
+
+// CategorySource for module with "validator" category name.
 $categoryNameAsModule = 'validator'; // 
 $moduleCategorySource = new Yiisoft\Translator\CategorySource(
     $categoryNameAsModule, 
     $yourCustomMessageSource,
     $formatter
 );
-// Need be add after module translation
+
+// Needs be added after module category source is added.
 $translator->addCategorySource($moduleCategorySource);
-// and messages exists in your $moduleCategorySource be used instead messages in module `validator` (used LIFO principes)
 ```
 
 ## General usage
 
 ### Using default language and default category
+
 ```php
 // single translation
 $messageIdentificator = 'submit';
@@ -145,6 +173,7 @@ echo $translator->translate($messageIdentificator, ['n' => 3]);
 ```
 
 ### Specifying category and language
+
 ```php
 $messageIdentificator = 'submit';
 echo $translator->translate($messageIdentificator, [], 'moduleId', 'ru');
@@ -152,29 +181,34 @@ echo $translator->translate($messageIdentificator, [], 'moduleId', 'ru');
 ```
 
 ### Change default locale
+
 ```php
 $newDefaultLocale = 'de-DE';
 $translator->setLocale($newDefaultLocale);
 ```
 
-### Get current locale, if you don't know setted locale
+### Get a current locale, if you don't know set locale
+
 ```php
 echo $translator->getLocale();
 ```
 
-### Get a new Translator instance with locale to be used by default in case locale isn't specified explicitly.
+### Get a new Translator instance with a locale to be used by default in case locale isn't specified explicitly.
+
 ```php
 $newDefaultLocale = 'de-DE';
 echo $translator->withLocale($newDefaultLocale);
 ```
 
-### Get a new Translator instance with category to be used by default in case category isn't specified explicitly.
+### Get a new Translator instance with a category to be used by default in case category isn't specified explicitly.
+
 ```php
 $newDefaultCategoryId = 'module2';
 echo $translator->withCategory($newDefaultCategoryId);
 ```
 
 ## Additional info
+
 The package contains interfaces for development of custom formatters, readers, and writers.
 
 ## Unit testing
