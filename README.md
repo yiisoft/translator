@@ -95,6 +95,19 @@ $additionalCategory = new Yiisoft\Translator\CategorySource(
 $translator->addCategorySource($additionalCategory);
 ```
 
+### Adding many category sources by once
+
+```php
+/** @var \Yiisoft\Translator\TranslatorInterface $translator */
+/** @var \Yiisoft\Translator\CategorySource $additionalCategory1 */
+/** @var \Yiisoft\Translator\CategorySource $additionalCategory2 */
+
+$translator->addCategorySources([
+    $additionalCategory1,
+    $additionalCategory2,
+]);
+```
+
 ### Overriding translation messages
 When you use module with self-translated messages and want redefine translation message(or few messages),  you can be
 add your category source with `categoryName` as in module.
@@ -114,19 +127,6 @@ $moduleCategorySource = new Yiisoft\Translator\CategorySource(
 // Need be add after module translation
 $translator->addCategorySource($moduleCategorySource);
 // and messages exists in your $moduleCategorySource be used instead messages in module `validator` (used LIFO principes)
-```
-
-### Adding many category sources by once
-
-```php
-/** @var \Yiisoft\Translator\TranslatorInterface $translator */
-/** @var \Yiisoft\Translator\CategorySource $additionalCategory1 */
-/** @var \Yiisoft\Translator\CategorySource $additionalCategory2 */
-
-$translator->addCategorySources([
-    $additionalCategory1,
-    $additionalCategory2,
-]);
 ```
 
 ## General usage
