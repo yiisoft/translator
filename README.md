@@ -42,11 +42,22 @@ There are two types of additional packages. Message source provide support of va
 
 ```php
 /** @var \Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher */
-
-$defaultCategoryName = 'app';
 $locale = 'ru';
 $fallbackLocale = 'en';
 
+$translator = new Yiisoft\Translator\Translator(
+    $locale,
+    $fallbackLocale,
+    $eventDispatcher
+);
+// or simple usage, if you don't need event dispatcher for translation events and fallback locale
+$translator = new Yiisoft\Translator\Translator($locale);
+// and with fallback locale
+$translator = new Yiisoft\Translator\Translator($locale, $fallbackLocale);
+
+// By default used category with name 'app' and after create Translator instance you can be
+// add CategorySource for your application 
+$defaultCategoryName = 'app';
 $pathToTranslations = './messages/';
 
 // MessageSource based on PHP files
@@ -61,19 +72,10 @@ $category = new Yiisoft\Translator\CategorySource(
     $formatter
 );
 
-$translator = new Yiisoft\Translator\Translator(
-    $category,
-    $locale,
-    $fallbackLocale,
-    $eventDispatcher
-);
-// or simple usage, if you don't need event dispatcher for translation events and fallback locale
-$translator = new Yiisoft\Translator\Translator($category, $locale);
-// and with fallback locale
-$translator = new Yiisoft\Translator\Translator($category, $locale, $fallbackLocale);
+$translator->addCategorySource($category);
 ```
 
-### Multiple translation sources
+### Add more translation category
 
 ```php
 /** @var \Yiisoft\Translator\TranslatorInterface $translator */
@@ -91,6 +93,27 @@ $additionalCategory = new Yiisoft\Translator\CategorySource(
     $formatter
 );
 $translator->addCategorySource($additionalCategory);
+```
+
+### Overriding translation messages
+When you use module with self-translated messages and want redefine translation message(or few messages),  you can be
+add your category source with `categoryName` as in module.
+
+For process of translations uses LIFO principes and message id from last CategorySource with the same name redefines previous message.
+```php
+/** @var \Yiisoft\Translator\TranslatorInterface $translator */
+/** @var \Yiisoft\Translator\Message\Php\MessageSource $yourCustomMessageSource */
+/** @var \Yiisoft\Translator\Formatter\Simple\SimpleMessageFormatter $formatter */
+// You CategorySource for module with category name - validator
+$categoryNameAsModule = 'validator'; // 
+$moduleCategorySource = new Yiisoft\Translator\CategorySource(
+    $categoryNameAsModule, 
+    $yourCustomMessageSource,
+    $formatter
+);
+// Need be add after module translation
+$translator->addCategorySource($moduleCategorySource);
+// and messages exists in your $moduleCategorySource be used instead messages in module `validator` (used LIFO principes)
 ```
 
 ### Adding many category sources by once
