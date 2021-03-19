@@ -96,7 +96,7 @@ final class TranslationExtractor
             }
 
             if ($isStartedTranslator) {
-                if ($this->tokensEqual($token, ')') && $pendingParenthesisCount <= 0) {
+                if ($this->tokensEqual($token, ')') && $pendingParenthesisCount === 0) {
                     $messages = array_merge_recursive($messages, $this->extractParametersFromTokens($buffer, $translatorTokens));
                     $isStartedTranslator = false;
                 } else {
@@ -109,7 +109,7 @@ final class TranslationExtractor
                 }
 
             } else {
-                if ($sizeofTranslator == $matchedTokensCount) {
+                if ($sizeofTranslator === $matchedTokensCount) {
                     if ($this->tokensEqual($token, '(')) {
                         $isStartedTranslator = true;
                         $pendingParenthesisCount = 0;

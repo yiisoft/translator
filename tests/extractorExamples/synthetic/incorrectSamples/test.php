@@ -6,6 +6,7 @@ $messageId2 = 'messageId2';
 
 // withoutCategory
 translate(messageId1, array(1, 2));
+$translator->translate();
 $translator->translate(messageId1, array(1, 2));
 $translator->translate($messageId2, [1, 2]);
 $translator->translate($messageId2->id, [1, 2]);

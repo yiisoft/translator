@@ -9,7 +9,7 @@ use Yiisoft\Translator\TranslationExtractor;
 
 final class TranslationExtractorTest extends TestCase
 {
-    private $incorrectDataCount = 13;
+    private $incorrectDataCount = 14;
     private $correctData = [
         'defaultCategory' => [
             '',
