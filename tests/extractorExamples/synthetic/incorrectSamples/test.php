@@ -11,6 +11,7 @@ $translator->translate(messageId1, array(1, 2));
 $translator->translate($messageId2, [1, 2]);
 $translator->translate($messageId2->id, [1, 2]);
 $translator->translate(null, [1, 2]);
+$translator->translate([1, 2]);
 $translator->translate(fn() => 'messageId3', array(1, 2));
 $translator->translate(function($data) {return 'messageId4';}, [1, 2]);
 $translator->translate();
