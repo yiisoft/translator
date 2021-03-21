@@ -243,10 +243,11 @@ final class TranslationExtractor
         $fullMessage = substr($tokens[0][1], 1, -1);
 
         $i = 1;
-        while ($i < count($tokens) && $tokens[$i] === '.') {
+        $countTokens = count($tokens);
+        while ($i < $countTokens && $tokens[$i] === '.') {
             if ($tokens[$i + 1][0] === T_CONSTANT_ENCAPSED_STRING) {
                 $fullMessage .= substr($tokens[$i + 1][1], 1, -1);
-            } elseif (in_array($tokens[$i + 1][0], [T_LNUMBER, T_DNUMBER])) {
+            } elseif ($tokens[$i + 1][0] === T_LNUMBER || $tokens[$i + 1][0] === T_DNUMBER) {
                 $fullMessage .= $tokens[$i + 1][1];
             } else {
                 return null;
