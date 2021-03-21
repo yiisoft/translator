@@ -53,6 +53,7 @@ final class TranslationExtractor
      * @param string $path
      * @param string[]|null $only
      * @param string[]|null $except
+     *
      * @return array
      */
     public function extract(string $path, ?array $only = null, ?array $except = null): array
@@ -71,23 +72,22 @@ final class TranslationExtractor
             throw new \RuntimeException('Translator tokens cannot be shorttest 2 tokens.');
         }
 
-        $messages = $this->getMessageFromPath($path, $only === null ? $this->only : $only, $except === null ? $this->except : $except);
-
-        return $messages;
+        return $this->getMessageFromPath($path, $only === null ? $this->only : $only, $except === null ? $this->except : $except);
     }
 
     /**
      * @param string $path
      * @param string[] $only
      * @param string[] $except
-     * @return array
+     *
+     * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
      */
     private function getMessageFromPath(string $path, array $only, array $except): array
     {
         $messages = [];
 
         $files = FileHelper::findFiles($path, [
-            'filter' => (new pathMatcher)->only(...$only)->except(...$except),
+            'filter' => (new pathMatcher())->only(...$only)->except(...$except),
             'recursive' => true,
         ]);
 
@@ -101,6 +101,11 @@ final class TranslationExtractor
         return $messages;
     }
 
+    /**
+     * @param string $fileName
+     *
+     * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
+     */
     private function extractMessagesFromFile(string $fileName): array
     {
         $fileContent = file_get_contents($fileName);
@@ -118,7 +123,8 @@ final class TranslationExtractor
 
     /**
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
-     * @return array<array-key|string, mixed|non-empty-list<string>>
+     *
+     * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
      */
     private function extractMessagesFromTokens(array $tokens): array
     {
@@ -167,7 +173,8 @@ final class TranslationExtractor
 
     /**
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
-     * @return array<array-key|string, mixed|non-empty-list<string>>
+     *
+     * @psalm-return  array<array-key|string, mixed|non-empty-list<string>>
      */
     private function extractParametersFromTokens(array $tokens): array
     {
@@ -190,6 +197,7 @@ final class TranslationExtractor
 
     /**
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     *
      * @return null|array{category: null|string, id: null|string, parameters: non-empty-list<array{0: int, 1: string, 2: int}|string>|null}
      */
     private function splitTokensAsParams(array $tokens): ?array
@@ -204,10 +212,10 @@ final class TranslationExtractor
                 continue;
             }
             if (is_string($token)) {
-                if (in_array($token, static::$commaSpare)) {
-                    array_push($commaStack, $token);
-                } elseif (isset(static::$commaSpare[$token])) {
-                    if (array_pop($commaStack) !== static::$commaSpare[$token]) {
+                if (in_array($token, self::$commaSpare)) {
+                    $commaStack[] = $token;
+                } elseif (isset(self::$commaSpare[$token])) {
+                    if (array_pop($commaStack) !== self::$commaSpare[$token]) {
                         return null;
                     }
                 }
@@ -217,13 +225,14 @@ final class TranslationExtractor
 
         return [
             'id' => isset($parameters[0]) ? $this->getMessageStringFromTokens($parameters[0]) : null,
-            'parameters' => isset($parameters[1]) ? $parameters[1] : null,
+            'parameters' => $parameters[1] ?? null,
             'category' => isset($parameters[2]) ? $this->getMessageStringFromTokens($parameters[2]) : null,
         ];
     }
 
     /**
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     *
      * @return string|null
      */
     private function getMessageStringFromTokens(array $tokens): ?string
@@ -256,6 +265,7 @@ final class TranslationExtractor
      *
      * @param array{0: int, 1: string, 2: int}|string $a
      * @param array{0: int, 1: string, 2: int}|string $b
+     *
      * @return bool
      */
     private function tokensEqual($a, $b): bool

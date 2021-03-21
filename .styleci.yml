@@ -11,6 +11,7 @@ finder:
         - views
         - public
         - templates
+        - extractorExamples
     not-name:
         - UnionCar.php
         - TimerUnionTypes.php

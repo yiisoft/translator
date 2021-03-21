@@ -61,8 +61,8 @@ $translator->translate('message' . 'Id4', ["1", '2'], 'categoryName2');
 $translator->translate('message' . "Id" . 5, array(null, 2), 'categoryName2');
 $translator->translate("message" . 'Id' . 6, [null, 2], 'categoryName2');
 
-$translator->translate('messageId7', ['n'=>1], 'categoryName2');
-$translator->translate('messageId8', ['s', 't'=>2,], 'categoryName2');
+$translator->translate('messageId7', ['n' => 1], 'categoryName2');
+$translator->translate('messageId8', ['s', 't' => 2,], 'categoryName2');
 $translator->translate('message' . 'Id9', [0, 1, '2', 'n' => 3], 'categoryName2');
 $translator->translate('message' . 'Id10', [[]], 'categoryName2');
 
@@ -82,6 +82,6 @@ $translator->translate('Сообщение1', [], 'Категория1');
 $translator->translate('Сообщение2', $translator::test(),
     // 345
     'Категория1');
-$translator->translate->translate('Сообщение3' /* 123 */ , /* 123 */ $translator::test(), 'Категория1');
+$translator->translate->translate('Сообщение3' /* 123 */, /* 123 */ $translator::test(), 'Категория1');
 
 
