@@ -223,9 +223,9 @@ final class TranslationExtractor
         }
 
         return [
-            'id' => isset($parameters[0]) ? $this->getMessageStringFromTokens($parameters[0]) : null,
+            'id' => $this->getMessageStringFromTokens($parameters[0] ?? []),
             'parameters' => $parameters[1] ?? null,
-            'category' => isset($parameters[2]) ? $this->getMessageStringFromTokens($parameters[2]) : null,
+            'category' => $this->getMessageStringFromTokens($parameters[2] ?? []),
         ];
     }
 
@@ -236,7 +236,7 @@ final class TranslationExtractor
      */
     private function getMessageStringFromTokens(array $tokens): ?string
     {
-        if ($tokens[0][0] !== T_CONSTANT_ENCAPSED_STRING) {
+        if (empty($tokens) || $tokens[0][0] !== T_CONSTANT_ENCAPSED_STRING) {
             return null;
         }
 
