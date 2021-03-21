@@ -162,9 +162,9 @@ final class TranslationExtractor
 
                 if ($this->tokensEqual($token, $this->translatorTokens[$matchedTokensCount])) {
                     $matchedTokensCount++;
-                } else {
-                    $matchedTokensCount = 0;
+                    continue;
                 }
+                $matchedTokensCount = 0;
             }
         }
 
