@@ -197,7 +197,7 @@ final class TranslationExtractor
     /**
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
      *
-     * @return null|array{category: null|string, id: null|string, parameters: non-empty-list<array{0: int, 1: string, 2: int}|string>|null}
+     * @psalm-return null|array{category: null|string, id: null|string, parameters: non-empty-list<array{0: int, 1: string, 2: int}|string>|null}
      */
     private function splitTokensAsParams(array $tokens): ?array
     {
