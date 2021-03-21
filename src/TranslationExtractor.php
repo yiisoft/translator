@@ -145,9 +145,8 @@ final class TranslationExtractor
                         $pendingParenthesisCount = 0;
                         $buffer = [];
                         continue;
-                    } else {
-                        $pendingParenthesisCount--;
                     }
+                    $pendingParenthesisCount--;
                 } elseif ($this->tokensEqual($token, '(')) {
                     $pendingParenthesisCount++;
                 }
@@ -156,6 +155,7 @@ final class TranslationExtractor
                 if ($matchedTokensCount === $this->sizeOfTranslator) {
                     if ($this->tokensEqual($token, '(')) {
                         $isStartedTranslator = true;
+                        continue;
                     }
                     $matchedTokensCount = 0;
                 }
