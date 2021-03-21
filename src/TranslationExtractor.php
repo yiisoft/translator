@@ -133,7 +133,7 @@ final class TranslationExtractor
         $isStartedTranslator = false;
 
         foreach ($tokens as $tokenIndex => $token) {
-            if (is_array($token) && in_array($token[0], [T_WHITESPACE, T_COMMENT])) {
+            if (in_array($token[0], [T_WHITESPACE, T_COMMENT])) {
                 continue;
             }
 
@@ -162,9 +162,9 @@ final class TranslationExtractor
 
                 if ($this->tokensEqual($token, $this->translatorTokens[$matchedTokensCount])) {
                     $matchedTokensCount++;
-                    continue;
+                } else {
+                    $matchedTokensCount = 0;
                 }
-                $matchedTokensCount = 0;
             }
         }
 
