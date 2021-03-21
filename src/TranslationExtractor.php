@@ -171,9 +171,11 @@ final class TranslationExtractor
     }
 
     /**
+     * @param array $tokens
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
      *
-     * @psalm-return  array<array-key|string, mixed|non-empty-list<string>>
+     * @return array
+     * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
      */
     private function extractParametersFromTokens(array $tokens): array
     {
@@ -213,10 +215,8 @@ final class TranslationExtractor
             if (is_string($token)) {
                 if (in_array($token, self::$commaSpare)) {
                     $commaStack[] = $token;
-                } elseif (isset(self::$commaSpare[$token])) {
-                    if (array_pop($commaStack) !== self::$commaSpare[$token]) {
-                        return null;
-                    }
+                } elseif (isset(self::$commaSpare[$token])&& array_pop($commaStack) !== self::$commaSpare[$token]) {
+                    return null;
                 }
             }
             $parameters[$parameterIndex][] = $token;
