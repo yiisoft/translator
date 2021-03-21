@@ -168,7 +168,7 @@ final class TranslationExtractorTest extends TestCase
 
         $this->assertEquals([], $messages);
         $this->assertTrue($extractor->hasSkippedLines());
-        $this->assertCount($this->incorrectDataCount, $extractor->getSkippedLines()[$path . DIRECTORY_SEPARATOR . 'test.php']);
+        $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
     }
 
     /**
@@ -184,7 +184,7 @@ final class TranslationExtractorTest extends TestCase
 
         $this->assertEquals(['' => ['messageId1']], $messages);
         $this->assertTrue($extractor->hasSkippedLines());
-        $this->assertCount(1, $extractor->getSkippedLines()[$path . DIRECTORY_SEPARATOR . 'test.php']);
+        $this->assertCount(1, current($extractor->getSkippedLines()));
     }
 
     /**
@@ -201,7 +201,7 @@ final class TranslationExtractorTest extends TestCase
 
         $this->assertEquals($this->correctData, $messages);
         $this->assertTrue($extractor->hasSkippedLines());
-        $this->assertCount($this->incorrectDataCount, $extractor->getSkippedLines()[$path . DIRECTORY_SEPARATOR . 'incorrectSamples' . DIRECTORY_SEPARATOR . 'test.php']);
+        $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
     }
 
     /**
@@ -218,7 +218,7 @@ final class TranslationExtractorTest extends TestCase
 
         $this->assertEquals([], $messages);
         $this->assertTrue($extractor->hasSkippedLines());
-        $this->assertCount($this->incorrectDataCount, $extractor->getSkippedLines()[$path . DIRECTORY_SEPARATOR . 'incorrectSamples' . DIRECTORY_SEPARATOR . 'test.php']);
+        $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
     }
 
     /**
