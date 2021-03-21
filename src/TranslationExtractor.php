@@ -12,13 +12,27 @@ use Yiisoft\Files\PathMatcher\PathMatcher;
  */
 final class TranslationExtractor
 {
-    private string $translator='->translate';
+    private string $translator = '->translate';
+
+    /**
+     * @var array<string|array{0: int, 1: string, 2: int}>
+     */
+    private array $translatorTokens = [];
+    private int $sizeOfTranslator = 0;
+
     private array $skippedLines = [];
     private array $skippedLinesOfFile = [];
 
     private string $defaultCategory = '';
 
+    /**
+     * @var string[]
+     */
     private array $only = ['**.php'];
+
+    /**
+     * @var string[]
+     */
     private array $except = [
         '.svn',
         '.git',
@@ -35,28 +49,51 @@ final class TranslationExtractor
         '}' => '{',
     ];
 
-    public function extract(string $path, array $options = []): array
+    /**
+     * @param string $path
+     * @param string[]|null $only
+     * @param string[]|null $except
+     * @return array
+     */
+    public function extract(string $path, ?array $only = null, ?array $except = null): array
     {
         if (!is_dir($path)) {
             throw new \RuntimeException(sprintf('Directory "%s" does not exist.', $path));
         }
 
-        $messages = $this->getMessageFromPath($path, $options);
+        $translatorTokens = token_get_all('<?php ' . $this->translator);
+        array_shift($translatorTokens);
+        $this->translatorTokens = $translatorTokens;
+        $this->sizeOfTranslator = count($this->translatorTokens);
+
+
+        if ($this->sizeOfTranslator < 2) {
+            throw new \RuntimeException('Translator tokens cannot be shorttest 2 tokens.');
+        }
+
+        $messages = $this->getMessageFromPath($path, $only === null ? $this->only : $only, $except === null ? $this->except : $except);
 
         return $messages;
     }
 
-    private function getMessageFromPath(string $path, array $options = []): array
+    /**
+     * @param string $path
+     * @param string[] $only
+     * @param string[] $except
+     * @return array
+     */
+    private function getMessageFromPath(string $path, array $only, array $except): array
     {
         $messages = [];
 
         $files = FileHelper::findFiles($path, [
-            'filter' => (new PathMatcher())
-                ->only(... isset($options['only']) ? (array)$options['only'] : $this->only)
-                ->except(... isset($options['except']) ? (array)$options['except'] : $this->except),
+            'filter' => (new pathMatcher)->only(...$only)->except(...$except),
             'recursive' => true,
         ]);
 
+        /**
+         * @var string[] $files
+         */
         foreach ($files as $file) {
             $messages = array_merge_recursive($messages, $this->extractMessagesFromFile($file));
         }
@@ -69,11 +106,8 @@ final class TranslationExtractor
         $fileContent = file_get_contents($fileName);
         $tokens = token_get_all($fileContent);
 
-        $translatorTokens = token_get_all('<?php ' . $this->translator);
-        array_shift($translatorTokens);
-
         $this->skippedLinesOfFile = [];
-        $messages = $this->extractMessagesFromTokens($tokens, $translatorTokens);
+        $messages = $this->extractMessagesFromTokens($tokens);
 
         if (!empty($this->skippedLinesOfFile)) {
             $this->skippedLines[$fileName] = $this->skippedLinesOfFile;
@@ -82,13 +116,15 @@ final class TranslationExtractor
         return $messages;
     }
 
-    private function extractMessagesFromTokens(array $tokens, array $translatorTokens): array
+    /**
+     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     * @return array<array-key|string, mixed|non-empty-list<string>>
+     */
+    private function extractMessagesFromTokens(array $tokens): array
     {
         $messages = $buffer = [];
         $matchedTokensCount = $pendingParenthesisCount = 0;
         $isStartedTranslator = false;
-
-        $sizeofTranslator = count($translatorTokens);
 
         foreach ($tokens as $tokenIndex => $token) {
             if (is_array($token) && in_array($token[0], [T_WHITESPACE, T_COMMENT])) {
@@ -97,30 +133,28 @@ final class TranslationExtractor
 
             if ($isStartedTranslator) {
                 if ($this->tokensEqual($token, ')') && $pendingParenthesisCount === 0) {
-                    $messages = array_merge_recursive($messages, $this->extractParametersFromTokens($buffer, $translatorTokens));
+                    $messages = array_merge_recursive($messages, $this->extractParametersFromTokens($buffer));
                     $isStartedTranslator = false;
+                    $pendingParenthesisCount = 0;
+                    $buffer = [];
                 } else {
                     if ($this->tokensEqual($token, '(')) {
                         $pendingParenthesisCount++;
-                    } elseif($this->tokensEqual($token, ')')) {
+                    } elseif ($this->tokensEqual($token, ')')) {
                         $pendingParenthesisCount--;
                     }
                     $buffer[] = $token;
                 }
 
             } else {
-                if ($sizeofTranslator === $matchedTokensCount) {
+                if ($matchedTokensCount === $this->sizeOfTranslator) {
                     if ($this->tokensEqual($token, '(')) {
                         $isStartedTranslator = true;
-                        $pendingParenthesisCount = 0;
-                        $buffer = [];
-                        continue;
                     }
-
                     $matchedTokensCount = 0;
                 }
 
-                if ($this->tokensEqual($token, $translatorTokens[$matchedTokensCount])) {
+                if ($this->tokensEqual($token, $this->translatorTokens[$matchedTokensCount])) {
                     $matchedTokensCount++;
                 } else {
                     $matchedTokensCount = 0;
@@ -131,26 +165,34 @@ final class TranslationExtractor
         return $messages;
     }
 
-    private function extractParametersFromTokens(array $tokens, array $translatorTokens): array
+    /**
+     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     * @return array<array-key|string, mixed|non-empty-list<string>>
+     */
+    private function extractParametersFromTokens(array $tokens): array
     {
         $messages = [];
         $parameters = $this->splitTokensAsParams($tokens);
 
-        if ($parameters['id'] === null) {
+        if ($parameters === null || $parameters['id'] === null) {
             $this->skippedLinesOfFile[] = $tokens;
         } else {
             $messages[$parameters['category'] ?? $this->defaultCategory][] = $parameters['id'];
 
             // Get translation messages from parameters
             if ($parameters['parameters'] !== null) {
-                $messages = array_merge_recursive($messages, $this->extractMessagesFromTokens($parameters['parameters'], $translatorTokens));
+                $messages = array_merge_recursive($messages, $this->extractMessagesFromTokens($parameters['parameters']));
             }
         }
 
         return $messages;
     }
 
-    private function splitTokensAsParams(array $tokens): array
+    /**
+     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     * @return null|array{category: null|string, id: null|string, parameters: non-empty-list<array{0: int, 1: string, 2: int}|string>|null}
+     */
+    private function splitTokensAsParams(array $tokens): ?array
     {
         $parameters = [];
         $parameterIndex = 0;
@@ -164,9 +206,9 @@ final class TranslationExtractor
             if (is_string($token)) {
                 if (in_array($token, static::$commaSpare)) {
                     array_push($commaStack, $token);
-                } elseif(isset(static::$commaSpare[$token])) {
+                } elseif (isset(static::$commaSpare[$token])) {
                     if (array_pop($commaStack) !== static::$commaSpare[$token]) {
-                        return [];
+                        return null;
                     }
                 }
             }
@@ -180,6 +222,10 @@ final class TranslationExtractor
         ];
     }
 
+    /**
+     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     * @return string|null
+     */
     private function getMessageStringFromTokens(array $tokens): ?string
     {
         if ($tokens[0][0] !== T_CONSTANT_ENCAPSED_STRING) {
@@ -208,8 +254,8 @@ final class TranslationExtractor
     /**
      * Finds out if two PHP tokens are equal.
      *
-     * @param array|string $a
-     * @param array|string $b
+     * @param array{0: int, 1: string, 2: int}|string $a
+     * @param array{0: int, 1: string, 2: int}|string $b
      * @return bool
      */
     private function tokensEqual($a, $b): bool
@@ -239,5 +285,12 @@ final class TranslationExtractor
     public function setDefaultCategory(string $defaultCategory): void
     {
         $this->defaultCategory = $defaultCategory;
+    }
+
+    public function withTranslator(string $translator): self
+    {
+        $new = clone $this;
+        $new->translator = $translator;
+        return $new;
     }
 }
