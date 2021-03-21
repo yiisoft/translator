@@ -177,18 +177,18 @@ final class TranslationExtractor
      */
     private function extractParametersFromTokens(array $tokens): array
     {
-        $messages = [];
         $parameters = $this->splitTokensAsParams($tokens);
 
         if ($parameters === null || $parameters['id'] === null) {
             $this->skippedLinesOfFile[] = $tokens;
-        } else {
-            $messages[$parameters['category'] ?? $this->defaultCategory][] = $parameters['id'];
+            return [];
+        }
 
-            // Get translation messages from parameters
-            if ($parameters['parameters'] !== null) {
-                $messages = array_merge_recursive($messages, $this->extractMessagesFromTokens($parameters['parameters']));
-            }
+        $messages = [$parameters['category'] ?? $this->defaultCategory => [$parameters['id']]];
+
+        // Get translation messages from parameters
+        if ($parameters['parameters'] !== null) {
+            $messages = array_merge_recursive($messages, $this->extractMessagesFromTokens($parameters['parameters']));
         }
 
         return $messages;
