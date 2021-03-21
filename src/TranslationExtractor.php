@@ -181,7 +181,7 @@ final class TranslationExtractor
     {
         $parameters = $this->splitTokensAsParams($tokens);
 
-        if ($parameters === null || $parameters['id'] === null) {
+        if (!isset($parameters['id'])) {
             $this->skippedLinesOfFile[] = $tokens;
             return [];
         }
@@ -189,7 +189,7 @@ final class TranslationExtractor
         $messages = [$parameters['category'] ?? $this->defaultCategory => [$parameters['id']]];
 
         // Get translation messages from parameters
-        if ($parameters['parameters'] !== null) {
+        if (isset($parameters['parameters'])) {
             $messages = array_merge_recursive($messages, $this->extractMessagesFromTokens($parameters['parameters']));
         }
 
@@ -199,9 +199,9 @@ final class TranslationExtractor
     /**
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
      *
-     * @psalm-return null|array{category: null|string, id: null|string, parameters: non-empty-list<array{0: int, 1: string, 2: int}|string>|null}
+     * @psalm-return array{category?: null|string, id?: null|string, parameters?: null|list<array{0: int, 1: string, 2: int}|string>}
      */
-    private function splitTokensAsParams(array $tokens): ?array
+    private function splitTokensAsParams(array $tokens): array
     {
         $parameters = [];
         $parameterIndex = 0;
@@ -216,7 +216,7 @@ final class TranslationExtractor
                 if (in_array($token, self::$commaSpare)) {
                     $commaStack[] = $token;
                 } elseif (isset(self::$commaSpare[$token])&& array_pop($commaStack) !== self::$commaSpare[$token]) {
-                    return null;
+                    return [];
                 }
             }
             $parameters[$parameterIndex][] = $token;
