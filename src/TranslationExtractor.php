@@ -138,19 +138,20 @@ final class TranslationExtractor
             }
 
             if ($isStartedTranslator) {
-                if ($pendingParenthesisCount === 0 && $this->tokensEqual($token, ')')) {
-                    $messages = array_merge_recursive($messages, $this->extractParametersFromTokens($buffer));
-                    $isStartedTranslator = false;
-                    $pendingParenthesisCount = 0;
-                    $buffer = [];
-                } else {
-                    if ($this->tokensEqual($token, '(')) {
-                        $pendingParenthesisCount++;
-                    } elseif ($this->tokensEqual($token, ')')) {
+                if ($this->tokensEqual($token, ')')) {
+                    if ($pendingParenthesisCount === 0) {
+                        $messages = array_merge_recursive($messages, $this->extractParametersFromTokens($buffer));
+                        $isStartedTranslator = false;
+                        $pendingParenthesisCount = 0;
+                        $buffer = [];
+                        continue;
+                    } else {
                         $pendingParenthesisCount--;
                     }
-                    $buffer[] = $token;
+                } elseif ($this->tokensEqual($token, '(')) {
+                    $pendingParenthesisCount++;
                 }
+                $buffer[] = $token;
             } else {
                 if ($matchedTokensCount === $this->sizeOfTranslator) {
                     if ($this->tokensEqual($token, '(')) {
