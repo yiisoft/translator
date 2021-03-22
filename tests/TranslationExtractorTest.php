@@ -12,7 +12,7 @@ use Yiisoft\Translator\Extractor\TranslationExtractor;
  */
 final class TranslationExtractorTest extends TestCase
 {
-    private int $incorrectDataCount = 15;
+    private int $incorrectDataCount = 16;
 
     public function testDirectoryExists(): void
     {

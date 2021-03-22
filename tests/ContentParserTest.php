@@ -12,7 +12,7 @@ use Yiisoft\Translator\Extractor\ContentParser;
  */
 final class ContentParserTest extends TestCase
 {
-    private int $incorrectDataCount = 15;
+    private int $incorrectDataCount = 16;
 
     private array $correctDataStatic = [
         'defaultCategory' => [
