@@ -42,6 +42,7 @@ final class TranslationExtractor
 
     /**
      * TranslationExtractor constructor.
+     *
      * @param string $path
      * @param string[]|null $only
      * @param string[]|null $except

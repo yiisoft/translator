@@ -63,9 +63,11 @@ final class ContentParser
 
     /**
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     *
      * @param array $tokens
      *
      * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
+     *
      * @return array
      */
     private function extractMessagesFromTokens(array $tokens): array
