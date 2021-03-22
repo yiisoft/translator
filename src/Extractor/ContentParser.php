@@ -128,7 +128,7 @@ final class ContentParser
     {
         $parameters = $this->splitTokensAsParams($tokens);
 
-        if (!isset($parameters['id'])) {
+        if (empty($parameters) || !isset($parameters['id'])) {
             $this->skippedLines[] = $tokens;
             return [];
         }
