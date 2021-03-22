@@ -12,85 +12,7 @@ use Yiisoft\Translator\Extractor\TranslationExtractor;
  */
 final class TranslationExtractorTest extends TestCase
 {
-    private $incorrectDataCount = 15;
-    private $correctData = [
-        'defaultCategory' => [
-            '',
-            '',
-            'messageId1',
-            'messageId2',
-            'messageId3',
-            'messageId4',
-            'messageId5',
-            'messageId6',
-            'messageId7',
-            'messageId8',
-            'messageId9',
-            'messageId10',
-            'messageId11',
-            'messageId12',
-            'messageId1.3',
-            'messageId1.4',
-            'messageId15',
-            'messageId16',
-            'messageId17',
-            'messageId18',
-            'messageId19',
-        ],
-        'categoryName' => [
-            'messageId1',
-            'messageId2',
-            'messageId3',
-            'messageId4',
-            'messageId5',
-            'messageId6',
-            'messageId7',
-            'messageId8',
-            'messageId9',
-            'messageId10',
-            'messageId11',
-            'messageId12',
-            'messageId1.3',
-            'messageId1.4',
-            'messageId15',
-            'messageId16',
-            'messageId17',
-        ],
-        'categoryName2' => [
-            'messageId1',
-            'messageId2',
-            'messageId3',
-            'messageId4',
-            'messageId5',
-            'messageId6',
-            'messageId7',
-            'messageId8',
-            'messageId9',
-            'messageId10',
-            'messageId11',
-            'messageId12',
-            'messageId1.3',
-            'messageId1.4',
-            'messageId15',
-            'messageId16',
-            'messageId17',
-            'messageId18',
-        ],
-        'Категория1' => [
-            'Сообщение1',
-            'Сообщение2',
-            'Сообщение3',
-        ],
-    ];
-
-    private $correctDataStatic = [
-        'defaultCategory' => [
-            'messageId1',
-            'messageId2',
-            'messageId3',
-            'messageId4',
-        ],
-    ];
+    private int $incorrectDataCount = 15;
 
     public function testDirectoryExists(): void
     {
@@ -103,36 +25,6 @@ final class TranslationExtractorTest extends TestCase
         $extractor->extract();
     }
 
-//    public function testWithTranslatorAndCorrectData(): void
-//    {
-//        $path = __DIR__ . DIRECTORY_SEPARATOR . 'extractorExamples' . DIRECTORY_SEPARATOR . 'synthetic' . DIRECTORY_SEPARATOR . 'correctSamples';
-//
-//        $extractor = new TranslationExtractor();
-//        $extractorNew = $extractor->withTranslator('$translator::translate');
-//        $extractorNew->setDefaultCategory('defaultCategory');
-//
-//        $this->assertNotEquals($extractor->getDefaultCategory(), $extractorNew->getDefaultCategory());
-//
-//        $messages = $extractorNew->extract($path);
-//
-//        $this->assertEquals($this->correctDataStatic, $messages);
-//        $this->assertFalse($extractorNew->hasSkippedLines());
-//    }
-//
-//    public function testWithEmptyTranslatorAndCorrectData(): void
-//    {
-//        $path = __DIR__ . DIRECTORY_SEPARATOR . 'extractorExamples' . DIRECTORY_SEPARATOR . 'synthetic' . DIRECTORY_SEPARATOR . 'correctSamples';
-//
-//        $this->expectException(\RuntimeException::class);
-//        $this->expectExceptionMessage('Translator tokens cannot be shorttest 2 tokens.');
-//
-//        $extractor = (new TranslationExtractor())->withTranslator('->');
-//        $extractor->setDefaultCategory('defaultCategory');
-//
-//        $extractor->extract($path);
-//    }
-//
-
     public function testExtractorWithOnlyCorrectData(): void
     {
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'extractorExamples' . DIRECTORY_SEPARATOR . 'synthetic' . DIRECTORY_SEPARATOR . 'correctSamples';
@@ -140,7 +32,9 @@ final class TranslationExtractorTest extends TestCase
         $extractor = new TranslationExtractor($path);
         $messages = $extractor->extract('defaultCategory');
 
-        $this->assertEquals($this->correctData, $messages);
+        $correctData = include 'data/correct-data.php';
+
+        $this->assertEquals($correctData, $messages);
         $this->assertFalse($extractor->hasSkippedLines());
     }
 
@@ -178,7 +72,9 @@ final class TranslationExtractorTest extends TestCase
 
         $messages = $extractor->extract('defaultCategory');
 
-        $this->assertEquals($this->correctData, $messages);
+        $correctData = include 'data/correct-data.php';
+
+        $this->assertEquals($correctData, $messages);
         $this->assertTrue($extractor->hasSkippedLines());
         $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
     }
@@ -196,9 +92,6 @@ final class TranslationExtractorTest extends TestCase
         $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
     }
 
-    /**
-     * @group extractor
-     */
     public function testExtractorWithRealDataFromExtensionUser(): void
     {
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'extractorExamples' . DIRECTORY_SEPARATOR . 'user-main';

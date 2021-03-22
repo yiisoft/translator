@@ -52,6 +52,7 @@ final class ContentParser
      * @param string $content
      *
      * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
+     * @return array[]
      */
     public function extract(string $content): array
     {

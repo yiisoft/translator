@@ -12,78 +12,9 @@ use Yiisoft\Translator\Extractor\ContentParser;
  */
 final class ContentParserTest extends TestCase
 {
-    private $incorrectDataCount = 15;
-    private $correctData = [
-        'defaultCategory' => [
-            '',
-            '',
-            'messageId1',
-            'messageId2',
-            'messageId3',
-            'messageId4',
-            'messageId5',
-            'messageId6',
-            'messageId7',
-            'messageId8',
-            'messageId9',
-            'messageId10',
-            'messageId11',
-            'messageId12',
-            'messageId1.3',
-            'messageId1.4',
-            'messageId15',
-            'messageId16',
-            'messageId17',
-            'messageId18',
-            'messageId19',
-        ],
-        'categoryName' => [
-            'messageId1',
-            'messageId2',
-            'messageId3',
-            'messageId4',
-            'messageId5',
-            'messageId6',
-            'messageId7',
-            'messageId8',
-            'messageId9',
-            'messageId10',
-            'messageId11',
-            'messageId12',
-            'messageId1.3',
-            'messageId1.4',
-            'messageId15',
-            'messageId16',
-            'messageId17',
-        ],
-        'categoryName2' => [
-            'messageId1',
-            'messageId2',
-            'messageId3',
-            'messageId4',
-            'messageId5',
-            'messageId6',
-            'messageId7',
-            'messageId8',
-            'messageId9',
-            'messageId10',
-            'messageId11',
-            'messageId12',
-            'messageId1.3',
-            'messageId1.4',
-            'messageId15',
-            'messageId16',
-            'messageId17',
-            'messageId18',
-        ],
-        'Категория1' => [
-            'Сообщение1',
-            'Сообщение2',
-            'Сообщение3',
-        ],
-    ];
+    private int $incorrectDataCount = 15;
 
-    private $correctDataStatic = [
+    private array $correctDataStatic = [
         'defaultCategory' => [
             'messageId1',
             'messageId2',
@@ -125,7 +56,7 @@ final class ContentParserTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Translator tokens cannot be shorttest 2 tokens.');
 
-        $extractor = new ContentParser(null, '->');
+        new ContentParser(null, '->');
     }
 
     public function testExtractorWithOnlyCorrectData(): void
@@ -138,7 +69,9 @@ final class ContentParserTest extends TestCase
 
         $messages = $extractor->extract($fileContent);
 
-        $this->assertEquals($this->correctData, $messages);
+        $correctData = include 'data/correct-data.php';
+
+        $this->assertEquals($correctData, $messages);
         $this->assertFalse($extractor->hasSkippedLines());
     }
 
@@ -169,19 +102,4 @@ final class ContentParserTest extends TestCase
         $this->assertTrue($extractor->hasSkippedLines());
         $this->assertCount(1, $extractor->getSkippedLines());
     }
-
-//    /**
-//     * @group extractor
-//     */
-//    public function testExtractorWithRealDataFromExtensionUser(): void
-//    {
-//        $path = __DIR__ . DIRECTORY_SEPARATOR . 'extractorExamples' . DIRECTORY_SEPARATOR . 'user-main';
-//
-//        $extractor = new TranslationExtractor();
-//
-//        $messages = $extractor->extract($path, ['**.php']);
-//
-//        $this->assertCount(75, $messages['user']);
-//        $this->assertFalse($extractor->hasSkippedLines());
-//    }
 }
