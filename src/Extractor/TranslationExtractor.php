@@ -34,12 +34,6 @@ final class TranslationExtractor
         '/messages',
     ];
 
-    private static array $commaSpare = [
-        ')' => '(',
-        ']' => '[',
-        '}' => '{',
-    ];
-
     /**
      * TranslationExtractor constructor.
      *
