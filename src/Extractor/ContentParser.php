@@ -223,11 +223,6 @@ final class ContentParser
         return $a[0] === $b[0] && $a[1] === $b[1];
     }
 
-    public function getDefaultCategory(): string
-    {
-        return $this->defaultCategory;
-    }
-
     public function setDefaultCategory(string $defaultCategory): void
     {
         $this->defaultCategory = $defaultCategory;

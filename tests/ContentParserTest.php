@@ -25,16 +25,19 @@ final class ContentParserTest extends TestCase
 
     public function testSettersExtractor(): void
     {
-        $parser = new ContentParser();
-        $this->assertEquals('', $parser->getDefaultCategory());
+        $fileName = __DIR__ . '/extractorExamples/synthetic/correctSamples/test-static.php';
+        $fileContent = file_get_contents($fileName);
 
-        $oldDefaultCategoryName = 'oldDefaultCategory';
-        $parser = new ContentParser($oldDefaultCategoryName);
-        $this->assertEquals($oldDefaultCategoryName, $parser->getDefaultCategory());
+        $parser = new ContentParser('', '$translator::translate');
+        $messages = $parser->extract($fileContent);
+
+        $this->assertEquals([''], array_keys($messages));
 
         $defaultCategoryName = 'defaultCategory';
         $parser->setDefaultCategory($defaultCategoryName);
-        $this->assertEquals($defaultCategoryName, $parser->getDefaultCategory());
+        $messages = $parser->extract($fileContent);
+
+        $this->assertEquals(['defaultCategory'], array_keys($messages));
     }
 
     public function testWithTranslatorAndCorrectData(): void
