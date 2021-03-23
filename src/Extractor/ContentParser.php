@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Translator\Extractor;
 
 /**
- * Extractor messages
+ * Extracts translation keys from a string given.
  */
 final class ContentParser
 {
@@ -18,7 +18,7 @@ final class ContentParser
 
     private string $defaultCategory = '';
 
-    private static array $commaSpare = [
+    private static array $brackets = [
         ')' => '(',
         ']' => '[',
         '}' => '{',
@@ -32,7 +32,7 @@ final class ContentParser
     public function __construct(?string $defaultCategory = null, ?string $translator = null)
     {
         $this->defaultCategory = $defaultCategory ?? $this->defaultCategory;
-        $this->setTranslator($translator === null ? $this->translator : $translator);
+        $this->setTranslator($translator ?? $this->translator);
     }
 
     private function setTranslator(string $translator): void
@@ -78,8 +78,8 @@ final class ContentParser
         $matchedTokensCount = $pendingParenthesisCount = 0;
         $isStartedTranslator = false;
 
-        foreach ($tokens as $tokenIndex => $token) {
-            if (in_array($token[0], [T_WHITESPACE, T_COMMENT])) {
+        foreach ($tokens as $token) {
+            if (in_array($token[0], [T_WHITESPACE, T_COMMENT], true)) {
                 continue;
             }
 
@@ -160,9 +160,9 @@ final class ContentParser
                 continue;
             }
             if (is_string($token)) {
-                if (in_array($token, self::$commaSpare)) {
+                if (in_array($token, self::$brackets, true)) {
                     $commaStack[] = $token;
-                } elseif (isset(self::$commaSpare[$token]) && array_pop($commaStack) !== self::$commaSpare[$token]) {
+                } elseif (isset(self::$brackets[$token]) && array_pop($commaStack) !== self::$brackets[$token]) {
                     return [];
                 }
             }
@@ -220,7 +220,7 @@ final class ContentParser
             return $a === $b;
         }
 
-        return $a[0] === $b[0] && $a[1] == $b[1];
+        return $a[0] === $b[0] && $a[1] === $b[1];
     }
 
     public function getDefaultCategory(): string

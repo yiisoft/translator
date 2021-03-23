@@ -79,7 +79,7 @@ final class TranslationExtractorTest extends TestCase
         $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
     }
 
-    public function testExtractorWithMixedDataExcludeCorrect(): void
+    public function testExtractorWithMixedDataAndCorrectExclude(): void
     {
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'extractorExamples' . DIRECTORY_SEPARATOR . 'synthetic';
 
@@ -92,7 +92,7 @@ final class TranslationExtractorTest extends TestCase
         $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
     }
 
-    public function testExtractorWithRealDataFromExtensionUser(): void
+    public function testExtractorWithRealDataFromUserExtension(): void
     {
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'extractorExamples' . DIRECTORY_SEPARATOR . 'user-main';
 

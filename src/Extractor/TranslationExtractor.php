@@ -8,7 +8,7 @@ use Yiisoft\Files\FileHelper;
 use Yiisoft\Files\PathMatcher\PathMatcher;
 
 /**
- * Extractor messages
+ * Extracts translator IDs from files within a given path.
  */
 final class TranslationExtractor
 {
@@ -19,9 +19,6 @@ final class TranslationExtractor
 
     /** @psalm-var array<string, array<array<string|array{0: int, 1: string, 2: int}>>> */
     private array $skippedLines = [];
-
-    /** @psalm-suppress PropertyNotSetInConstructor */
-    private ?ContentParser $parser;
 
     /** @var string[] */
     private array $except = [
@@ -49,11 +46,11 @@ final class TranslationExtractor
 
         $this->path = $path;
 
-        if (isset($only)) {
+        if ($only !== null) {
             $this->only = $only;
         }
 
-        if (isset($except)) {
+        if ($except !== null) {
             $this->except = $except;
         }
     }
@@ -67,7 +64,7 @@ final class TranslationExtractor
     public function extract(?string $defaultCategory = null, ?string $translator = null): array
     {
         $messages = [];
-        $this->parser = new ContentParser($defaultCategory, $translator);
+        $parser = new ContentParser($defaultCategory, $translator);
 
         $files = FileHelper::findFiles($this->path, [
             'filter' => (new pathMatcher())->only(...$this->only)->except(...$this->except),
@@ -77,9 +74,9 @@ final class TranslationExtractor
         /** @var string[] $files */
         foreach ($files as $file) {
             $fileContent = file_get_contents($file);
-            $messages = array_merge_recursive($messages, $this->parser->extract($fileContent));
-            if ($this->parser->hasSkippedLines()) {
-                $this->skippedLines[$file] = $this->parser->getSkippedLines();
+            $messages = array_merge_recursive($messages, $parser->extract($fileContent));
+            if ($parser->hasSkippedLines()) {
+                $this->skippedLines[$file] = $parser->getSkippedLines();
             }
         }
 
