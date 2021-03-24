@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Translator\Extractor;
 
+use RuntimeException;
+
 /**
  * Extracts translation keys from a string given.
  */
@@ -14,7 +16,7 @@ final class ContentParser
     /** @var array<string|array{0: int, 1: string, 2: int}> */
     private array $translatorTokens = [];
 
-    private int $sizeOfTranslator = 0;
+    private int $translatorTokenCount = 0;
 
     private string $defaultCategory = '';
 
@@ -38,10 +40,10 @@ final class ContentParser
         $translatorTokens = token_get_all('<?php ' . $this->translator);
         array_shift($translatorTokens);
         $this->translatorTokens = $translatorTokens;
-        $this->sizeOfTranslator = count($this->translatorTokens);
+        $this->translatorTokenCount = count($this->translatorTokens);
 
-        if ($this->sizeOfTranslator < 2) {
-            throw new \RuntimeException('Translator tokens cannot be shorttest 2 tokens.');
+        if ($this->translatorTokenCount < 2) {
+            throw new RuntimeException('Translator cannot contain less than 2 tokens.');
         }
     }
 
@@ -101,9 +103,9 @@ final class ContentParser
                 }
                 $buffer[] = $token;
             } else {
-                if ($matchedTokensCount === $this->sizeOfTranslator) {
+                if ($matchedTokensCount === $this->translatorTokenCount) {
                     if ($this->tokensEqual($token, '(')) {
-                        $startTranslatorTokenIndex = $indexToken - $this->sizeOfTranslator;
+                        $startTranslatorTokenIndex = $indexToken - $this->translatorTokenCount;
                         continue;
                     }
                     $matchedTokensCount = 0;
@@ -198,7 +200,7 @@ final class ContentParser
         while ($i < $countTokens && $tokens[$i] === '.') {
             if ($tokens[$i + 1][0] === T_CONSTANT_ENCAPSED_STRING) {
                 $fullMessage .= substr($tokens[$i + 1][1], 1, -1);
-            } elseif (in_array($tokens[$i + 1][0], [T_LNUMBER, T_DNUMBER])) {
+            } elseif (in_array($tokens[$i + 1][0], [T_LNUMBER, T_DNUMBER], true)) {
                 $fullMessage .= $tokens[$i + 1][1];
             } else {
                 return null;

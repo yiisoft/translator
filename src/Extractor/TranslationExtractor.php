@@ -93,7 +93,7 @@ final class TranslationExtractor
      *     'fileName' => [
      *         [
      *             int $numberOfLine,
-     *             string $incorrectedLine,
+     *             string $incorrectLine,
      *         ],
      *     ],
      * ]
