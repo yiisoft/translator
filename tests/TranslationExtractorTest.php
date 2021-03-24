@@ -97,7 +97,7 @@ final class TranslationExtractorTest extends TestCase
     }
 
     /**
-     * Test exxtractor on real package: yii-extension/user
+     * Test extractor on real package: yii-extension/user
      *
      * @link https://github.com/yii-extension/user
      */
