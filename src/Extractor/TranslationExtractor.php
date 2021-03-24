@@ -98,6 +98,7 @@ final class TranslationExtractor
      *     ],
      * ]
      * ```
+     *
      * @return array
      */
     public function getSkippedLines(): array

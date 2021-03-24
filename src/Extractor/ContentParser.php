@@ -127,7 +127,7 @@ final class ContentParser
      *
      * @psalm-return null|array<array-key|string, mixed|non-empty-list<string>>
      *
-     * @return null|array
+     * @return array|null
      */
     private function extractParametersFromTokens(array $tokens): ?array
     {
