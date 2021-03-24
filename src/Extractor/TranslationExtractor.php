@@ -17,7 +17,6 @@ final class TranslationExtractor
     /** @var string[] */
     private array $only = ['**.php'];
 
-    /** @psalm-var array<string, array<array<string|array{0: int, 1: string, 2: int}>>> */
     private array $skippedLines = [];
 
     /** @var string[] */
@@ -89,7 +88,17 @@ final class TranslationExtractor
     }
 
     /**
-     * @psalm-return array<string, array<array<string|array{0: int, 1: string, 2: int}>>>
+     * ```php
+     * return [
+     *     'fileName' => [
+     *         [
+     *             int $numberOfLine,
+     *             string $incorrectedLine,
+     *         ],
+     *     ],
+     * ]
+     * ```
+     * @return array
      */
     public function getSkippedLines(): array
     {

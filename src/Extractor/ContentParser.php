@@ -24,9 +24,6 @@ final class ContentParser
         '}' => '{',
     ];
 
-    /**
-     * @psalm-var array<array<string|array{0: int, 1: string, 2: int}>>
-     */
     private array $skippedLines = [];
 
     public function __construct(?string $defaultCategory = null, ?string $translator = null)
@@ -64,7 +61,7 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     * @psalm-param array<integer, string|array{0: int, 1: string, 2: int}> $tokens
      *
      * @param array $tokens
      *
@@ -76,18 +73,24 @@ final class ContentParser
     {
         $messages = $buffer = [];
         $matchedTokensCount = $pendingParenthesisCount = 0;
-        $isStartedTranslator = false;
+        $startTranslatorTokenIndex = 0;
 
-        foreach ($tokens as $token) {
+        foreach ($tokens as $indexToken => $token) {
             if (in_array($token[0], [T_WHITESPACE, T_COMMENT], true)) {
                 continue;
             }
 
-            if ($isStartedTranslator) {
+            if ($startTranslatorTokenIndex) {
                 if ($this->tokensEqual($token, ')')) {
                     if ($pendingParenthesisCount === 0) {
-                        $messages = array_merge_recursive($messages, $this->extractParametersFromTokens($buffer));
-                        $isStartedTranslator = false;
+                        $result = $this->extractParametersFromTokens($buffer);
+                        if ($result === null) {
+                            $skippedTokens = array_slice($tokens, $startTranslatorTokenIndex, $indexToken - $startTranslatorTokenIndex + 1);
+                            $this->skippedLines[] = $this->getLinesData($skippedTokens);
+                        } else {
+                            $messages = array_merge_recursive($messages, $result);
+                        }
+                        $startTranslatorTokenIndex = 0;
                         $pendingParenthesisCount = 0;
                         $buffer = [];
                         continue;
@@ -100,7 +103,7 @@ final class ContentParser
             } else {
                 if ($matchedTokensCount === $this->sizeOfTranslator) {
                     if ($this->tokensEqual($token, '(')) {
-                        $isStartedTranslator = true;
+                        $startTranslatorTokenIndex = $indexToken - $this->sizeOfTranslator;
                         continue;
                     }
                     $matchedTokensCount = 0;
@@ -118,19 +121,20 @@ final class ContentParser
     }
 
     /**
-     * @param array $tokens
      * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
      *
-     * @return array
-     * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
+     * @param array $tokens
+     *
+     * @psalm-return null|array<array-key|string, mixed|non-empty-list<string>>
+     *
+     * @return null|array
      */
-    private function extractParametersFromTokens(array $tokens): array
+    private function extractParametersFromTokens(array $tokens): ?array
     {
         $parameters = $this->splitTokensAsParams($tokens);
 
         if (!isset($parameters['id'])) {
-            $this->skippedLines[] = $tokens;
-            return [];
+            return null;
         }
 
         $messages = [$parameters['category'] ?? $this->defaultCategory => [$parameters['id']]];
@@ -223,6 +227,30 @@ final class ContentParser
         return $a[0] === $b[0] && $a[1] === $b[1];
     }
 
+    /**
+     * @param array $tokens
+     *
+     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     *
+     * @return array
+     */
+    private function getLinesData(array $tokens): array
+    {
+        $startLine = null;
+        $codeLines = '';
+        foreach ($tokens as $token) {
+            if (is_array($token)) {
+                if ($startLine === null) {
+                    $startLine = $token[2];
+                }
+                $codeLines .= $token[1];
+            } else {
+                $codeLines .= $token;
+            }
+        }
+        return [$startLine, $codeLines];
+    }
+
     public function setDefaultCategory(string $defaultCategory): void
     {
         $this->defaultCategory = $defaultCategory;
@@ -233,9 +261,6 @@ final class ContentParser
         return !empty($this->skippedLines);
     }
 
-    /**
-     * @psalm-return array<array<string|array{0: int, 1: string, 2: int}>>
-     */
     public function getSkippedLines(): array
     {
         return $this->skippedLines;

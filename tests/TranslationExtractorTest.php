@@ -12,7 +12,15 @@ use Yiisoft\Translator\Extractor\TranslationExtractor;
  */
 final class TranslationExtractorTest extends TestCase
 {
-    private int $incorrectDataCount = 16;
+    private array $correctData = [];
+    private array $incorrectData = [];
+
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    {
+        $this->correctData = include 'data/correct-data.php';
+        $this->incorrectData = include 'data/incorrect-data.php';
+        parent::__construct($name, $data, $dataName);
+    }
 
     public function testDirectoryExists(): void
     {
@@ -32,9 +40,7 @@ final class TranslationExtractorTest extends TestCase
         $extractor = new TranslationExtractor($path);
         $messages = $extractor->extract('defaultCategory');
 
-        $correctData = include 'data/correct-data.php';
-
-        $this->assertEquals($correctData, $messages);
+        $this->assertEquals($this->correctData, $messages);
         $this->assertFalse($extractor->hasSkippedLines());
     }
 
@@ -48,7 +54,7 @@ final class TranslationExtractorTest extends TestCase
 
         $this->assertEquals([], $messages);
         $this->assertTrue($extractor->hasSkippedLines());
-        $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
+        $this->assertEquals($this->incorrectData, current($extractor->getSkippedLines()));
     }
 
     public function testExtractorWithOnlyBrokenData(): void
@@ -72,11 +78,9 @@ final class TranslationExtractorTest extends TestCase
 
         $messages = $extractor->extract('defaultCategory');
 
-        $correctData = include 'data/correct-data.php';
-
-        $this->assertEquals($correctData, $messages);
+        $this->assertEquals($this->correctData, $messages);
         $this->assertTrue($extractor->hasSkippedLines());
-        $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
+        $this->assertEquals($this->incorrectData, current($extractor->getSkippedLines()));
     }
 
     public function testExtractorWithMixedDataAndCorrectExclude(): void
@@ -89,9 +93,13 @@ final class TranslationExtractorTest extends TestCase
 
         $this->assertEquals([], $messages);
         $this->assertTrue($extractor->hasSkippedLines());
-        $this->assertCount($this->incorrectDataCount, current($extractor->getSkippedLines()));
+        $this->assertEquals($this->incorrectData, current($extractor->getSkippedLines()));
     }
 
+    /**
+     * Test exxtractor on real package: yii-extension/user
+     * @link https://github.com/yii-extension/user
+     */
     public function testExtractorWithRealDataFromUserExtension(): void
     {
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'extractorExamples' . DIRECTORY_SEPARATOR . 'user-main';

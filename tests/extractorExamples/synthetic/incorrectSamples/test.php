@@ -23,7 +23,9 @@ $translator->translate('messageId' . 2 . $translator::test, function() {});
 $translator->translate($translator::test, function() {});
 $translator->translate($translator::test . 'messageId', function() {});
 
-$translator->translate('messageId', function() {]);
+$translator->translate('messageId',
+function() {]
+);
 
 $translator::test();
 $translator->notTranslate('Сообщение2', $translator::test(), 'Категория1');
