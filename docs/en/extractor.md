@@ -1,6 +1,6 @@
 ## Translation Extractor
 
-Using for extracts translate messages from many php files
+Extractor can get messages to translate from a set of PHP files. Usage is the following:
 
 ```php
 $path = '/path/to/your/project';
@@ -11,10 +11,11 @@ $defaultCategory = 'defaultCategoryName';
 $translatorCall = '->translate';
 
 $messages = $extractor->extract($defaultCategory, $translatorCall);
-// Result is same as from `extract` function of ContentParser
+// Result is same as from `extract` function of ContentParser (see below).
 ```
 
-### Adding files with extension not `.php` or skipping some directories
+### Adding files with non-`.php` extension or skipping some directories
+
 ```php
 $path = '/path/to/your/project';
 $only = ['**.php', '**.php7'];
@@ -22,9 +23,11 @@ $except = ['**/brokenSamples/*'];
 $extractor = new \Yiisoft\Translator\Extractor\TranslationExtractor($path, $only, $except);
 ```
 
-For more info about parameters `only` and `except` see in package [yiisoft/files](https://github.com/yiisoft/files)
+For more information about `only` and `except` parameters [see yiisoft/files](https://github.com/yiisoft/files).
 
-### Getting skipped lines from your project (with some complexity parameters - with callback, constants etc.)
+### Getting a list of issues while extracting messages
+
+In case you have complicated parameters, such as callbacks, constants etc., extractor may skip some lines:
 
 ```php
 /** @var \Yiisoft\Translator\Extractor\TranslationExtractor $extractor */
@@ -45,21 +48,22 @@ if ($extractor->hasSkippedLines()) {
 }
 ```
 
-## Direct content parse
+## Parsing content directly
 
-Using for extracts translate messages from single php file
+Extractor uses `ContentParser` internally which is applied to each file. You may want to apply it to a single file
+as well:
 
 ```php
 /**
- * Default category for messages without setted category in translator call. 
- * Example $translator->translate('SimpleText');
- * Optional. By default this value equal empty string
+ * Default category for messages without translator call category set. 
+ * For example, $translator->translate('SimpleText');
+ * Optional. By default this value equals empty string.
  */
 $defaultCategory = 'defaultCategoryName';
 /**
  * 
- * Translator function call signature
- * Optional. By default using default call signature `->translate`
+ * Translator method call signature.
+ * Optional. By default using default call signature `->translate`.
  */  
 $translatorCall = '::translate';
 
@@ -67,9 +71,12 @@ $parser = new \Yiisoft\Translator\Extractor\ContentParser($defaultCategory, $tra
 
 $fileContent = file_get_contents('some_file.php');
 $messages = $parser->extract($fileContent);
-/**
- Into variable $messages will be returned array:
- [
+```
+
+`$messages` will contain the following array:
+
+```php
+[
     'defaultCategoryName' => [
         'messageId1',
         'messageId2',
@@ -78,6 +85,5 @@ $messages = $parser->extract($fileContent);
         'messageId3',
         'messageId4',
     ],
- ]
- */
+]
 ```
