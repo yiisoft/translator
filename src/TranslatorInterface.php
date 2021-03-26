@@ -37,6 +37,7 @@ interface TranslatorInterface
      * @param string $id The ID of the message to be translated. It can be either artificial ID or the source message.
      * @param array  $parameters An array of parameters for the message.
      * @psalm-param array<string, mixed> $parameters
+     *
      * @param string|null $category The message category. Null means default category.
      * @param string|null $locale The target locale. Null means default locale.
      *

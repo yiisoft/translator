@@ -48,6 +48,7 @@ final class CategorySource
      * @param string $message Message to be formatted.
      * @param array $parameters Parameters to use.
      * @psalm-param array<string, mixed> $parameters
+     *
      * @param string $locale Locale to use. Usually affects formatting numbers, dates etc.
      *
      * @return string Formatted message.
