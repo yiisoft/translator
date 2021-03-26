@@ -57,7 +57,7 @@ final class ContentParserTest extends TestCase
     public function testWithEmptyTranslatorAndCorrectData(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Translator cannot contain less than 2 tokens.');
+        $this->expectExceptionMessage('Translator call cannot contain less than 2 tokens.');
 
         new ContentParser(null, '->');
     }
