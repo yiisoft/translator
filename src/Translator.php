@@ -88,6 +88,7 @@ class Translator implements TranslatorInterface
         return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
     }
 
+    /** @psalm-param array<array-key, mixed> $parameters */
     private function translateUsingCategorySources(
         string $id,
         array $parameters,
