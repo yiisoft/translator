@@ -56,14 +56,14 @@ final class TranslationExtractor
 
     /**
      * @param string|null $defaultCategory
-     * @param string|null $translator
+     * @param string|null $translatorCall
      *
      * @return array
      */
-    public function extract(?string $defaultCategory = null, ?string $translator = null): array
+    public function extract(?string $defaultCategory = null, ?string $translatorCall = null): array
     {
         $messages = [];
-        $parser = new ContentParser($defaultCategory, $translator);
+        $parser = new ContentParser($defaultCategory, $translatorCall);
 
         $files = FileHelper::findFiles($this->path, [
             'filter' => (new pathMatcher())->only(...$this->only)->except(...$this->except),

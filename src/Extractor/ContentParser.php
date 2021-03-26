@@ -11,7 +11,7 @@ use RuntimeException;
  */
 final class ContentParser
 {
-    private string $translator = '->translate';
+    private string $translatorCall = '->translate';
 
     /** @var array<string|array{0: int, 1: string, 2: int}> */
     private array $translatorTokens = [];
@@ -31,19 +31,19 @@ final class ContentParser
     public function __construct(?string $defaultCategory = null, ?string $translator = null)
     {
         $this->defaultCategory = $defaultCategory ?? $this->defaultCategory;
-        $this->setTranslator($translator ?? $this->translator);
+        $this->setTranslator($translator ?? $this->translatorCall);
     }
 
-    private function setTranslator(string $translator): void
+    private function setTranslator(string $translatorCall): void
     {
-        $this->translator = $translator;
-        $translatorTokens = token_get_all('<?php ' . $this->translator);
+        $this->translatorCall = $translatorCall;
+        $translatorTokens = token_get_all('<?php ' . $this->translatorCall);
         array_shift($translatorTokens);
         $this->translatorTokens = $translatorTokens;
         $this->translatorTokenCount = count($this->translatorTokens);
 
         if ($this->translatorTokenCount < 2) {
-            throw new RuntimeException('Translator cannot contain less than 2 tokens.');
+            throw new RuntimeException('Translator call cannot contain less than 2 tokens.');
         }
     }
 

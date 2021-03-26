@@ -41,6 +41,13 @@ PHP arrays or GNU gettext. Message formatters provide extra syntax that is recog
 * [translator-formatter-intl](https://github.com/yiisoft/translator-formatter-intl) - Intl (i18n) formatter
 * [translator-formatter-simple](https://github.com/yiisoft/translator-formatter-simple) - Simple formatter to use if you do not need additional syntax such as in case with gettext message source.
 
+### Extracting messages
+
+The message extraction is done via [console extractor](https://github.com/yiisoft/translator-extractor) that searches
+for translator message calls and builds translation files.
+
+In some cases you need to do so without using console. If that is your case, check [extractor guide](docs/en/extractor.md).
+
 ## Configuration
 
 ### Quick start
