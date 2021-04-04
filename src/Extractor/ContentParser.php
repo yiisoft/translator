@@ -18,7 +18,7 @@ final class ContentParser
 
     private int $translatorTokenCount = 0;
 
-    private string $defaultCategory = 'app';
+    private string $defaultCategory;
 
     private static array $brackets = [
         ')' => '(',
@@ -28,9 +28,9 @@ final class ContentParser
 
     private array $skippedLines = [];
 
-    public function __construct(?string $defaultCategory = null, ?string $translator = null)
+    public function __construct(string $defaultCategory, ?string $translator = null)
     {
-        $this->defaultCategory = $defaultCategory ?? $this->defaultCategory;
+        $this->defaultCategory = $defaultCategory;
         $this->setTranslator($translator ?? $this->translatorCall);
     }
 

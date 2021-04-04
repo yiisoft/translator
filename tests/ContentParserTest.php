@@ -59,7 +59,7 @@ final class ContentParserTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Translator call cannot contain less than 2 tokens.');
 
-        new ContentParser(null, '->');
+        new ContentParser('app', '->');
     }
 
     public function testExtractorWithOnlyCorrectData(): void
@@ -67,7 +67,7 @@ final class ContentParserTest extends TestCase
         $fileName = __DIR__ . '/extractorExamples/synthetic/correctSamples/test.php';
         $fileContent = file_get_contents($fileName);
 
-        $extractor = new ContentParser();
+        $extractor = new ContentParser('app');
         $extractor->setDefaultCategory('defaultCategory');
 
         $messages = $extractor->extract($fileContent);
@@ -83,7 +83,7 @@ final class ContentParserTest extends TestCase
         $fileName = __DIR__ . '/extractorExamples/synthetic/incorrectSamples/test.php';
         $fileContent = file_get_contents($fileName);
 
-        $extractor = new ContentParser();
+        $extractor = new ContentParser('app');
 
         $messages = $extractor->extract($fileContent);
 
@@ -97,7 +97,7 @@ final class ContentParserTest extends TestCase
         $fileName = __DIR__ . '/extractorExamples/synthetic/brokenSamples/test.php';
         $fileContent = file_get_contents($fileName);
 
-        $extractor = new ContentParser();
+        $extractor = new ContentParser('app');
 
         $messages = $extractor->extract($fileContent);
 
