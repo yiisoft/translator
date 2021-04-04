@@ -101,7 +101,7 @@ final class ContentParserTest extends TestCase
 
         $messages = $extractor->extract($fileContent);
 
-        $this->assertEquals(['' => ['messageId1']], $messages);
+        $this->assertEquals(['app' => ['messageId1']], $messages);
         $this->assertTrue($extractor->hasSkippedLines());
         $this->assertCount(1, $extractor->getSkippedLines());
     }

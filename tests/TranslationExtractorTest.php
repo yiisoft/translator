@@ -65,7 +65,7 @@ final class TranslationExtractorTest extends TestCase
 
         $messages = $extractor->extract();
 
-        $this->assertEquals(['' => ['messageId1']], $messages);
+        $this->assertEquals(['app' => ['messageId1']], $messages);
         $this->assertTrue($extractor->hasSkippedLines());
         $this->assertCount(1, current($extractor->getSkippedLines()));
     }

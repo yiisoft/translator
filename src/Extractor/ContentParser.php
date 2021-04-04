@@ -18,7 +18,7 @@ final class ContentParser
 
     private int $translatorTokenCount = 0;
 
-    private string $defaultCategory = '';
+    private string $defaultCategory = 'app';
 
     private static array $brackets = [
         ')' => '(',
