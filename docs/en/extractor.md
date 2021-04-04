@@ -31,7 +31,8 @@ In case you have complicated parameters, such as callbacks, constants etc., extr
 
 ```php
 /** @var \Yiisoft\Translator\Extractor\TranslationExtractor $extractor */
-$messages = $extractor->extract();
+$defaultCategory = 'defaultCategoryName';
+$messages = $extractor->extract($defaultCategory);
 
 if ($extractor->hasSkippedLines()) {
     $skippedLines = $extractor->getSkippedLines();
