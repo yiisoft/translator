@@ -23,7 +23,7 @@ interface MessageReaderInterface
     public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string;
 
     /**
-     * @param string $category Category of the message to get.
+     * @param string $category Category of messages to get.
      * @param string $locale Locale of the message to get.
      *
      * @psalm-return array<string, array<string, string>>
