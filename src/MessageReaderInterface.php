@@ -24,7 +24,7 @@ interface MessageReaderInterface
 
     /**
      * @param string $category Category of messages to get.
-     * @param string $locale Locale of the message to get.
+     * @param string $locale Locale of messages to get.
      *
      * @psalm-return array<string, array<string, string>>
      *
