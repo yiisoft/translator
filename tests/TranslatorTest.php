@@ -566,6 +566,11 @@ final class TranslatorTest extends TestCase
             {
                 return $this->messages[$this->category][$locale][$id] ?? null;
             }
+
+            public function getMessages(string $category, string $locale): array
+            {
+                return $this->messages[$this->category][$locale] ?? [];
+            }
         };
     }
 
