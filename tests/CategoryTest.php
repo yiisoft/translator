@@ -38,6 +38,11 @@ final class CategoryTest extends TestCase
             {
                 return null;
             }
+
+            public function getMessages(string $category, string $locale): array
+            {
+                return [];
+            }
         };
     }
 
