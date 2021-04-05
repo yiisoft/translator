@@ -28,7 +28,7 @@ interface MessageReaderInterface
      *
      * @psalm-return array<string, array<string, string>>
      *
-     * @return array A get of all messages from category. The format is the following:
+     * @return array All messages from category. The format is the following:
      *
      * ```php
      * [
