@@ -33,9 +33,9 @@ final class TranslationExtractor
     /**
      * TranslationExtractor constructor.
      *
-     * @param string $path
-     * @param string[]|null $only
-     * @param string[]|null $except
+     * @param string $path Path to start extraction at.
+     * @param string[]|null $only List of patterns that the files or directories should match. See {@see PathMatcher}.
+     * @param string[]|null $except List of patterns that the files or directories should not match. See {@see PathMatcher}.
      */
     public function __construct(string $path, ?array $only = null, ?array $except = null)
     {
@@ -54,13 +54,20 @@ final class TranslationExtractor
         }
     }
 
+    /**
+     * Extract messages.
+     *
+     * @param string $defaultCategory Category to use if category isn't set in translation call.
+     * @param string|null $translatorCall Translation call to look for.
+     * @return array Extracted messages.
+     */
     public function extract(string $defaultCategory = 'app', ?string $translatorCall = null): array
     {
         $messages = [];
         $parser = new ContentParser($defaultCategory, $translatorCall);
 
         $files = FileHelper::findFiles($this->path, [
-            'filter' => (new pathMatcher())->only(...$this->only)->except(...$this->except),
+            'filter' => (new PathMatcher())->only(...$this->only)->except(...$this->except),
             'recursive' => true,
         ]);
 
