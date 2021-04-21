@@ -59,6 +59,7 @@ final class TranslationExtractor
      *
      * @param string $defaultCategory Category to use if category isn't set in translation call.
      * @param string|null $translatorCall Translation call to look for.
+     *
      * @return array Extracted messages.
      */
     public function extract(string $defaultCategory = 'app', ?string $translatorCall = null): array
