@@ -63,7 +63,6 @@ public function actionProcess(\Psr\EventDispatcher\EventDispatcherInterface $eve
 
 Configuration depends on the container used so below we'll create an instance manually.
 
-
 ```php
 /** @var \Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher */
 $locale = 'ru';
@@ -81,7 +80,7 @@ main locale. Event dispatcher is used to dispatch missing translation events.
 
 Now we've got an instance, but it has no idea where to get translations from. Let's tell it:
 
-```
+```php
 // Default category is used when no category is specified explicitly.
 $defaultCategoryName = 'app';
 $pathToTranslations = './messages/';
@@ -104,6 +103,76 @@ $translator->addCategorySource($category);
 ```
 
 That's it. Translator is ready to be used.
+
+### Advanced configuration for Yii3 application
+
+After installing the package, you will get the following configuration files in your application config:
+
+- `config/packages/yiisoft/translator/common.php`
+- `config/packages/yiisoft/translator/params.php`
+
+You need get implementation of `MessageReader` and `MessageSource` to complete configuration. See
+"Additional packages", "Message sources" above.
+
+The following configuration is for Yii3 application with `yiisoft/translator-message-php`
+and `yiisoft/translator-formatter-intl` packages installed:
+
+```php
+<?php
+declare(strict_types=1);
+
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Yiisoft\Factory\Definition\Reference;
+use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Translator\Translator;
+
+use Yiisoft\Aliases\Aliases;
+use Yiisoft\Translator\CategorySource;
+use Yiisoft\Translator\Formatter\Intl\IntlMessageFormatter;
+use Yiisoft\Translator\MessageFormatterInterface;
+use Yiisoft\Translator\MessageReaderInterface;
+use Yiisoft\Translator\Message\Php\MessageSource;
+
+/** @var array $params */
+
+return [
+    
+    // Configure default `MessageReaderInterface`
+    MessageReaderInterface::class => [
+        'class' => MessageSource::class,
+        '__construct()' =>  [
+            fn (Aliases $aliases) => $aliases->get('@message')
+        ]
+    ],
+    
+    // Configure default `MessageFormatterInterface`
+    MessageFormatterInterface::class => IntlMessageFormatter::class,
+    
+    // Configure application CategorySource 
+    CategorySourceApplication::class => [
+        'class' => CategorySource::class,
+        '__construct()' => [
+            'name' => $params['yiisoft/translator']['defaultCategory'],
+        ],
+    ],
+    
+    TranslatorInterface::class => [
+        'class' => Translator::class,
+        '__construct()' => [
+            $params['yiisoft/translator']['locale'],
+            $params['yiisoft/translator']['fallbackLocale'],
+            Reference::to(EventDispatcherInterface::class),
+        ],
+        'addCategorySources()' => [
+            [
+                // You can add categories to your application and your modules using `Reference::to` below
+                Reference::to(CategorySourceApplication::class), // <- Uncommented
+                // Reference::to(CategoryTranslationMyModule::class),
+            ],
+        ],
+    ],
+];
+```
 
 ### Multiple translation sources
 
