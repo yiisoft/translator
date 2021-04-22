@@ -19,7 +19,7 @@ return [
         ],
         'addCategorySources()' => [
             [
-                // You can add categories for your application and your modules with usage `Reference::to` below
+                // You can add categories to your application and your modules using `Reference::to` below
                 // Reference::to(CategorySourceApplication::class),
                 // Reference::to(CategoryTranslationMyModule::class),
             ],

@@ -106,13 +106,16 @@ That's it. Translator is ready to be used.
 
 ### Advanced configuration for Yii3 application
 
-After install package, in your application be added config files:
-`config/packages/yiisoft/translator/common.php`
-`config/packages/yiisoft/translator/params.php`
+After installing the package, you will get the following configuration files in your application config:
 
-You need install implementation of MessageReader and MessageSource for complete configuring. (@see above `Additional packages`)
+- `config/packages/yiisoft/translator/common.php`
+- `config/packages/yiisoft/translator/params.php`
 
-Simple example for usage translator in your Yii3 application with installed `yiisoft/translator-message-php` and `yiisoft/translator-formatter-intl`
+You need get implementation of `MessageReader` and `MessageSource` to complete configuration. See
+"Additional packages", "Message sources" above.
+
+The following configuration is for Yii3 application with `yiisoft/translator-message-php`
+and `yiisoft/translator-formatter-intl` packages installed:
 
 ```php
 <?php
@@ -162,8 +165,8 @@ return [
         ],
         'addCategorySources()' => [
             [
-                // You can add categories for your application and your modules with usage `Reference::to` below
-                Reference::to(CategorySourceApplication::class), // <- Uncomment this string
+                // You can add categories to your application and your modules using `Reference::to` below
+                Reference::to(CategorySourceApplication::class), // <- Uncommented
                 // Reference::to(CategoryTranslationMyModule::class),
             ],
         ],
