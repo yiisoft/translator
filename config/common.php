@@ -6,10 +6,19 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Factory\Definition\Reference;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Translator\Translator;
+use Yiisoft\Translator\CategorySource;
 
 /** @var array $params */
 
 return [
+    // Configure application CategorySource
+    // ApplicationCategorySource::class => [
+    //     'class' => CategorySource::class,
+    //     '__construct()' => [
+    //         'name' => $params['yiisoft/translator']['defaultCategory'],
+    //     ],
+    // ],
+
     TranslatorInterface::class => [
         'class' => Translator::class,
         '__construct()' => [
@@ -18,11 +27,7 @@ return [
             Reference::to(EventDispatcherInterface::class),
         ],
         'addCategorySources()' => [
-            [
-                // You can add categories to your application and your modules using `Reference::to` below
-                // Reference::to(CategorySourceApplication::class),
-                // Reference::to(CategoryTranslationMyModule::class),
-            ],
+            $params['yiisoft/translator']['categorySources'],
         ],
     ],
 ];
