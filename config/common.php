@@ -11,7 +11,6 @@ use Yiisoft\Translator\CategorySource;
 /** @var array $params */
 
 return [
-
     // Configure application CategorySource
     // CategorySourceApplication::class => [
     //     'class' => CategorySource::class,
@@ -28,7 +27,7 @@ return [
             Reference::to(EventDispatcherInterface::class),
         ],
         'addCategorySources()' => [
-            $params['yiisoft/translator']['categorySources']
+            $params['yiisoft/translator']['categorySources'],
         ],
     ],
 ];
