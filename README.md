@@ -114,9 +114,9 @@ After installing the package, you will get the following configuration files in 
 You need get implementation of `MessageReader` and `MessageSource` to complete configuration. See
 "Additional packages", "Message sources" above.
 
-The following configuration is for Yii3 application with `yiisoft/translator-message-php`
-and `yiisoft/translator-formatter-intl` packages installed:
+The following configuration is for Yii3 application after all needed packages installed:
 
+You need uncomment strings contains `CategorySourceApplication` in file `common.php`
 ```php
 <?php
 declare(strict_types=1);
@@ -125,31 +125,14 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Factory\Definition\Reference;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Translator\Translator;
-
-use Yiisoft\Aliases\Aliases;
 use Yiisoft\Translator\CategorySource;
-use Yiisoft\Translator\Formatter\Intl\IntlMessageFormatter;
-use Yiisoft\Translator\MessageFormatterInterface;
-use Yiisoft\Translator\MessageReaderInterface;
-use Yiisoft\Translator\Message\Php\MessageSource;
 
 /** @var array $params */
 
 return [
     
-    // Configure default `MessageReaderInterface`
-    MessageReaderInterface::class => [
-        'class' => MessageSource::class,
-        '__construct()' =>  [
-            fn (Aliases $aliases) => $aliases->get('@message')
-        ]
-    ],
-    
-    // Configure default `MessageFormatterInterface`
-    MessageFormatterInterface::class => IntlMessageFormatter::class,
-    
     // Configure application CategorySource 
-    CategorySourceApplication::class => [
+    CategorySourceApplication::class => [ // <- Uncommented
         'class' => CategorySource::class,
         '__construct()' => [
             'name' => $params['yiisoft/translator']['defaultCategory'],
@@ -164,11 +147,29 @@ return [
             Reference::to(EventDispatcherInterface::class),
         ],
         'addCategorySources()' => [
-            [
-                // You can add categories to your application and your modules using `Reference::to` below
-                Reference::to(CategorySourceApplication::class), // <- Uncommented
-                // Reference::to(CategoryTranslationMyModule::class),
-            ],
+            $params['yiisoft/translator']['categorySources']
+        ],
+    ],
+];
+```
+
+and in file `params.php`
+```php
+<?php
+
+declare(strict_types=1);
+
+use Yiisoft\Factory\Definition\Reference;
+
+return [
+    'yiisoft/translator' => [
+        'locale' => 'en-US',
+        'fallbackLocale' => null,
+        'defaultCategory' => 'app',
+        'categorySources' => [
+            // You can add categories to your application and your modules using `Reference::to` below
+            Reference::to(CategorySourceApplication::class), // <- Uncommented
+            // Reference::to(CategoryTranslationMyModule::class),
         ],
     ],
 ];
