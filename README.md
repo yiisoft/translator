@@ -116,7 +116,8 @@ You need get implementation of `MessageReader` and `MessageSource` to complete c
 
 The following configuration is for Yii3 application after all needed packages installed:
 
-You need uncomment strings contains `CategorySourceApplication` in file `common.php`
+You need uncomment strings around `ApplicationCategorySource` in `common.php` and `params.php` files:
+
 ```php
 <?php
 declare(strict_types=1);
@@ -132,7 +133,7 @@ use Yiisoft\Translator\CategorySource;
 return [
     
     // Configure application CategorySource 
-    CategorySourceApplication::class => [ // <- Uncommented
+    ApplicationCategorySource::class => [ // <- Uncommented
         'class' => CategorySource::class,
         '__construct()' => [
             'name' => $params['yiisoft/translator']['defaultCategory'],
@@ -153,7 +154,8 @@ return [
 ];
 ```
 
-and in file `params.php`
+and `params.php`:
+
 ```php
 <?php
 
@@ -168,8 +170,8 @@ return [
         'defaultCategory' => 'app',
         'categorySources' => [
             // You can add categories to your application and your modules using `Reference::to` below
-            Reference::to(CategorySourceApplication::class), // <- Uncommented
-            // Reference::to(CategoryTranslationMyModule::class),
+            Reference::to(ApplicationCategorySource::class), // <- Uncommented
+            // Reference::to(MyModuleCategorySource::class),
         ],
     ],
 ];

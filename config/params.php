@@ -10,9 +10,9 @@ return [
         'fallbackLocale' => null,
         'defaultCategory' => 'app',
         'categorySources' => [
-            // You can add categories to your application and your modules using `Reference::to` below
-            // Reference::to(CategorySourceApplication::class),
-            // Reference::to(CategoryTranslationMyModule::class),
+            // You can add categories from your application and additional modules using `Reference::to` below
+            // Reference::to(ApplicationCategorySource::class),
+            // Reference::to(MyModuleCategorySource::class),
         ],
     ],
 ];

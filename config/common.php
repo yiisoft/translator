@@ -12,7 +12,7 @@ use Yiisoft\Translator\CategorySource;
 
 return [
     // Configure application CategorySource
-    // CategorySourceApplication::class => [
+    // ApplicationCategorySource::class => [
     //     'class' => CategorySource::class,
     //     '__construct()' => [
     //         'name' => $params['yiisoft/translator']['defaultCategory'],
