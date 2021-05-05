@@ -34,19 +34,6 @@ final class ContentParser
         $this->setTranslator($translator ?? $this->translatorCall);
     }
 
-    private function setTranslator(string $translatorCall): void
-    {
-        $this->translatorCall = $translatorCall;
-        $translatorTokens = token_get_all('<?php ' . $this->translatorCall);
-        array_shift($translatorTokens);
-        $this->translatorTokens = $translatorTokens;
-        $this->translatorTokenCount = count($this->translatorTokens);
-
-        if ($this->translatorTokenCount < 2) {
-            throw new RuntimeException('Translator call cannot contain less than 2 tokens.');
-        }
-    }
-
     /**
      * @param string $content
      *
@@ -60,6 +47,34 @@ final class ContentParser
         $tokens = token_get_all($content);
 
         return $this->extractMessagesFromTokens($tokens);
+    }
+
+    public function setDefaultCategory(string $defaultCategory): void
+    {
+        $this->defaultCategory = $defaultCategory;
+    }
+
+    public function hasSkippedLines(): bool
+    {
+        return !empty($this->skippedLines);
+    }
+
+    public function getSkippedLines(): array
+    {
+        return $this->skippedLines;
+    }
+
+    private function setTranslator(string $translatorCall): void
+    {
+        $this->translatorCall = $translatorCall;
+        $translatorTokens = token_get_all('<?php ' . $this->translatorCall);
+        array_shift($translatorTokens);
+        $this->translatorTokens = $translatorTokens;
+        $this->translatorTokenCount = count($this->translatorTokens);
+
+        if ($this->translatorTokenCount < 2) {
+            throw new RuntimeException('Translator call cannot contain less than 2 tokens.');
+        }
     }
 
     /**
@@ -251,20 +266,5 @@ final class ContentParser
             }
         }
         return [$startLine, $codeLines];
-    }
-
-    public function setDefaultCategory(string $defaultCategory): void
-    {
-        $this->defaultCategory = $defaultCategory;
-    }
-
-    public function hasSkippedLines(): bool
-    {
-        return !empty($this->skippedLines);
-    }
-
-    public function getSkippedLines(): array
-    {
-        return $this->skippedLines;
     }
 }

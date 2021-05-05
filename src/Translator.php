@@ -13,7 +13,7 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
 /**
  * Translator translates a message into the specified language.
  */
-class Translator implements TranslatorInterface
+final class Translator implements TranslatorInterface
 {
     private string $defaultCategory = 'app';
     private string $locale;
@@ -88,6 +88,27 @@ class Translator implements TranslatorInterface
         return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
     }
 
+    /**
+     * @psalm-immutable
+     */
+    public function withCategory(string $category): self
+    {
+        if (!isset($this->categorySources[$category])) {
+            throw new RuntimeException('Category with name "' . $category . '" does not exist.');
+        }
+
+        $new = clone $this;
+        $new->defaultCategory = $category;
+        return $new;
+    }
+
+    public function withLocale(string $locale): self
+    {
+        $new = clone $this;
+        $new->setLocale($locale);
+        return $new;
+    }
+
     /** @psalm-param array<array-key, mixed> $parameters */
     private function translateUsingCategorySources(
         string $id,
@@ -124,26 +145,5 @@ class Translator implements TranslatorInterface
 
         $categorySource = end($this->categorySources[$category]);
         return $categorySource->format($id, $parameters, $locale);
-    }
-
-    /**
-     * @psalm-immutable
-     */
-    public function withCategory(string $category): self
-    {
-        if (!isset($this->categorySources[$category])) {
-            throw new RuntimeException('Category with name "' . $category . '" does not exist.');
-        }
-
-        $new = clone $this;
-        $new->defaultCategory = $category;
-        return $new;
-    }
-
-    public function withLocale(string $locale): self
-    {
-        $new = clone $this;
-        $new->setLocale($locale);
-        return $new;
     }
 }
