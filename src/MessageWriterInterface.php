@@ -16,8 +16,6 @@ interface MessageWriterInterface
      * @param string $locale Locale to write messages for.
      * @param array $messages A set of messages to write. The format is the following:
      *
-     * @psalm-param array<string, array<string, string>> $messages
-     *
      * ```php
      * [
      *   'key1' => [
@@ -32,6 +30,8 @@ interface MessageWriterInterface
      *   ],
      * ]
      * ```
+     *
+     * @psalm-param array<string, array<string, string>> $messages
      */
     public function write(string $category, string $locale, array $messages): void;
 }
