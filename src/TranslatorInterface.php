@@ -53,18 +53,12 @@ interface TranslatorInterface
     /**
      * Get a new Translator instance with category to be used by default in case category isn't specified explicitly.
      *
-     * @param string $category
-     *
      * @psalm-immutable
      */
     public function withCategory(string $category): self;
 
     /**
      * Get a new Translator instance with locale to be used by default in case locale isn't specified explicitly.
-     *
-     * @param string $locale
-     *
-     * @return TranslatorInterface
      */
     public function withLocale(string $locale): self;
 }
