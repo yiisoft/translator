@@ -6,14 +6,24 @@ namespace Yiisoft\Translator\Extractor;
 
 use RuntimeException;
 
+use function array_slice;
+use function count;
+use function in_array;
+use function is_array;
+use function is_string;
+
 /**
  * Extracts translation keys from a string given.
+ *
+ * @psalm-type TranslatorToken = string|array{0: int, 1: string, 2: int}
  */
 final class ContentParser
 {
     private string $translatorCall = '->translate';
 
-    /** @var array<string|array{0: int, 1: string, 2: int}> */
+    /**
+     * @psalm-var TranslatorToken[]
+     */
     private array $translatorTokens = [];
 
     private int $translatorTokenCount = 0;
@@ -34,13 +44,6 @@ final class ContentParser
         $this->setTranslator($translator ?? $this->translatorCall);
     }
 
-    /**
-     * @param string $content
-     *
-     * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
-     *
-     * @return array[]
-     */
     public function extract(string $content): array
     {
         $this->skippedLines = [];
@@ -78,13 +81,7 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param array<integer, string|array{0: int, 1: string, 2: int}> $tokens
-     *
-     * @param array $tokens
-     *
-     * @psalm-return array<array-key|string, mixed|non-empty-list<string>>
-     *
-     * @return array
+     * @psalm-param array<integer, TranslatorToken> $tokens
      */
     private function extractMessagesFromTokens(array $tokens): array
     {
@@ -138,13 +135,7 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
-     *
-     * @param array $tokens
-     *
-     * @psalm-return null|array<array-key|string, mixed|non-empty-list<string>>
-     *
-     * @return array|null
+     * @psalm-param TranslatorToken[] $tokens
      */
     private function extractParametersFromTokens(array $tokens): ?array
     {
@@ -165,9 +156,13 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
+     * @psalm-param TranslatorToken[] $tokens
      *
-     * @psalm-return array{category?: null|string, id?: null|string, parameters?: null|list<array{0: int, 1: string, 2: int}|string>}
+     * @psalm-return array{
+     *     category?: null|string,
+     *     id?: null|string,
+     *     parameters?: null|list<TranslatorToken>
+     * }
      */
     private function splitTokensAsParams(array $tokens): array
     {
@@ -198,9 +193,7 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
-     *
-     * @return string|null
+     * @psalm-param TranslatorToken[] $tokens
      */
     private function getMessageStringFromTokens(array $tokens): ?string
     {
@@ -230,10 +223,8 @@ final class ContentParser
     /**
      * Finds out if two PHP tokens are equal.
      *
-     * @param array{0: int, 1: string, 2: int}|string $a
-     * @param array{0: int, 1: string, 2: int}|string $b
-     *
-     * @return bool
+     * @psalm-param TranslatorToken $a
+     * @psalm-param TranslatorToken $b
      */
     private function tokensEqual($a, $b): bool
     {
@@ -245,11 +236,7 @@ final class ContentParser
     }
 
     /**
-     * @param array $tokens
-     *
-     * @psalm-param array<string|array{0: int, 1: string, 2: int}> $tokens
-     *
-     * @return array
+     * @psalm-param TranslatorToken[] $tokens
      */
     private function getLinesData(array $tokens): array
     {

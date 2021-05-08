@@ -14,8 +14,6 @@ interface MessageWriterInterface
      *
      * @param string $category Category to write messages for.
      * @param string $locale Locale to write messages for.
-     * @psalm-param array<string, array<string, string>> $messages
-     *
      * @param array $messages A set of messages to write. The format is the following:
      *
      * ```php
@@ -32,6 +30,8 @@ interface MessageWriterInterface
      *   ],
      * ]
      * ```
+     *
+     * @psalm-param array<string, array<string, string>> $messages
      */
     public function write(string $category, string $locale, array $messages): void;
 }

@@ -19,6 +19,7 @@ final class Translator implements TranslatorInterface
     private string $locale;
     private ?string $fallbackLocale;
     private ?EventDispatcherInterface $eventDispatcher;
+
     /**
      * @var CategorySource[][] Array of category message sources indexed by category names.
      */
@@ -109,7 +110,6 @@ final class Translator implements TranslatorInterface
         return $new;
     }
 
-    /** @psalm-param array<array-key, mixed> $parameters */
     private function translateUsingCategorySources(
         string $id,
         array $parameters,

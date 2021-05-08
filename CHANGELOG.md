@@ -1,4 +1,4 @@
-# Yii I18n Translator Change Log
+# Yii Message Translator Change Log
 
 ## 1.0.0 under development
 

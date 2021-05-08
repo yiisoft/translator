@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Translator\Extractor;
 
+use RuntimeException;
 use Yiisoft\Files\FileHelper;
 use Yiisoft\Files\PathMatcher\PathMatcher;
 
@@ -40,7 +41,7 @@ final class TranslationExtractor
     public function __construct(string $path, ?array $only = null, ?array $except = null)
     {
         if (!is_dir($path)) {
-            throw new \RuntimeException(sprintf('Directory "%s" does not exist.', $path));
+            throw new RuntimeException(sprintf('Directory "%s" does not exist.', $path));
         }
 
         $this->path = $path;
