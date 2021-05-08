@@ -1,7 +1,7 @@
 {
     "name": "yiisoft/translator",
     "type": "library",
-    "description": "Yii message translator",
+    "description": "Yii Message Translator",
     "keywords": [
         "i18n",
         "translation",
@@ -16,8 +16,6 @@
         "irc": "irc://irc.freenode.net/yii",
         "source": "https://github.com/yiisoft/translator"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": "^7.4|^8.0",
         "psr/event-dispatcher": "1.0.0",
@@ -25,10 +23,10 @@
         "yiisoft/i18n": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.4",
-        "roave/infection-static-analysis-plugin": "^1.5",
+        "phpunit/phpunit": "^9.5",
+        "roave/infection-static-analysis-plugin": "^1.7",
         "spatie/phpunit-watcher": "^1.23",
-        "vimeo/psalm": "^4.2"
+        "vimeo/psalm": "^4.7"
     },
     "autoload": {
         "psr-4": {

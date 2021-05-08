@@ -14,11 +14,13 @@
     <php>
         <ini name="error_reporting" value="-1"/>
     </php>
+
     <testsuites>
-        <testsuite name="Yii translator tests">
+        <testsuite name="Yii Message Translator tests">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
+
     <coverage>
         <include>
             <directory>./src</directory>
