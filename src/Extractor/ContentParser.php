@@ -51,6 +51,7 @@ final class ContentParser
 
     /**
      * @param string $content Code to extract translation keys from.
+     *
      * @return array Extracted messages.
      */
     public function extract(string $content): array
