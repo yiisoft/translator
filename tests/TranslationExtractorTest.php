@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Translator\Tests;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Yiisoft\Translator\Extractor\TranslationExtractor;
 
 /**
@@ -12,8 +13,8 @@ use Yiisoft\Translator\Extractor\TranslationExtractor;
  */
 final class TranslationExtractorTest extends TestCase
 {
-    private array $correctData = [];
-    private array $incorrectData = [];
+    private array $correctData;
+    private array $incorrectData;
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
@@ -26,7 +27,7 @@ final class TranslationExtractorTest extends TestCase
     {
         $notExistsPath = __DIR__ . DIRECTORY_SEPARATOR . 'not_exists_path';
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Directory "' . $notExistsPath . '" does not exist.');
 
         $extractor = new TranslationExtractor($notExistsPath);

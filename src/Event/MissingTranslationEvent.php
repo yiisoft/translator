@@ -13,6 +13,11 @@ final class MissingTranslationEvent
     private string $language;
     private string $message;
 
+    /**
+     * @param string $category Category of the missing translation.
+     * @param string $language Language of the missing translation.
+     * @param string $message Message of the missing translation.
+     */
     public function __construct(string $category, string $language, string $message)
     {
         $this->category = $category;
@@ -20,16 +25,25 @@ final class MissingTranslationEvent
         $this->message = $message;
     }
 
+    /**
+     * @return string Category of the missing translation.
+     */
     public function getCategory(): string
     {
         return $this->category;
     }
 
+    /**
+     * @return string Language of the missing translation.
+     */
     public function getLanguage(): string
     {
         return $this->language;
     }
 
+    /**
+     * @return string Message of the missing translation.
+     */
     public function getMessage(): string
     {
         return $this->message;

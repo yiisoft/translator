@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Translator\Tests;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Yiisoft\Translator\CategorySource;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
@@ -22,7 +23,7 @@ final class CategoryTest extends TestCase
 
     public function testNameException(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Category name is invalid. Only letters and numbers are allowed.');
         new CategorySource(
             'test category name',

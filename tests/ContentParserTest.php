@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Translator\Tests;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Yiisoft\Translator\Extractor\ContentParser;
 
 /**
@@ -56,7 +57,7 @@ final class ContentParserTest extends TestCase
 
     public function testWithEmptyTranslatorAndCorrectData(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Translator call cannot contain less than 2 tokens.');
 
         new ContentParser('app', '->');

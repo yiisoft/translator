@@ -49,9 +49,6 @@ final class Translator implements TranslatorInterface
         }
     }
 
-    /**
-     * @param CategorySource[] $categories
-     */
     public function addCategorySources(array $categories): void
     {
         foreach ($categories as $category) {

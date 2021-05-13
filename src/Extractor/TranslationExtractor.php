@@ -85,12 +85,19 @@ final class TranslationExtractor
         return $messages;
     }
 
+    /**
+     * @return bool Whether there are skipped lines.
+     */
     public function hasSkippedLines(): bool
     {
         return !empty($this->skippedLines);
     }
 
     /**
+     * @return array Lines that were skipped during parsing.
+     *
+     * The format is:
+     *
      * ```php
      * return [
      *     'fileName' => [
@@ -101,8 +108,6 @@ final class TranslationExtractor
      *     ],
      * ]
      * ```
-     *
-     * @return array
      */
     public function getSkippedLines(): array
     {

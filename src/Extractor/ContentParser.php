@@ -38,12 +38,21 @@ final class ContentParser
 
     private array $skippedLines = [];
 
+    /**
+     * @param string $defaultCategory Name of the category to use when no category is specified.
+     * @param string|null $translator A string containing a method call that translates the message. If not specified,
+     * "->translate" is assumed.
+     */
     public function __construct(string $defaultCategory, ?string $translator = null)
     {
         $this->defaultCategory = $defaultCategory;
         $this->setTranslator($translator ?? $this->translatorCall);
     }
 
+    /**
+     * @param string $content Code to extract translation keys from.
+     * @return array Extracted messages.
+     */
     public function extract(string $content): array
     {
         $this->skippedLines = [];
@@ -52,16 +61,38 @@ final class ContentParser
         return $this->extractMessagesFromTokens($tokens);
     }
 
+    /**
+     * @param string $defaultCategory Name of the category to use when no category is specified.
+     */
     public function setDefaultCategory(string $defaultCategory): void
     {
         $this->defaultCategory = $defaultCategory;
     }
 
+    /**
+     * @return bool Whether there are skipped lines.
+     */
     public function hasSkippedLines(): bool
     {
         return !empty($this->skippedLines);
     }
 
+    /**
+     * @return array Lines that were skipped during parsing.
+     *
+     * The format is:
+     *
+     * ```php
+     * return [
+     *     'fileName' => [
+     *         [
+     *             int $numberOfLine,
+     *             string $incorrectLine,
+     *         ],
+     *     ],
+     * ]
+     * ```
+     */
     public function getSkippedLines(): array
     {
         return $this->skippedLines;

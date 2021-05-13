@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 
 class EventTest extends TestCase
@@ -17,7 +18,7 @@ class EventTest extends TestCase
 
     public function testMissingTranslationCategoryEvent(): void
     {
-        $event = new \Yiisoft\Translator\Event\MissingTranslationCategoryEvent('app');
+        $event = new MissingTranslationCategoryEvent('app');
         $this->assertEquals('app', $event->getCategory());
     }
 }
