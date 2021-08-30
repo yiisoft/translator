@@ -128,7 +128,7 @@ You need uncomment strings around `ApplicationCategorySource` in `common.php` an
 declare(strict_types=1);
 
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Yiisoft\Factory\Definition\Reference;
+use Yiisoft\Definitions\Reference;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\CategorySource;
@@ -166,7 +166,7 @@ and `params.php`:
 
 declare(strict_types=1);
 
-use Yiisoft\Factory\Definition\Reference;
+use Yiisoft\Definitions\Reference;
 
 return [
     'yiisoft/translator' => [
