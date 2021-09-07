@@ -1,18 +1,19 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @var Yiisoft\Translator\Translator $translator
- *
  */
 
 $translator->translate('', [])->translate('');
 
 // withoutCategory
-$translator->translate('messageId1', array(1, 2));
+$translator->translate('messageId1', [1, 2]);
 $translator->translate('messageId2', [1, 2]);
-$translator->translate('message' . 'Id3', array(1, 2));
+$translator->translate('message' . 'Id3', [1, 2]);
 $translator->translate('message' . 'Id4', [1, 2]);
 
-$translator->translate('message' . 'Id' . 5, array(1, 2));
+$translator->translate('message' . 'Id' . 5, [1, 2]);
 $translator->translate('message' . 'Id' . 6, [1, 2]);
 
 $translator->translate('messageId7');
@@ -30,12 +31,12 @@ $translator->translate('message' . 'Id' . 1 . '6');
 $translator->translate('message' . 'Id' . 1 . '7', ['test' => $translator->translate('messageId' . 18)]);
 
 // With categoryName
-$translator->translate('messageId1', array(1, 2), 'categoryName');
+$translator->translate('messageId1', [1, 2], 'categoryName');
 $translator->translate('messageId2', [1, 2], 'categoryName');
-$translator->translate('message' . 'Id3', array(1, 2), 'categoryName');
+$translator->translate('message' . 'Id3', [1, 2], 'categoryName');
 $translator->translate('message' . 'Id4', [1, 2], 'categoryName');
 
-$translator->translate('message' . 'Id' . 5, array(1, 2), 'categoryName');
+$translator->translate('message' . 'Id' . 5, [1, 2], 'categoryName');
 $translator->translate('message' . 'Id' . 6, [1, 2], 'categoryName');
 
 $translator->translate('messageId7', [], 'categoryName');
@@ -53,13 +54,13 @@ $translator->translate('message' . 'Id' . 1 . '6', [], 'categoryName');
 $translator->translate('message' . 'Id' . 1 . '7', ['test' => $translator->translate('messageId' . 19)], 'categoryName');
 
 // With categoryName and complex params
-$translator->translate('messageId1', array('1', 2), 'categoryName2');
+$translator->translate('messageId1', ['1', 2], 'categoryName2');
 $translator->translate('messageId2', [1, '2'], 'categoryName2');
-$translator->translate('message' . 'Id3', array("1", '2'), 'categoryName2');
-$translator->translate('message' . 'Id4', ["1", '2'], 'categoryName2');
+$translator->translate('message' . 'Id3', ['1', '2'], 'categoryName2');
+$translator->translate('message' . 'Id4', ['1', '2'], 'categoryName2');
 
-$translator->translate('message' . "Id" . 5, array(null, 2), 'categoryName2');
-$translator->translate("message" . 'Id' . 6, [null, 2], 'categoryName2');
+$translator->translate('message' . 'Id' . 5, [null, 2], 'categoryName2');
+$translator->translate('message' . 'Id' . 6, [null, 2], 'categoryName2');
 
 $translator->translate('messageId7', ['n' => 1], 'categoryName2');
 $translator->translate('messageId8', ['s', 't' => 2,], 'categoryName2');
@@ -79,9 +80,10 @@ $translator->translate('message18', ['s', '1' => [2]], 'categoryName2');
 */
 
 $translator->translate('Сообщение1', [], 'Категория1');
-$translator->translate('Сообщение2', $translator::test(),
+$translator->translate(
+    'Сообщение2',
+    $translator::test(),
     // 345
-    'Категория1');
+    'Категория1'
+);
 $translator->translate->translate('Сообщение3' /* 123 */, /* 123 */ $translator::test(), 'Категория1');
-
-

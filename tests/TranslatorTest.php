@@ -552,7 +552,7 @@ final class TranslatorTest extends TestCase
 
     private function createMessageReader(string $category, array $messages): MessageReaderInterface
     {
-        return new class($category, $messages) implements MessageReaderInterface {
+        return new class ($category, $messages) implements MessageReaderInterface {
             private string $category;
             private array $messages;
 
@@ -576,7 +576,7 @@ final class TranslatorTest extends TestCase
 
     private function createMessageFormatter(): MessageFormatterInterface
     {
-        return new class() implements MessageFormatterInterface {
+        return new class () implements MessageFormatterInterface {
             public function format(string $message, array $parameters, string $locale): string
             {
                 return $message;
