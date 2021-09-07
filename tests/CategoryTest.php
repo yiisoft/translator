@@ -34,7 +34,7 @@ final class CategoryTest extends TestCase
 
     private function createMessageReader(): MessageReaderInterface
     {
-        return new class() implements MessageReaderInterface {
+        return new class () implements MessageReaderInterface {
             public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
             {
                 return null;
@@ -49,7 +49,7 @@ final class CategoryTest extends TestCase
 
     private function createMessageFormatter(): MessageFormatterInterface
     {
-        return new class() implements MessageFormatterInterface {
+        return new class () implements MessageFormatterInterface {
             public function format(string $message, array $parameters, string $locale): string
             {
                 return $message;
