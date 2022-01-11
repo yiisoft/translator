@@ -73,7 +73,6 @@ final class TranslationExtractor
             'recursive' => true,
         ]);
 
-        /** @var string[] $files */
         foreach ($files as $file) {
             $fileContent = file_get_contents($file);
             $messages = array_merge_recursive($messages, $parser->extract($fileContent));
