@@ -40,7 +40,9 @@ final class Profile
             $method === 'POST' &&
             $id !== null &&
             $formProfile->load($body) &&
-            $validator->validate($formProfile)->isValid() &&
+            $validator
+                ->validate($formProfile)
+                ->isValid() &&
             $repositoryProfile->update($id, $formProfile)
         ) {
             $serviceFlashMessage->run(

@@ -16,7 +16,9 @@ final class M200601191317CreateUserTable implements RevertibleMigrationInterface
     {
         $tableOptions = null;
 
-        if ($b->getDb()->getDriverName() === 'mysql') {
+        if ($b
+                ->getDb()
+                ->getDriverName() === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 ENGINE=InnoDB';
         }
 
@@ -24,9 +26,15 @@ final class M200601191317CreateUserTable implements RevertibleMigrationInterface
             '{{%user}}',
             [
                 'id' => $b->primaryKey(),
-                'username' => $b->string(255)->notNull(),
-                'email' => $b->string(255)->notNull(),
-                'password_hash' => $b->string(100)->notNull(),
+                'username' => $b
+                    ->string(255)
+                    ->notNull(),
+                'email' => $b
+                    ->string(255)
+                    ->notNull(),
+                'password_hash' => $b
+                    ->string(100)
+                    ->notNull(),
                 'auth_key' => $b->string(32),
                 'confirmed_at' => $b->integer(),
                 'unconfirmed_email' => $b->string(255),

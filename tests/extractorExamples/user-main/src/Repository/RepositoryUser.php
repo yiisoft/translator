@@ -73,12 +73,16 @@ final class RepositoryUser implements IdentityRepositoryInterface
 
     public function findUser(array $condition): QueryInterface
     {
-        return $this->userQuery()->where($condition);
+        return $this
+            ->userQuery()
+            ->where($condition);
     }
 
     public function findUserByCondition(array $condition): ?ActiveRecordInterface
     {
-        return $this->userQuery()->findOne($condition);
+        return $this
+            ->userQuery()
+            ->findOne($condition);
     }
 
     public function findUserById(string $id): ?ActiveRecordInterface
@@ -219,7 +223,8 @@ final class RepositoryUser implements IdentityRepositoryInterface
 
     private function generateAvatar(): void
     {
-        $avatar = $this->avatar->name($this->user->getUsername())
+        $avatar = $this->avatar
+            ->name($this->user->getUsername())
             ->length(2)
             ->fontSize(0.5)
             ->size(28)

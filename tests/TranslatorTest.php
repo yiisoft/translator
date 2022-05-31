@@ -117,7 +117,9 @@ final class TranslatorTest extends TestCase
 
     public function testWithoutDefaultCategoryMissingEvent(): void
     {
-        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+        $eventDispatcher = $this
+            ->getMockBuilder(EventDispatcherInterface::class)
+            ->getMock();
         $eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
@@ -455,7 +457,9 @@ final class TranslatorTest extends TestCase
         string $fallbackLocale,
         string $expected
     ): void {
-        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+        $eventDispatcher = $this
+            ->getMockBuilder(EventDispatcherInterface::class)
+            ->getMock();
         $eventDispatcher
             ->expects($this->any())
             ->method('dispatch')
@@ -505,7 +509,9 @@ final class TranslatorTest extends TestCase
     public function testTranslationMissingCategory(): void
     {
         $categoryName = 'miss';
-        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+        $eventDispatcher = $this
+            ->getMockBuilder(EventDispatcherInterface::class)
+            ->getMock();
         $eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
@@ -524,7 +530,9 @@ final class TranslatorTest extends TestCase
 
     public function testTranslationMissingMessage(): void
     {
-        $eventDispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
+        $eventDispatcher = $this
+            ->getMockBuilder(EventDispatcherInterface::class)
+            ->getMock();
         $eventDispatcher
             ->expects($this->once())
             ->method('dispatch')

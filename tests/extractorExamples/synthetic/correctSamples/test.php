@@ -4,7 +4,9 @@
  *
  */
 
-$translator->translate('', [])->translate('');
+$translator
+    ->translate('', [])
+    ->translate('');
 
 // withoutCategory
 $translator->translate('messageId1', array(1, 2));

@@ -69,7 +69,9 @@ final class TranslationExtractor
         $parser = new ContentParser($defaultCategory, $translatorCall);
 
         $files = FileHelper::findFiles($this->path, [
-            'filter' => (new PathMatcher())->only(...$this->only)->except(...$this->except),
+            'filter' => (new PathMatcher())
+                ->only(...$this->only)
+                ->except(...$this->except),
             'recursive' => true,
         ]);
 

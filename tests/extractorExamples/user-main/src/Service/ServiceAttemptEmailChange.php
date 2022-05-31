@@ -43,10 +43,13 @@ final class ServiceAttemptEmailChange
         $tokenRecoverWithin = $this->repositorySetting->getTokenRecoverWithin();
 
         /** @var Token|null $token */
-        $token = $this->repositoryToken->findToken([
-            'user_id' => $user->getId(),
-            'code' => $code,
-        ])->andWhere(['IN', 'type', [Token::TYPE_CONFIRM_NEW_EMAIL, Token::TYPE_CONFIRM_OLD_EMAIL]])->one();
+        $token = $this->repositoryToken
+            ->findToken([
+                'user_id' => $user->getId(),
+                'code' => $code,
+            ])
+            ->andWhere(['IN', 'type', [Token::TYPE_CONFIRM_NEW_EMAIL, Token::TYPE_CONFIRM_OLD_EMAIL]])
+            ->one();
 
         if ($token === null || $token->isExpired($tokenConfirmWithin, $tokenRecoverWithin)) {
             $this->serviceFlashMessage->run(

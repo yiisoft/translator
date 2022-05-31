@@ -43,7 +43,9 @@ final class Resend
         $body = $serverRequest->getParsedBody();
         $method = $serverRequest->getMethod();
 
-        if ($method === 'POST' && $formResend->load($body) && $validator->validate($formResend)->isValid()) {
+        if ($method === 'POST' && $formResend->load($body) && $validator
+                ->validate($formResend)
+                ->isValid()) {
             $email = $formResend->getEmail();
             $userId = $formResend->getUserId();
             $username = $formResend->getUsername();

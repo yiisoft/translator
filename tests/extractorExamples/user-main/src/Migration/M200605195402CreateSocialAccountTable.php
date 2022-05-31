@@ -16,7 +16,9 @@ final class M200605195402CreateSocialAccountTable implements RevertibleMigration
     {
         $tableOptions = null;
 
-        if ($b->getDb()->getDriverName() === 'mysql') {
+        if ($b
+                ->getDb()
+                ->getDriverName() === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 ENGINE=InnoDB';
         }
 
