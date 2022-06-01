@@ -21,7 +21,9 @@ final class RepositoryProfile
 
     public function findProfileByCondition(array $condition): ?ActiveRecordInterface
     {
-        return $this->profileQuery()->findOne($condition);
+        return $this
+            ->profileQuery()
+            ->findOne($condition);
     }
 
     public function loadData(string $id, FormProfile $formProfile): void

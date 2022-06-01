@@ -124,9 +124,12 @@ final class FormRegister extends FormModel
 
         return [
             $required->message($this->translator->translate('Value cannot be blank', [], 'user')),
-            $hasLength->min(3)->max(255)->tooShortMessage(
-                $this->translator->translate('Username should contain at least 3 characters', [], 'user'),
-            ),
+            $hasLength
+                ->min(3)
+                ->max(255)
+                ->tooShortMessage(
+                    $this->translator->translate('Username should contain at least 3 characters', [], 'user'),
+                ),
             $matchRegularExpression->message($this->translator->translate('This value is invalid', [], 'user')),
 
             function (): Result {
@@ -150,13 +153,16 @@ final class FormRegister extends FormModel
         if ($this->repositorySetting->isGeneratingPassword() === false) {
             $result = [
                 $required->message($this->translator->translate('Value cannot be blank', [], 'user')),
-                $hasLength->min(6)->max(72)->tooShortMessage(
-                    $this->translator->translate(
-                        'Password should contain at least 6 characters',
-                        [],
-                        'user'
-                    )
-                ),
+                $hasLength
+                    ->min(6)
+                    ->max(72)
+                    ->tooShortMessage(
+                        $this->translator->translate(
+                            'Password should contain at least 6 characters',
+                            [],
+                            'user'
+                        )
+                    ),
             ];
         }
 

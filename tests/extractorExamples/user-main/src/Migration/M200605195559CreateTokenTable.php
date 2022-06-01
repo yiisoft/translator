@@ -16,17 +16,27 @@ final class M200605195559CreateTokenTable implements RevertibleMigrationInterfac
     {
         $tableOptions = null;
 
-        if ($b->getDb()->getDriverName() === 'mysql') {
+        if ($b
+                ->getDb()
+                ->getDriverName() === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 ENGINE=InnoDB';
         }
 
         $b->createTable(
             '{{%token}}',
             [
-                'user_id' => $b->integer()->notNull(),
-                'code' => $b->string(32)->notNull(),
-                'created_at' => $b->integer()->notNull(),
-                'type' => $b->smallInteger()->notNull(),
+                'user_id' => $b
+                    ->integer()
+                    ->notNull(),
+                'code' => $b
+                    ->string(32)
+                    ->notNull(),
+                'created_at' => $b
+                    ->integer()
+                    ->notNull(),
+                'type' => $b
+                    ->smallInteger()
+                    ->notNull(),
             ],
             $tableOptions
         );

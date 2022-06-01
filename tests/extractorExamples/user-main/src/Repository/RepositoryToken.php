@@ -29,12 +29,16 @@ final class RepositoryToken
 
     public function findToken(array $condition): QueryInterface
     {
-        return $this->tokenQuery()->where($condition);
+        return $this
+            ->tokenQuery()
+            ->where($condition);
     }
 
     public function findTokenByCondition(array $condition): ?ActiveRecordInterface
     {
-        return $this->tokenQuery()->findOne($condition);
+        return $this
+            ->tokenQuery()
+            ->findOne($condition);
     }
 
     public function findTokenById(string $id): ?ActiveRecordInterface
