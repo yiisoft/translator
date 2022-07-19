@@ -72,10 +72,12 @@ Configuration depends on the container used so below we'll create an instance ma
 /** @var \Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher */
 $locale = 'ru';
 $fallbackLocale = 'en';
+$categorySources = [];
 
 $translator = new Yiisoft\Translator\Translator(
     $locale,
     $fallbackLocale,
+    $categorySources,
     $eventDispatcher
 );
 ```
@@ -104,7 +106,12 @@ $category = new Yiisoft\Translator\CategorySource(
 );
 
 // And add it.
-$translator->addCategorySource($category);
+$translator = new Yiisoft\Translator\Translator(
+    $locale,
+    $fallbackLocale,
+    [$category],
+    $eventDispatcher
+);
 ```
 
 That's it. Translator is ready to be used.
@@ -150,10 +157,8 @@ return [
         '__construct()' => [
             $params['yiisoft/translator']['locale'],
             $params['yiisoft/translator']['fallbackLocale'],
+            $params['yiisoft/translator']['categorySources'],
             Reference::to(EventDispatcherInterface::class),
-        ],
-        'addCategorySources()' => [
-            $params['yiisoft/translator']['categorySources']
         ],
     ],
 ];
@@ -182,39 +187,6 @@ return [
 ];
 ```
 
-### Multiple translation sources
-
-```php
-/** @var \Yiisoft\Translator\TranslatorInterface $translator */
-
-$categoryName = 'module';
-$pathToModuleTranslations = './module/messages/';
-$moduleMessageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToModuleTranslations);
-
-// Simple message formatter.
-$formatter = new \Yiisoft\Translator\Formatter\Simple\SimpleMessageFormatter();
-
-$additionalCategory = new Yiisoft\Translator\CategorySource(
-    $categoryName, 
-    $moduleMessageSource,
-    $formatter
-);
-$translator->addCategorySource($additionalCategory);
-```
-
-### Adding many category sources at once
-
-```php
-/** @var \Yiisoft\Translator\TranslatorInterface $translator */
-/** @var \Yiisoft\Translator\CategorySource $additionalCategory1 */
-/** @var \Yiisoft\Translator\CategorySource $additionalCategory2 */
-
-$translator->addCategorySources([
-    $additionalCategory1,
-    $additionalCategory2,
-]);
-```
-
 ### Overriding translation messages
 
 If you use a module that has message translation and want to redefine default translation messages, you can
@@ -228,16 +200,25 @@ category and ID.
 /** @var \Yiisoft\Translator\Message\Php\MessageSource $yourCustomMessageSource */
 /** @var \Yiisoft\Translator\Formatter\Simple\SimpleMessageFormatter $formatter */
 
-// CategorySource for module with "validator" category name.
-$categoryNameAsModule = 'validator'; // 
+// CategorySource for modules with "validator" category name.
+$categoryName = 'validator';
+$commonCategorySource = new Yiisoft\Translator\CategorySource(
+    $categoryName, 
+    $yourCustomMessageSource,
+    $formatter
+);
 $moduleCategorySource = new Yiisoft\Translator\CategorySource(
-    $categoryNameAsModule, 
+    $categoryName, 
     $yourCustomMessageSource,
     $formatter
 );
 
-// Needs be added after module category source is added.
-$translator->addCategorySource($moduleCategorySource);
+$translator = new Yiisoft\Translator\Translator(
+    $locale,
+    $fallbackLocale,
+    [$commonCategorySource, $moduleCategorySource],
+    $eventDispatcher,
+);
 ```
 
 ## General usage
@@ -246,21 +227,21 @@ $translator->addCategorySource($moduleCategorySource);
 
 ```php
 // single translation
-$messageIdentificator = 'submit';
-echo $translator->translate($messageIdentificator);
+$messageIdentifier = 'submit';
+echo $translator->translate($messageIdentifier);
 // output: `Submit message`
 
 // translation with plural
-$messageIdentificator = 'multiHumans';
-echo $translator->translate($messageIdentificator, ['n' => 3]);
+$messageIdentifier = 'multiHumans';
+echo $translator->translate($messageIdentifier, ['n' => 3]);
 // output: `3 humans`
 ```
 
 ### Specifying category and language
 
 ```php
-$messageIdentificator = 'submit';
-echo $translator->translate($messageIdentificator, [], 'moduleId', 'ru');
+$messageIdentifier = 'submit';
+echo $translator->translate($messageIdentifier, [], 'moduleId', 'ru');
 // output: `Отправить сообщение`
 ```
 
@@ -282,13 +263,6 @@ echo $translator->getLocale();
 ```php
 $newDefaultLocale = 'de-DE';
 echo $translator->withLocale($newDefaultLocale);
-```
-
-### Get a new Translator instance with a category to be used by default in case category isn't specified explicitly.
-
-```php
-$newDefaultCategoryId = 'module2';
-echo $translator->withCategory($newDefaultCategoryId);
 ```
 
 ## Additional info
