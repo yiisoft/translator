@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yiisoft\Translator;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
-use RuntimeException;
 use Yiisoft\I18n\Locale;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;

@@ -188,7 +188,6 @@ final class TranslatorTest extends TestCase
                     ],
                 ],
             ]),
-
         ];
         return new Translator($locale, $fallbackLocale, $categories);
     }
