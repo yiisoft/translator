@@ -23,7 +23,7 @@ final class Translator implements TranslatorInterface
     /**
      * @var CategorySource[][] Array of category message sources indexed by category names.
      */
-    private array $categorySources = [];
+    private array $categorySources;
 
     /**
      * @param string $locale Default locale to use if locale is not specified explicitly.
@@ -33,14 +33,17 @@ final class Translator implements TranslatorInterface
     public function __construct(
         string $locale,
         ?string $fallbackLocale = null,
+        array $categorySources = [],
         ?EventDispatcherInterface $eventDispatcher = null
     ) {
         $this->locale = $locale;
         $this->fallbackLocale = $fallbackLocale;
         $this->eventDispatcher = $eventDispatcher;
+
+        $this->addCategorySources($categorySources);
     }
 
-    public function addCategorySource(CategorySource $category): void
+    private function addCategorySource(CategorySource $category): void
     {
         if (isset($this->categorySources[$category->getName()])) {
             $this->categorySources[$category->getName()][] = $category;
@@ -49,7 +52,12 @@ final class Translator implements TranslatorInterface
         }
     }
 
-    public function addCategorySources(array $categories): void
+    /**
+     * Add multiple categories.
+     *
+     * @param CategorySource[] $categories
+     */
+    private function addCategorySources(array $categories): void
     {
         foreach ($categories as $category) {
             $this->addCategorySource($category);
@@ -84,20 +92,6 @@ final class Translator implements TranslatorInterface
         }
 
         return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
-    }
-
-    /**
-     * @psalm-immutable
-     */
-    public function withCategory(string $category): self
-    {
-        if (!isset($this->categorySources[$category])) {
-            throw new RuntimeException('Category with name "' . $category . '" does not exist.');
-        }
-
-        $new = clone $this;
-        $new->defaultCategory = $category;
-        return $new;
     }
 
     public function withLocale(string $locale): self
