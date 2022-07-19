@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Translator;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
+use RuntimeException;
 use Yiisoft\I18n\Locale;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
@@ -135,5 +136,19 @@ final class Translator implements TranslatorInterface
 
         $categorySource = end($this->categorySources[$category]);
         return $categorySource->format($id, $parameters, $locale);
+    }
+
+    /**
+     * @psalm-immutable
+     */
+    public function withCategory(string $category): self
+    {
+        if (!isset($this->categorySources[$category])) {
+            throw new RuntimeException('Category with name "' . $category . '" does not exist.');
+        }
+
+        $new = clone $this;
+        $new->defaultCategory = $category;
+        return $new;
     }
 }
