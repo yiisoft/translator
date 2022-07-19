@@ -390,20 +390,20 @@ final class TranslatorTest extends TestCase
     {
         $locale = 'en';
         $categories = [
-                $this->createCategory('app', [
-                    'app' => [
-                        'en' => [
-                            'test.id1' => 'app: Test 1 on the (en)',
-                        ],
+            $this->createCategory('app', [
+                'app' => [
+                    'en' => [
+                        'test.id1' => 'app: Test 1 on the (en)',
                     ],
-                ]),
+                ],
+            ]),
             $this->createCategory('app2', [
                 'app2' => [
                     'en' => [
                         'test.id1' => 'app2: Test 1 on the (en)',
                     ],
                 ],
-            ])
+            ]),
         ];
         $translator = new Translator($locale, null, $categories);
 
