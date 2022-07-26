@@ -1,6 +1,6 @@
 # Yii Message Translator Change Log
 
-## 1.0.2 under development
+## 1.0.2 July 26, 2022
 
 - Enh #59: Add support for `yiisoft/files` of version `^2.0` (@vjik)
 
