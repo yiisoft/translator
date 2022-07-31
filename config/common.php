@@ -7,6 +7,8 @@ use Yiisoft\Definitions\Reference;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\CategorySource;
+use Yiisoft\Translator\MessageFormatterInterface;
+use Yiisoft\Translator\SimpleMessageFormatter;
 
 /** @var array $params */
 
@@ -33,4 +35,6 @@ return [
             $this->setLocale($params['yiisoft/translator']['locale']);
         },
     ],
+
+    MessageFormatterInterface::class => SimpleMessageFormatter::class,
 ];
