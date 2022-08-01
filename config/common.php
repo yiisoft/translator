@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Definitions\Reference;
+use Yiisoft\Translator\MessageReaderInterface;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\CategorySource;
@@ -21,6 +22,16 @@ return [
     //     ],
     // ],
 
+    'DefaultCategorySource' => static function (\Psr\Container\ContainerInterface $container) use ($params) {
+        return new CategorySource(
+            $params['yiisoft/translator']['defaultCategory'],
+            $container->get(MessageReaderInterface::class),
+            $container->has(MessageFormatterInterface::class)
+                ? $container->get(MessageFormatterInterface::class)
+                : new SimpleMessageFormatter(),
+        );
+    },
+
     TranslatorInterface::class => [
         'class' => Translator::class,
         '__construct()' => [
@@ -35,6 +46,4 @@ return [
             $this->setLocale($params['yiisoft/translator']['locale']);
         },
     ],
-
-    MessageFormatterInterface::class => SimpleMessageFormatter::class,
 ];
