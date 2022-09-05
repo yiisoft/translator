@@ -9,7 +9,7 @@ use Yiisoft\Translator\SimpleMessageFormatter;
 
 class SimpleMessageFormatterTest extends TestCase
 {
-    public function optionsProvider(): array
+    public function formatProvider(): array
     {
         return [
             [
@@ -31,11 +31,7 @@ class SimpleMessageFormatterTest extends TestCase
     }
 
     /**
-     * @dataProvider optionsProvider
-     *
-     * @param string $expected
-     * @param string $pattern
-     * @param array $params
+     * @dataProvider formatProvider
      */
     public function testFormat(string $expected, string $pattern, array $params): void
     {
