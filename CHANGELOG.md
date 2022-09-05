@@ -2,7 +2,7 @@
 
 ## 1.0.3 under development
 
-- no changes in this release.
+- Chg #25: Move `SimpleMessageFormatter` from `yiisoft/translator-formatter-simple` package (@DAGpro, @vjik)
 
 ## 1.0.2 July 26, 2022
 
