@@ -22,7 +22,7 @@ return [
     //     ],
     // ],
 
-    'DefaultCategorySource' => static function (\Psr\Container\ContainerInterface $container) use ($params) {
+    'DefaultCategorySource' => static function (Psr\Container\ContainerInterface $container) use ($params) {
         return new CategorySource(
             $params['yiisoft/translator']['defaultCategory'],
             $container->get(MessageReaderInterface::class),
