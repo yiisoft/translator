@@ -2,7 +2,7 @@
 
 ## 1.0.3 under development
 
-- Chg #25: Move SimpleMessageFormatter from package `yiisoft/translator-formatter-simple` in `yiisoft/translator` (@DAGpro, @vjik)
+- Chg #25: Move `SimpleMessageFormatter` from `yiisoft/translator-formatter-simple` package (@DAGpro, @vjik)
 
 ## 1.0.2 July 26, 2022
 
