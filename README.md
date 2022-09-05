@@ -47,7 +47,8 @@ PHP arrays or GNU gettext. Message formatters provide extra syntax that is recog
 
 ### Simple formatter
 
-[Simple formatter](docs/en/simple-formatter.md) is used for when the English language is used as message keys, there's no actual translation and message sources are not required.
+[Simple formatter](docs/en/simple-formatter.md) is enough when the English language is used for message keys. There's no 
+actual translation and message sources are not required.
 
 ### Extracting messages
 
