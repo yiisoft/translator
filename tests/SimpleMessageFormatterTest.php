@@ -40,6 +40,11 @@ class SimpleMessageFormatterTest extends TestCase
                 ['min' => 2],
                 '2 characters',
             ],
+            'plural, zero' => [
+                '{min, plural, one{character} other{characters}}',
+                ['min' => 0],
+                '0 characters',
+            ],
             'plural, reversed options' => [
                 '{min, plural, other{characters} one{character}}',
                 ['min' => 1],
