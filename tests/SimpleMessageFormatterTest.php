@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Translator\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Translator\SimpleMessageFormatter;
 
@@ -63,10 +64,20 @@ class SimpleMessageFormatterTest extends TestCase
     /**
      * @dataProvider formatProvider
      */
-    public function testFormat(string $pattern, array $params, string $expected): void
+    public function testFormat(string $message, array $parameters, string $expected): void
     {
         $formatter = new SimpleMessageFormatter();
-        $result = $formatter->format($pattern, $params, 'en-US');
+        $result = $formatter->format($message, $parameters);
         $this->assertEquals($expected, $result);
+    }
+
+    public function testPluralWithWrongKey(): void
+    {
+        $formatter = new SimpleMessageFormatter();
+        $message = '{min, plural, one{character} many{characters}}';
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid plural key - "many". The valid keys are "one", "other".');
+        $formatter->format($message, ['min' => 1]);
     }
 }
