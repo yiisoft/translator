@@ -1,8 +1,9 @@
 ## Simple Formatter
 
-## Configuration
+### Configuration
 
-In case you use [`yiisoft/config`](http://github.com/yiisoft/config), you will get configuration automatically. If not, the following DI container configuration is necessary:
+In case of using [yiisoft/config](http://github.com/yiisoft/config), the configuration is added automatically. If not, 
+add the following mapping:
 
 ```php
 <?php
@@ -17,7 +18,7 @@ return [
 ];
 ```
 
-### Example of usage
+### Using with `Translator`
 
 ```php
 /** @var \Yiisoft\Translator\Translator $translator **/
@@ -35,10 +36,9 @@ $translator->translate('Test string: {str}', ['str' => 'string data'], 'moduleId
 // output: Test string: string data
 ```
 
-### Example of usage without `yiisoft/translator` package
+### Using without `Translator`
 
 ```php
-
 /** @var \Yiisoft\Translator\SimpleMessageFormatter $formatter */
 $pattern = 'Test number: {number}';
 $params = ['number' => 5];

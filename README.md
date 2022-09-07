@@ -46,8 +46,9 @@ PHP arrays or GNU gettext. Message formatters provide extra syntax that is recog
 * [translator-formatter-intl](https://github.com/yiisoft/translator-formatter-intl) - Intl (i18n) formatter
 
 ### Simple formatter
-Simple formatter to use if you do not need additional syntax such as in case with gettext message source.
-If that is your case, check [simple formatter guide](docs/en/simple-formatter.md).
+
+[Simple formatter](docs/en/simple-formatter.md) is enough when the English language is used for message keys. There's no 
+actual translation and message sources are not required.
 
 ### Extracting messages
 
