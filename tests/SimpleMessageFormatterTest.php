@@ -71,13 +71,21 @@ class SimpleMessageFormatterTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testPluralWithWrongKey(): void
+    public function testFormatPluralWithWrongKey(): void
     {
         $formatter = new SimpleMessageFormatter();
-        $message = '{min, plural, one{character} many{characters}}';
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid plural key - "many". The valid keys are "one", "other".');
-        $formatter->format($message, ['min' => 1]);
+        $formatter->format('{min, plural, one{character} many{characters}}', ['min' => 1]);
+    }
+
+    public function testFormatWithMissingParameters(): void
+    {
+        $formatter = new SimpleMessageFormatter();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"min" parameter\'s value is missing.');
+        $formatter->format('{min}', []);
     }
 }

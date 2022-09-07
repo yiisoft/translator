@@ -20,6 +20,11 @@ class SimpleMessageFormatter implements MessageFormatterInterface
         foreach ($matches[0] as $match) {
             $parts = explode(',', $match);
             $parameter = trim($parts[0], '{}');
+
+            if (!isset($parameters[$parameter])) {
+                throw new InvalidArgumentException("\"$parameter\" parameter's value is missing.");
+            }
+
             $value = $parameters[$parameter];
 
             if (!is_scalar($value)) {
