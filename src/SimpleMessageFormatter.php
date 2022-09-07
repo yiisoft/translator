@@ -32,11 +32,7 @@ class SimpleMessageFormatter implements MessageFormatterInterface
             switch ($format) {
                 case 'plural':
                     $options = $parts[2];
-                    preg_match_all('/([^{}\s]+)({(.*?)})/', $options, $pluralMatches);
-                    $map = array_combine($pluralMatches[1], $pluralMatches[3]);
-                    $formattedValue = $value . ' ';
-                    $formattedValue .= $value === 1 ? $map['one'] : $map['other'];
-                    $replacements[$match] = $formattedValue;
+                    $replacements[$match] = self::pluralize($value, $options);
 
                     break;
                 default:
@@ -45,5 +41,15 @@ class SimpleMessageFormatter implements MessageFormatterInterface
         }
 
         return strtr($message, $replacements);
+    }
+
+    private static function pluralize(int $value, string $options): string
+    {
+        preg_match_all('/([^{}\s]+)({(.*?)})/', $options, $pluralMatches);
+        $map = array_combine($pluralMatches[1], $pluralMatches[3]);
+        $formattedValue = $value . ' ';
+        $formattedValue .= $value === 1 ? $map['one'] : $map['other'];
+
+        return $formattedValue;
     }
 }
