@@ -57,6 +57,7 @@ class SimpleMessageFormatter implements MessageFormatterInterface
     /**
      * @param mixed $value
      * @param string $options
+     *
      * @return string
      */
     private static function pluralize($value, string $options): string
