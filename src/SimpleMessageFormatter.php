@@ -60,7 +60,7 @@ class SimpleMessageFormatter implements MessageFormatterInterface
 
         foreach ($pluralMatches[1] as $match) {
             if (!in_array($match, self::PLURAL_KEYS, true)) {
-                $keysStr = implode(', ', array_map(fn(string $value): string => '"' . $value . '"', self::PLURAL_KEYS));
+                $keysStr = implode(', ', array_map(fn (string $value): string => '"' . $value . '"', self::PLURAL_KEYS));
 
                 throw new InvalidArgumentException("Invalid plural key - \"$match\". The valid keys are $keysStr.");
             }
