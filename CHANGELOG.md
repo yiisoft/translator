@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 1.1.1 under development
+
+- no changes in this release.
+
 ## 1.1.0 September 07, 2022
 
 - Chg #25: Move `SimpleMessageFormatter` from `yiisoft/translator-formatter-simple` package (@DAGpro, @vjik)
