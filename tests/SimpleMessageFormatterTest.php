@@ -85,6 +85,15 @@ class SimpleMessageFormatterTest extends TestCase
         $formatter->format('{min, plural, one{character} many{characters}}', ['min' => 1]);
     }
 
+    public function testFormatPluralWithNonInteger(): void
+    {
+        $formatter = new SimpleMessageFormatter();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Only integer numbers are supported with plural format.');
+        $formatter->format('{min, plural, one{character} other{characters}}', ['min' => 'str']);
+    }
+
     public function testFormatWithMissingParameters(): void
     {
         $formatter = new SimpleMessageFormatter();

@@ -54,8 +54,17 @@ class SimpleMessageFormatter implements MessageFormatterInterface
         return strtr($message, $replacements);
     }
 
-    private static function pluralize(int $value, string $options): string
+    /**
+     * @param mixed $value
+     * @param string $options
+     * @return string
+     */
+    private static function pluralize($value, string $options): string
     {
+        if (!is_int($value)) {
+            throw new InvalidArgumentException('Only integer numbers are supported with plural format.');
+        }
+
         preg_match_all('/([^{}\s]+)({(.*?)})/', $options, $pluralMatches);
 
         foreach ($pluralMatches[1] as $match) {
