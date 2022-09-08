@@ -93,6 +93,7 @@ class SimpleMessageFormatter implements MessageFormatterInterface
 
     /**
      * @param string[] $items
+     *
      * @return string
      */
     private static function formatList(array $items): string
