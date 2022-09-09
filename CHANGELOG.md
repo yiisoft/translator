@@ -2,11 +2,12 @@
 
 ## 1.1.1 under development
 
-- no changes in this release.
+- Bug #67: Exclude number from "plural" formatted message, handle missing options' keys (@arogachev)
 
 ## 1.1.0 September 07, 2022
 
 - Chg #25: Move `SimpleMessageFormatter` from `yiisoft/translator-formatter-simple` package (@DAGpro, @vjik)
+- Enh #63: Add "plural" support to `SimpleMessageFormatter` (@arogachev)
 
 ## 1.0.2 July 26, 2022
 

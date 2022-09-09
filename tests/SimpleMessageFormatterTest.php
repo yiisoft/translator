@@ -33,22 +33,22 @@ class SimpleMessageFormatterTest extends TestCase
             'plural, one' => [
                 '{min, plural, one{character} other{characters}}',
                 ['min' => 1],
-                '1 character',
+                'character',
             ],
             'plural, other' => [
                 '{min, plural, one{character} other{characters}}',
                 ['min' => 2],
-                '2 characters',
+                'characters',
             ],
             'plural, zero' => [
                 '{min, plural, one{character} other{characters}}',
                 ['min' => 0],
-                '0 characters',
+                'characters',
             ],
             'plural, reversed options' => [
                 '{min, plural, other{characters} one{character}}',
                 ['min' => 1],
-                '1 character',
+                'character',
             ],
             // not supported
             'not supported' => [
@@ -61,7 +61,7 @@ class SimpleMessageFormatterTest extends TestCase
                 'text1 {param1} text2 {param2, number} text3 {param3, plural, one{item} other{items}} text4 {param4} ' .
                 'text5',
                 ['param1' => 1, 'param2' => 2, 'param3' => 3, 'param4' => 4],
-                'text1 1 text2 2 text3 3 items text4 4 text5',
+                'text1 1 text2 2 text3 items text4 4 text5',
             ],
         ];
     }
@@ -92,6 +92,24 @@ class SimpleMessageFormatterTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Only integer numbers are supported with plural format.');
         $formatter->format('{min, plural, one{character} other{characters}}', ['min' => 'str']);
+    }
+
+    public function testFormatPluralWithMissingKey(): void
+    {
+        $formatter = new SimpleMessageFormatter();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing plural keys: "other".');
+        $formatter->format('{min, plural, one{character}}', ['min' => 1]);
+    }
+
+    public function testFormatPluralWithMissingKeys(): void
+    {
+        $formatter = new SimpleMessageFormatter();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing plural keys: "one", "other".');
+        $formatter->format('{min, plural}', ['min' => 1]);
     }
 
     public function testFormatWithMissingParameters(): void
