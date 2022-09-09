@@ -1,6 +1,6 @@
 # Yii Message Translator Change Log
 
-## 1.1.1 under development
+## 1.1.1 September 09, 2022
 
 - Bug #67: Exclude number from "plural" formatted message, handle missing options' keys (@arogachev)
 
