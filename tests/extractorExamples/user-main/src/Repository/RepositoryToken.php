@@ -18,13 +18,8 @@ use Yiisoft\Security\Random;
 
 final class RepositoryToken
 {
-    private ActiveRecordFactory $activeRecordFactory;
-    private LoggerInterface $logger;
-
-    public function __construct(ActiveRecordFactory $activeRecordFactory, LoggerInterface $logger)
+    public function __construct(private ActiveRecordFactory $activeRecordFactory, private LoggerInterface $logger)
     {
-        $this->activeRecordFactory = $activeRecordFactory;
-        $this->logger = $logger;
     }
 
     public function findToken(array $condition): QueryInterface
@@ -60,7 +55,7 @@ final class RepositoryToken
         $token->deleteAll(['user_id' => $id, 'type' => $typeToken]);
 
         if ($token->getIsNewRecord() === false) {
-            throw new RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
+            throw new RuntimeException('Calling "' . self::class . '::' . __METHOD__ . '" on existing user');
         }
 
         /** @var Connection $db */

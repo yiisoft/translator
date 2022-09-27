@@ -28,8 +28,6 @@ final class ContentParser
 
     private int $translatorTokenCount = 0;
 
-    private string $defaultCategory;
-
     private static array $brackets = [
         ')' => '(',
         ']' => '[',
@@ -43,9 +41,8 @@ final class ContentParser
      * @param string|null $translator A string containing a method call that translates the message. If not specified,
      * "->translate" is assumed.
      */
-    public function __construct(string $defaultCategory, ?string $translator = null)
+    public function __construct(private string $defaultCategory, ?string $translator = null)
     {
-        $this->defaultCategory = $defaultCategory;
         $this->setTranslator($translator ?? $this->translatorCall);
     }
 
@@ -57,7 +54,7 @@ final class ContentParser
     public function extract(string $content): array
     {
         $this->skippedLines = [];
-        $tokens = token_get_all($content);
+        $tokens = \PhpToken::tokenize($content);
 
         return $this->extractMessagesFromTokens($tokens);
     }
@@ -102,7 +99,7 @@ final class ContentParser
     private function setTranslator(string $translatorCall): void
     {
         $this->translatorCall = $translatorCall;
-        $translatorTokens = token_get_all('<?php ' . $this->translatorCall);
+        $translatorTokens = \PhpToken::tokenize('<?php ' . $this->translatorCall);
         array_shift($translatorTokens);
         $this->translatorTokens = $translatorTokens;
         $this->translatorTokenCount = count($this->translatorTokens);

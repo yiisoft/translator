@@ -22,19 +22,12 @@ final class FormRegister extends FormModel
     private string $username = '';
     private string $password = '';
     private string $ip = '';
-    private RepositorySetting $repositorySetting;
-    private RepositoryUser $repositoryUser;
-    private TranslatorInterface $translator;
 
     public function __construct(
-        RepositoryUser $repositoryUser,
-        RepositorySetting $repositorySetting,
-        TranslatorInterface $translator
+        private RepositoryUser $repositoryUser,
+        private RepositorySetting $repositorySetting,
+        private TranslatorInterface $translator
     ) {
-        $this->repositoryUser = $repositoryUser;
-        $this->repositorySetting = $repositorySetting;
-        $this->translator = $translator;
-
         parent::__construct();
     }
 

@@ -24,22 +24,13 @@ final class FormLogin extends FormModel
     private bool $remember = false;
     private string $ip = '';
     private int $lastLogout = 0;
-    private Identity $identity;
-    private RepositoryUser $repositoryUser;
-    private RepositorySetting $repositorySetting;
-    private TranslatorInterface $translator;
 
     public function __construct(
-        Identity $identity,
-        RepositoryUser $repositoryUser,
-        RepositorySetting $repositorySetting,
-        TranslatorInterface $translator
+        private Identity $identity,
+        private RepositoryUser $repositoryUser,
+        private RepositorySetting $repositorySetting,
+        private TranslatorInterface $translator
     ) {
-        $this->identity = $identity;
-        $this->repositoryUser = $repositoryUser;
-        $this->repositorySetting = $repositorySetting;
-        $this->translator = $translator;
-
         parent::__construct();
     }
 

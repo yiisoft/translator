@@ -9,14 +9,11 @@ namespace Yiisoft\Translator\Event;
  */
 final class MissingTranslationCategoryEvent
 {
-    private string $category;
-
     /**
      * @param string $category Category that is missing.
      */
-    public function __construct(string $category)
+    public function __construct(private string $category)
     {
-        $this->category = $category;
     }
 
     /**
