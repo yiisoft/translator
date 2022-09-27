@@ -27,7 +27,7 @@ final class Translator implements TranslatorInterface
      * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
-    public function __construct(private string $locale, private ?string $fallbackLocale = null, private ?\Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher = null)
+    public function __construct(private string $locale, private ?string $fallbackLocale = null, private ?EventDispatcherInterface $eventDispatcher = null)
     {
     }
 
