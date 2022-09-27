@@ -12,11 +12,8 @@ use Yiisoft\ActiveRecord\ActiveRecordInterface;
 
 final class RepositoryProfile
 {
-    private ActiveRecordFactory $activeRecordFactory;
-
-    public function __construct(ActiveRecordFactory $activeRecordFactory)
+    public function __construct(private ActiveRecordFactory $activeRecordFactory)
     {
-        $this->activeRecordFactory = $activeRecordFactory;
     }
 
     public function findProfileByCondition(array $condition): ?ActiveRecordInterface

@@ -15,18 +15,8 @@ use Yiisoft\User\CurrentUser;
 
 final class Guest implements MiddlewareInterface
 {
-    private ResponseFactoryInterface $responseFactory;
-    private UrlGeneratorInterface $urlGenerator;
-    private CurrentUser $user;
-
-    public function __construct(
-        ResponseFactoryInterface $responseFactory,
-        UrlGeneratorInterface $urlGenerator,
-        CurrentUser $user
-    ) {
-        $this->responseFactory = $responseFactory;
-        $this->urlGenerator = $urlGenerator;
-        $this->user = $user;
+    public function __construct(private ResponseFactoryInterface $responseFactory, private UrlGeneratorInterface $urlGenerator, private CurrentUser $user)
+    {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

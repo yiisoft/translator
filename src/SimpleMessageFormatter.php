@@ -54,13 +54,7 @@ class SimpleMessageFormatter implements MessageFormatterInterface
         return strtr($message, $replacements);
     }
 
-    /**
-     * @param mixed $value
-     * @param string $options
-     *
-     * @return string
-     */
-    private static function pluralize($value, string $options): string
+    private static function pluralize(mixed $value, string $options): string
     {
         if (!$options) {
             throw new InvalidArgumentException('Missing plural keys: ' . self::formatList(self::PLURAL_KEYS) . '.');
@@ -93,8 +87,6 @@ class SimpleMessageFormatter implements MessageFormatterInterface
 
     /**
      * @param string[] $items
-     *
-     * @return string
      */
     private static function formatList(array $items): string
     {

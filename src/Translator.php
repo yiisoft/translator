@@ -16,9 +16,6 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
 final class Translator implements TranslatorInterface
 {
     private string $defaultCategory = 'app';
-    private string $locale;
-    private ?string $fallbackLocale;
-    private ?EventDispatcherInterface $eventDispatcher;
 
     /**
      * @var CategorySource[][] Array of category message sources indexed by category names.
@@ -30,14 +27,8 @@ final class Translator implements TranslatorInterface
      * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
-    public function __construct(
-        string $locale,
-        ?string $fallbackLocale = null,
-        ?EventDispatcherInterface $eventDispatcher = null
-    ) {
-        $this->locale = $locale;
-        $this->fallbackLocale = $fallbackLocale;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(private string $locale, private ?string $fallbackLocale = null, private ?EventDispatcherInterface $eventDispatcher = null)
+    {
     }
 
     public function addCategorySource(CategorySource $category): void
@@ -72,9 +63,9 @@ final class Translator implements TranslatorInterface
         string $category = null,
         string $locale = null
     ): string {
-        $locale = $locale ?? $this->locale;
+        $locale ??= $this->locale;
 
-        $category = $category ?? $this->defaultCategory;
+        $category ??= $this->defaultCategory;
 
         if (empty($this->categorySources[$category])) {
             if ($this->eventDispatcher !== null) {

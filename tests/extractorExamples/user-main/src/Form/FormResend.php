@@ -19,16 +19,11 @@ final class FormResend extends FormModel
     private string $email = '';
     private string $userId = '';
     private string $username = '';
-    private RepositoryUser $repositoryUser;
-    private TranslatorInterface $translator;
 
     public function __construct(
-        RepositoryUser $repositoryUser,
-        TranslatorInterface $translator
+        private RepositoryUser $repositoryUser,
+        private TranslatorInterface $translator
     ) {
-        $this->repositoryUser = $repositoryUser;
-        $this->translator = $translator;
-
         parent::__construct();
     }
 

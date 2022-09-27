@@ -33,10 +33,6 @@ use function str_split;
 
 final class RepositoryUser implements IdentityRepositoryInterface
 {
-    private ActiveRecordFactory $activeRecordFactory;
-    private Aliases $aliases;
-    private InitialAvatar $avatar;
-    private LoggerInterface $logger;
     private Profile $profile;
     private Token $token;
     private User $user;
@@ -45,25 +41,19 @@ final class RepositoryUser implements IdentityRepositoryInterface
      * @psalm-suppress PropertyTypeCoercion
      */
     public function __construct(
-        ActiveRecordFactory $activeRecordFactory,
-        Aliases $aliases,
-        InitialAvatar $avatar,
-        LoggerInterface $logger
+        private ActiveRecordFactory $activeRecordFactory,
+        private Aliases $aliases,
+        private InitialAvatar $avatar,
+        private LoggerInterface $logger
     ) {
-        $this->activeRecordFactory = $activeRecordFactory;
-        $this->aliases = $aliases;
-        $this->avatar = $avatar;
-        $this->logger = $logger;
         $this->token = $activeRecordFactory->createAR(Token::class);
         $this->profile = $activeRecordFactory->createAR(Profile::class);
         $this->user = $activeRecordFactory->createAR(User::class);
     }
 
     /**
-     * @param string $id
      *
      * @return IdentityInterface|null
-     *
      * @psalm-suppress InvalidReturnType, InvalidReturnStatement
      */
     public function findIdentity(string $id): ?IdentityInterface
@@ -129,7 +119,7 @@ final class RepositoryUser implements IdentityRepositoryInterface
     public function register(FormRegister $formRegister, bool $isConfirmation, bool $isGeneratingPassword): bool
     {
         if ($this->user->getIsNewRecord() === false) {
-            throw new RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
+            throw new RuntimeException('Calling "' . self::class . '::' . __METHOD__ . '" on existing user');
         }
 
         /** @var Connection $db */
@@ -193,10 +183,8 @@ final class RepositoryUser implements IdentityRepositoryInterface
      *
      * @param int $length
      *
-     * @return string
      *
      * {@see https://gist.github.com/tylerhall/521810}
-     *
      * @psalm-suppress MixedOperand, PossiblyInvalidArrayOffset
      */
     private function generate(int $length): string
