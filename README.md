@@ -20,14 +20,14 @@ standalone PHP applications.
 
 ## Requirements
 
-- PHP 7.4 or higher.
+- PHP 8.0 or higher.
 
 ## Installation
 
 The package could be installed with composer:
 
 ```shell
-composer require yiisoft/translator --prefer-dist
+composer require yiisoft/translator
 ```
 
 ## Additional packages
