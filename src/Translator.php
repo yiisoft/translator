@@ -6,6 +6,7 @@ namespace Yiisoft\Translator;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RuntimeException;
+use Stringable;
 use Yiisoft\I18n\Locale;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
@@ -67,7 +68,7 @@ final class Translator implements TranslatorInterface
     }
 
     public function translate(
-        string $id,
+        string|Stringable $id,
         array $parameters = [],
         string $category = null,
         string $locale = null
@@ -77,13 +78,11 @@ final class Translator implements TranslatorInterface
         $category = $category ?? $this->defaultCategory;
 
         if (empty($this->categorySources[$category])) {
-            if ($this->eventDispatcher !== null) {
-                $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
-            }
-            return $id;
+            $this->eventDispatcher?->dispatch(new MissingTranslationCategoryEvent($category));
+            return (string) $id;
         }
 
-        return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
+        return $this->translateUsingCategorySources((string) $id, $parameters, $category, $locale);
     }
 
     /**
