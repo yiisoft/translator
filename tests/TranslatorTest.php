@@ -111,8 +111,12 @@ final class TranslatorTest extends TestCase
     {
         $locale = 'en';
         $translator = new Translator($locale);
-        $this->assertEquals('Without translation', $translator->translate('Without translation'));
-        $this->assertEquals('Without translation', $translator->translate('Without translation', [], ''));
+        $this->assertSame('Without translation', $translator->translate('Without translation'));
+        $this->assertSame('Without translation', $translator->translate('Without translation', [], ''));
+        $this->assertSame(
+            'Without 1 translation',
+            $translator->translate('Without {param} translation', ['param' => 1])
+        );
     }
 
     public function testWithoutDefaultCategoryMissingEvent(): void
