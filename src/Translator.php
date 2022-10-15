@@ -31,7 +31,7 @@ final class Translator implements TranslatorInterface
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
     public function __construct(
-        string $locale,
+        string $locale = 'en_US',
         ?string $fallbackLocale = null,
         ?EventDispatcherInterface $eventDispatcher = null
     ) {
