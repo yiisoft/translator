@@ -2,7 +2,7 @@
 
 ## 1.1.2 under development
 
-- no changes in this release.
+- Enh #74: Dispatch `MissingTranslationCategoryEvent` once per category (@vjik)
 
 ## 1.1.1 September 09, 2022
 
