@@ -16,6 +16,12 @@ use Yiisoft\Translator\TranslatorInterface;
 
 final class TranslatorTest extends TestCase
 {
+    public function testDefaultLocale(): void
+    {
+        $translator = new Translator();
+        $this->assertSame('en_US', $translator->getLocale());
+    }
+
     private function getMessages(): array
     {
         return [
