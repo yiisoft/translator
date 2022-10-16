@@ -25,6 +25,8 @@ final class Translator implements TranslatorInterface
      */
     private array $categorySources = [];
 
+    private ?SimpleMessageFormatter $simpleMessageFormatter = null;
+
     /**
      * @param string $locale Default locale to use if locale is not specified explicitly.
      * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
@@ -80,7 +82,7 @@ final class Translator implements TranslatorInterface
             if ($this->eventDispatcher !== null) {
                 $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
             }
-            return $id;
+            return $this->getSimpleMessageFormatter()->format($id, $parameters);
         }
 
         return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
@@ -142,5 +144,13 @@ final class Translator implements TranslatorInterface
 
         $categorySource = end($this->categorySources[$category]);
         return $categorySource->format($id, $parameters, $locale);
+    }
+
+    private function getSimpleMessageFormatter(): SimpleMessageFormatter
+    {
+        if ($this->simpleMessageFormatter === null) {
+            $this->simpleMessageFormatter = new SimpleMessageFormatter();
+        }
+        return $this->simpleMessageFormatter;
     }
 }
