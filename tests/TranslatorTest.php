@@ -569,8 +569,8 @@ final class TranslatorTest extends TestCase
                 [
                     'withFormatter' => [
                         'en' => [
-                            'hello' => 'Hello, {name}!'
-                        ]
+                            'hello' => 'Hello, {name}!',
+                        ],
                     ],
                 ]
             ),
@@ -583,8 +583,8 @@ final class TranslatorTest extends TestCase
                 [
                     'withoutFormatter' => [
                         'en' => [
-                            'hello' => 'Hello, {name}!'
-                        ]
+                            'hello' => 'Hello, {name}!',
+                        ],
                     ],
                 ]
             ),
