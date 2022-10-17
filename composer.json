@@ -18,7 +18,7 @@
         "source": "https://github.com/yiisoft/translator"
     },
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "psr/event-dispatcher": "1.0.0",
         "yiisoft/files": "^1.0|^2.0",
         "yiisoft/i18n": "^1.0"
