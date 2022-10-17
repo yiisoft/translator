@@ -25,6 +25,8 @@ final class Translator implements TranslatorInterface
      */
     private array $categorySources = [];
 
+    private ?SimpleMessageFormatter $simpleMessageFormatter = null;
+
     /**
      * @var array
      * @psalm-var array<string,true>
@@ -37,7 +39,7 @@ final class Translator implements TranslatorInterface
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
     public function __construct(
-        string $locale,
+        string $locale = 'en_US',
         ?string $fallbackLocale = null,
         ?EventDispatcherInterface $eventDispatcher = null
     ) {
@@ -84,7 +86,7 @@ final class Translator implements TranslatorInterface
 
         if (empty($this->categorySources[$category])) {
             $this->dispatchMissingTranslationCategoryEvent($category);
-            return $id;
+            return $this->getSimpleMessageFormatter()->format($id, $parameters);
         }
 
         return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
@@ -157,5 +159,13 @@ final class Translator implements TranslatorInterface
             $this->dispatchedMissingTranslationCategoryEvents[$category] = true;
             $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
         }
+    }
+
+    private function getSimpleMessageFormatter(): SimpleMessageFormatter
+    {
+        if ($this->simpleMessageFormatter === null) {
+            $this->simpleMessageFormatter = new SimpleMessageFormatter();
+        }
+        return $this->simpleMessageFormatter;
     }
 }
