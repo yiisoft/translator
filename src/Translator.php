@@ -28,7 +28,6 @@ final class Translator implements TranslatorInterface
     private ?SimpleMessageFormatter $simpleMessageFormatter = null;
 
     /**
-     * @var array
      * @psalm-var array<string,true>
      */
     private array $dispatchedMissingTranslationCategoryEvents = [];
