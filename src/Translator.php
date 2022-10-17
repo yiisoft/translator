@@ -15,6 +15,8 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
  */
 final class Translator implements TranslatorInterface
 {
+    private MessageFormatterInterface $defaultMessageFormatter;
+
     private string $defaultCategory = 'app';
 
     /**
@@ -36,8 +38,9 @@ final class Translator implements TranslatorInterface
         private string $locale = 'en_US',
         private ?string $fallbackLocale = null,
         private ?EventDispatcherInterface $eventDispatcher = null,
-        private MessageFormatterInterface $defaultMessageFormatter = new NullMessageFormatter()
+        ?MessageFormatterInterface $defaultMessageFormatter = null,
     ) {
+        $this->defaultMessageFormatter = $defaultMessageFormatter ?? new NullMessageFormatter();
     }
 
     public function addCategorySource(CategorySource $category): void
