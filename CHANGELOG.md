@@ -2,6 +2,7 @@
 
 ## 1.1.2 under development
 
+- Enh #74: Dispatch `MissingTranslationCategoryEvent` once per category (@vjik)
 - Enh #73: Set `en_US` as default locale for translator (@vjik)
 - Enh #72: Use `SimpleMessageFormatter` to format messages when missing translation category (@vjik)
 
