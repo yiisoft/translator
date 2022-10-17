@@ -11,6 +11,7 @@ use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
+use Yiisoft\Translator\SimpleMessageFormatter;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\TranslatorInterface;
 
@@ -115,14 +116,10 @@ final class TranslatorTest extends TestCase
 
     public function testWithoutDefaultCategory(): void
     {
-        $locale = 'en';
-        $translator = new Translator($locale);
+        $translator = new Translator();
         $this->assertSame('Without translation', $translator->translate('Without translation'));
         $this->assertSame('Without translation', $translator->translate('Without translation', [], ''));
-        $this->assertSame(
-            'Without 1 translation',
-            $translator->translate('Without {param} translation', ['param' => 1])
-        );
+        $this->assertSame('Hello, {name}!', $translator->translate('Hello, {name}!', ['name' => 'kitty']));
     }
 
     public function testWithoutDefaultCategoryMissingEvent(): void
@@ -139,6 +136,14 @@ final class TranslatorTest extends TestCase
         $translator = new Translator($locale, null, $eventDispatcher);
         $this->assertEquals('Without translation', $translator->translate('Without translation'));
         $this->assertEquals('Without translation 2', $translator->translate('Without translation 2'));
+    }
+
+    public function testWithoutDefaultCategoryWithCustomDefaultMessageFormatter(): void
+    {
+        $translator = new Translator(
+            defaultMessageFormatter: new SimpleMessageFormatter(),
+        );
+        $this->assertSame('Hello, kitty!', $translator->translate('Hello, {name}!', ['name' => 'kitty']));
     }
 
     public function testMultiCategories(): void

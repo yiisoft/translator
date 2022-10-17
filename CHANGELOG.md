@@ -4,7 +4,8 @@
 
 - Enh #74: Dispatch `MissingTranslationCategoryEvent` once per category (@vjik)
 - Enh #73: Set `en_US` as default locale for translator (@vjik)
-- Enh #72: Use `SimpleMessageFormatter` to format messages when missing translation category (@vjik)
+- Enh #72, #75: Format messages when missing translation category (@vjik)
+- New #75: Add `NullMessageFormatter` that returns message as is (@vjik)
 - Enh #69: Raise minimum PHP version to 8.0 (@xepozz, @vjik)
 
 ## 1.1.1 September 09, 2022
