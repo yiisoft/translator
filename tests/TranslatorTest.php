@@ -11,6 +11,7 @@ use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
+use Yiisoft\Translator\NullMessageFormatter;
 use Yiisoft\Translator\SimpleMessageFormatter;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\TranslatorInterface;
@@ -557,6 +558,53 @@ final class TranslatorTest extends TestCase
         $translator->addCategorySource($this->createCategory('app', $this->getMessages()));
 
         $translator->translate('missing_message', [], 'app');
+    }
+
+    public function testDefaultMessageFormatterWithCategory(): void
+    {
+        $categorySourceWithFormatter = new CategorySource(
+            'withFormatter',
+            $this->createMessageReader(
+                'withFormatter',
+                [
+                    'withFormatter' => [
+                        'en' => [
+                            'hello' => 'Hello, {name}!'
+                        ]
+                    ],
+                ]
+            ),
+            new NullMessageFormatter(),
+        );
+        $categorySourceWithoutFormatter = new CategorySource(
+            'withoutFormatter',
+            $this->createMessageReader(
+                'withoutFormatter',
+                [
+                    'withoutFormatter' => [
+                        'en' => [
+                            'hello' => 'Hello, {name}!'
+                        ]
+                    ],
+                ]
+            ),
+        );
+
+        $translator = new Translator(
+            locale: 'en',
+            defaultMessageFormatter: new SimpleMessageFormatter()
+        );
+        $translator->addCategorySource($categorySourceWithFormatter);
+        $translator->addCategorySource($categorySourceWithoutFormatter);
+
+        $this->assertSame(
+            'Hello, {name}!',
+            $translator->translate('hello', ['name' => 'Kitty'], 'withFormatter')
+        );
+        $this->assertSame(
+            'Hello, Kitty!',
+            $translator->translate('hello', ['name' => 'Kitty'], 'withoutFormatter')
+        );
     }
 
     private function createCategory(string $categoryName, array $messages = []): CategorySource
