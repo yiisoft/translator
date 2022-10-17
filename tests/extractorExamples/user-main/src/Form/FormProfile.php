@@ -19,13 +19,10 @@ final class FormProfile extends FormModel
     private string $website = '';
     private string $bio = '';
     private string $timezone = '';
-    private TranslatorInterface $translator;
 
     public function __construct(
-        TranslatorInterface $translator
+        private TranslatorInterface $translator
     ) {
-        $this->translator = $translator;
-
         parent::__construct();
     }
 

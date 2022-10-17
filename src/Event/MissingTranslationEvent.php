@@ -9,20 +9,13 @@ namespace Yiisoft\Translator\Event;
  */
 final class MissingTranslationEvent
 {
-    private string $category;
-    private string $language;
-    private string $message;
-
     /**
      * @param string $category Category of the missing translation.
      * @param string $language Language of the missing translation.
      * @param string $message Message of the missing translation.
      */
-    public function __construct(string $category, string $language, string $message)
+    public function __construct(private string $category, private string $language, private string $message)
     {
-        $this->category = $category;
-        $this->language = $language;
-        $this->message = $message;
     }
 
     /**

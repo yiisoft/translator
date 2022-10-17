@@ -20,19 +20,12 @@ final class FormRequest extends FormModel
     private string $email = '';
     private string $userId = '';
     private string $username = '';
-    private RepositoryUser $repositoryUser;
-    private TranslatorInterface $translator;
-    private Token $token;
 
     public function __construct(
-        Token $token,
-        RepositoryUser $repositoryUser,
-        TranslatorInterface $translator
+        private Token $token,
+        private RepositoryUser $repositoryUser,
+        private TranslatorInterface $translator
     ) {
-        $this->token = $token;
-        $this->repositoryUser = $repositoryUser;
-        $this->translator = $translator;
-
         parent::__construct();
     }
 

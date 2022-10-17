@@ -12,13 +12,10 @@ use Yiisoft\Validator\Rule\Required;
 final class FormReset extends FormModel
 {
     private string $password = '';
-    private TranslatorInterface $translator;
 
     public function __construct(
-        TranslatorInterface $translator
+        private TranslatorInterface $translator
     ) {
-        $this->translator = $translator;
-
         parent::__construct();
     }
 

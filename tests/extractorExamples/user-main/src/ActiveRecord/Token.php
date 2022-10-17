@@ -54,38 +54,23 @@ final class Token extends ActiveRecord
 
     public function toUrl(): string
     {
-        switch ($this->getAttribute('type')) {
-            case self::TYPE_CONFIRMATION:
-                $route = 'confirm';
-                break;
-            case self::TYPE_RECOVERY:
-                $route = 'reset';
-                break;
-            case self::TYPE_CONFIRM_NEW_EMAIL:
-            case self::TYPE_CONFIRM_OLD_EMAIL:
-                $route = 'email/attempt';
-                break;
-            default:
-                throw new RuntimeException('Url not available.');
-        }
+        $route = match ($this->getAttribute('type')) {
+            self::TYPE_CONFIRMATION => 'confirm',
+            self::TYPE_RECOVERY => 'reset',
+            self::TYPE_CONFIRM_NEW_EMAIL, self::TYPE_CONFIRM_OLD_EMAIL => 'email/attempt',
+            default => throw new RuntimeException('Url not available.'),
+        };
 
         return $route;
     }
 
     public function isExpired(int $tokenConfirmWithin = 0, int $tokenRecoverWithin = 0): bool
     {
-        switch ($this->getAttribute('type')) {
-            case self::TYPE_CONFIRMATION:
-            case self::TYPE_CONFIRM_NEW_EMAIL:
-            case self::TYPE_CONFIRM_OLD_EMAIL:
-                $expirationTime = $tokenConfirmWithin;
-                break;
-            case self::TYPE_RECOVERY:
-                $expirationTime = $tokenRecoverWithin;
-                break;
-            default:
-                throw new RuntimeException('Expired not available.');
-        }
+        $expirationTime = match ($this->getAttribute('type')) {
+            self::TYPE_CONFIRMATION, self::TYPE_CONFIRM_NEW_EMAIL, self::TYPE_CONFIRM_OLD_EMAIL => $tokenConfirmWithin,
+            self::TYPE_RECOVERY => $tokenRecoverWithin,
+            default => throw new RuntimeException('Expired not available.'),
+        };
 
         return ($this->created_at + $expirationTime) < time();
     }

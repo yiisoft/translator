@@ -302,12 +302,6 @@ final class TranslatorTest extends TestCase
 
     /**
      * @dataProvider manyTranslations
-     *
-     * @param string $expected
-     * @param string $id
-     * @param array $params
-     * @param string|null $category
-     * @param string|null $locale
      */
     public function testManySourcesForSingleCategory(
         string $expected,
@@ -572,13 +566,8 @@ final class TranslatorTest extends TestCase
     private function createMessageReader(string $category, array $messages): MessageReaderInterface
     {
         return new class ($category, $messages) implements MessageReaderInterface {
-            private string $category;
-            private array $messages;
-
-            public function __construct(string $category, array $messages)
+            public function __construct(private string $category, private array $messages)
             {
-                $this->category = $category;
-                $this->messages = $messages;
             }
 
             public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
