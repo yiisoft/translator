@@ -16,6 +16,12 @@ use Yiisoft\Translator\TranslatorInterface;
 
 final class TranslatorTest extends TestCase
 {
+    public function testDefaultLocale(): void
+    {
+        $translator = new Translator();
+        $this->assertSame('en_US', $translator->getLocale());
+    }
+
     private function getMessages(): array
     {
         return [
@@ -111,8 +117,12 @@ final class TranslatorTest extends TestCase
     {
         $locale = 'en';
         $translator = new Translator($locale);
-        $this->assertEquals('Without translation', $translator->translate('Without translation'));
-        $this->assertEquals('Without translation', $translator->translate('Without translation', [], ''));
+        $this->assertSame('Without translation', $translator->translate('Without translation'));
+        $this->assertSame('Without translation', $translator->translate('Without translation', [], ''));
+        $this->assertSame(
+            'Without 1 translation',
+            $translator->translate('Without {param} translation', ['param' => 1])
+        );
     }
 
     public function testWithoutDefaultCategoryMissingEvent(): void
@@ -128,6 +138,7 @@ final class TranslatorTest extends TestCase
         $locale = 'en';
         $translator = new Translator($locale, null, $eventDispatcher);
         $this->assertEquals('Without translation', $translator->translate('Without translation'));
+        $this->assertEquals('Without translation 2', $translator->translate('Without translation 2'));
     }
 
     public function testMultiCategories(): void

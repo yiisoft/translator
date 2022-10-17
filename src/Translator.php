@@ -22,13 +22,23 @@ final class Translator implements TranslatorInterface
      */
     private array $categorySources = [];
 
+    private ?SimpleMessageFormatter $simpleMessageFormatter = null;
+
+    /**
+     * @psalm-var array<string,true>
+     */
+    private array $dispatchedMissingTranslationCategoryEvents = [];
+
     /**
      * @param string $locale Default locale to use if locale is not specified explicitly.
      * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
-    public function __construct(private string $locale, private ?string $fallbackLocale = null, private ?EventDispatcherInterface $eventDispatcher = null)
-    {
+    public function __construct(
+        private string $locale = 'en_US',
+        private ?string $fallbackLocale = null,
+        private ?EventDispatcherInterface $eventDispatcher = null
+    ) {
     }
 
     public function addCategorySource(CategorySource $category): void
@@ -68,10 +78,8 @@ final class Translator implements TranslatorInterface
         $category ??= $this->defaultCategory;
 
         if (empty($this->categorySources[$category])) {
-            if ($this->eventDispatcher !== null) {
-                $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
-            }
-            return $id;
+            $this->dispatchMissingTranslationCategoryEvent($category);
+            return $this->getSimpleMessageFormatter()->format($id, $parameters);
         }
 
         return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
@@ -133,5 +141,24 @@ final class Translator implements TranslatorInterface
 
         $categorySource = end($this->categorySources[$category]);
         return $categorySource->format($id, $parameters, $locale);
+    }
+
+    private function dispatchMissingTranslationCategoryEvent(string $category): void
+    {
+        if (
+            $this->eventDispatcher !== null
+            && !isset($this->dispatchedMissingTranslationCategoryEvents[$category])
+        ) {
+            $this->dispatchedMissingTranslationCategoryEvents[$category] = true;
+            $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
+        }
+    }
+
+    private function getSimpleMessageFormatter(): SimpleMessageFormatter
+    {
+        if ($this->simpleMessageFormatter === null) {
+            $this->simpleMessageFormatter = new SimpleMessageFormatter();
+        }
+        return $this->simpleMessageFormatter;
     }
 }
