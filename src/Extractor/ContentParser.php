@@ -54,7 +54,7 @@ final class ContentParser
     public function extract(string $content): array
     {
         $this->skippedLines = [];
-        $tokens = \PhpToken::tokenize($content);
+        $tokens = token_get_all($content);
 
         return $this->extractMessagesFromTokens($tokens);
     }
@@ -99,7 +99,7 @@ final class ContentParser
     private function setTranslator(string $translatorCall): void
     {
         $this->translatorCall = $translatorCall;
-        $translatorTokens = \PhpToken::tokenize('<?php ' . $this->translatorCall);
+        $translatorTokens = token_get_all('<?php ' . $this->translatorCall);
         array_shift($translatorTokens);
         $this->translatorTokens = $translatorTokens;
         $this->translatorTokenCount = count($this->translatorTokens);
