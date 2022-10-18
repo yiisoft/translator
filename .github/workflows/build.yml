@@ -35,6 +35,6 @@ jobs:
       phpunitConfig: phpunit-without-intl.xml
       extensions: :intl
       os: >-
-        ['ubuntu-latest', 'windows-latest']
+        ['ubuntu-latest']
       php: >-
-        ['8.0', '8.1']
+        ['8.1']
