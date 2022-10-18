@@ -5,9 +5,19 @@ declare(strict_types=1);
 namespace Yiisoft\Translator;
 
 use MessageFormatter;
+use RuntimeException;
 
 final class IntlMessageFormatter implements MessageFormatterInterface
 {
+    public function __construct()
+    {
+        if (!extension_loaded('intl')) {
+            throw new RuntimeException(
+                'In order to use intl message formatter intl extension must be installed and enabled.'
+            );
+        }
+    }
+
     /**
      * This method uses {{@see MessageFormatter::format()}}
      *

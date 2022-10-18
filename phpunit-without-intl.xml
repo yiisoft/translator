@@ -17,16 +17,7 @@
 
     <testsuites>
         <testsuite name="Yii Message Translator tests">
-            <directory>./tests</directory>
-            <exclude>
-                <directory>./tests/envs</directory>
-            </exclude>
+            <directory>./tests/envs/WithoutIntl</directory>
         </testsuite>
     </testsuites>
-
-    <coverage>
-        <include>
-            <directory>./src</directory>
-        </include>
-    </coverage>
 </phpunit>
