@@ -12,6 +12,10 @@ final class IntlMessageFormatterTest extends TestCase
 {
     public function testException(): void
     {
+        if (extension_loaded('intl')) {
+            $this->markTestSkipped('The intl extension must be unavailable for this test.');
+        }
+
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
             'In order to use intl message formatter intl extension must be installed and enabled.'
