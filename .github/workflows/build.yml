@@ -29,3 +29,12 @@ jobs:
         ['ubuntu-latest', 'windows-latest']
       php: >-
         ['8.0', '8.1']
+  phpunit-without-intl:
+    uses: yiisoft/actions/.github/workflows/phpunit.yml@master
+    with:
+      phpunitConfig: phpunit-without-intl.xml
+      extensions: :intl
+      os: >-
+        ['ubuntu-latest', 'windows-latest']
+      php: >-
+        ['8.0', '8.1']
