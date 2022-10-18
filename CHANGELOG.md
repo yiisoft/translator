@@ -1,6 +1,6 @@
 # Yii Message Translator Change Log
 
-## 1.1.2 under development
+## 2.0.0 under development
 
 - Enh #70: Add `Stringable` type support for `$id` argument in `Translator::translate()` (@xepozz)
 - Enh #74: Dispatch `MissingTranslationCategoryEvent` once per category (@vjik)
