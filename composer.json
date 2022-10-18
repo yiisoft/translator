@@ -30,6 +30,9 @@
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^4.18"
     },
+    "suggest": {
+        "ext-intl": "Allows using intl message formatter"
+    },
     "autoload": {
         "psr-4": {
             "Yiisoft\\Translator\\": "src"
