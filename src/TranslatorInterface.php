@@ -36,8 +36,9 @@ interface TranslatorInterface
     /**
      * Translates a message into the specified language.
      *
-     * @param string|Stringable $id The ID of the message to be translated. It can be either artificial ID or the source message.
-     * @param array  $parameters An array of parameters for the message.
+     * @param string|Stringable $id The ID of the message to be translated. It can be either artificial ID or the source
+     * message.
+     * @param array $parameters An array of parameters for the message.
      * @psalm-param array<array-key, mixed> $parameters
      *
      * @param string|null $category The message category. Null means default category.
