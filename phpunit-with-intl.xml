@@ -17,7 +17,7 @@
 
     <testsuites>
         <testsuite name="Yii Message Translator tests">
-            <directory>./tests/envs/WithoutIntl</directory>
+            <directory>./tests/envs/WithIntl</directory>
         </testsuite>
     </testsuites>
 </phpunit>

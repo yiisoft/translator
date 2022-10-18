@@ -25,16 +25,16 @@ jobs:
   phpunit:
     uses: yiisoft/actions/.github/workflows/phpunit.yml@master
     with:
-      extensions: intl
+      extensions: :intl
       os: >-
         ['ubuntu-latest', 'windows-latest']
       php: >-
         ['8.0', '8.1']
-  phpunit-without-intl:
+  phpunit-with-intl:
     uses: yiisoft/actions/.github/workflows/phpunit.yml@master
     with:
-      phpunitConfig: phpunit-without-intl.xml
-      extensions: :intl
+      phpunitConfig: phpunit-with-intl.xml
+      extensions: intl
       os: >-
         ['ubuntu-latest']
       php: >-
