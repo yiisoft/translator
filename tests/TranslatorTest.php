@@ -573,7 +573,7 @@ final class TranslatorTest extends TestCase
                     ],
                 ]
             ),
-            new class() implements MessageFormatterInterface {
+            new class () implements MessageFormatterInterface {
                 public function format(string $message, array $parameters, string $locale): string
                 {
                     return 'formatted by category';
@@ -596,7 +596,7 @@ final class TranslatorTest extends TestCase
 
         $translator = new Translator(
             locale: 'en',
-            defaultMessageFormatter: new class() implements MessageFormatterInterface {
+            defaultMessageFormatter: new class () implements MessageFormatterInterface {
                 public function format(string $message, array $parameters, string $locale): string
                 {
                     return 'formatted by translator';
