@@ -27,7 +27,7 @@ standalone PHP applications.
 The package could be installed with composer:
 
 ```shell
-composer require yiisoft/translator --prefer-dist
+composer require yiisoft/translator
 ```
 
 ## Additional packages
