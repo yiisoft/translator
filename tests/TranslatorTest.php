@@ -11,7 +11,6 @@ use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
-use Yiisoft\Translator\NullMessageFormatter;
 use Yiisoft\Translator\SimpleMessageFormatter;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\TranslatorInterface;
@@ -574,7 +573,12 @@ final class TranslatorTest extends TestCase
                     ],
                 ]
             ),
-            new NullMessageFormatter(),
+            new class() implements MessageFormatterInterface {
+                public function format(string $message, array $parameters, string $locale): string
+                {
+                    return 'formatted by category';
+                }
+            },
         );
         $categorySourceWithoutFormatter = new CategorySource(
             'withoutFormatter',
@@ -592,18 +596,23 @@ final class TranslatorTest extends TestCase
 
         $translator = new Translator(
             locale: 'en',
-            defaultMessageFormatter: new SimpleMessageFormatter()
+            defaultMessageFormatter: new class() implements MessageFormatterInterface {
+                public function format(string $message, array $parameters, string $locale): string
+                {
+                    return 'formatted by translator';
+                }
+            },
         );
         $translator->addCategorySource($categorySourceWithFormatter);
         $translator->addCategorySource($categorySourceWithoutFormatter);
 
         $this->assertSame(
-            'Hello, {name}!',
-            $translator->translate('hello', ['name' => 'Kitty'], 'withFormatter')
+            'formatted by category',
+            $translator->translate('test', [], 'withFormatter')
         );
         $this->assertSame(
-            'Hello, Kitty!',
-            $translator->translate('hello', ['name' => 'Kitty'], 'withoutFormatter')
+            'formatted by translator',
+            $translator->translate('test', [], 'withoutFormatter')
         );
     }
 
