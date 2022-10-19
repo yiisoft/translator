@@ -43,7 +43,7 @@ PHP arrays or GNU gettext. Message formatters provide extra syntax that is recog
 
 ## Built-in message formatters
 
-- [Simple formatter](docs/en/simple-formatter.md) replace parameters in messages only. Does not take into account the 
+- [Simple formatter](docs/en/simple-formatter.md) just replaces parameters in messages. Does not take into account the 
 locale.
 - [`intl` formatter](docs/en/intl-formatter.md) utilizes PHP intl extension message formatting capabilities.
 
