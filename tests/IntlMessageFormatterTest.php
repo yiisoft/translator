@@ -18,7 +18,7 @@ final class IntlMessageFormatterTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
-            'In order to use intl message formatter intl extension must be installed and enabled.'
+            'In order to use intl message formatter, intl extension must be installed and enabled.'
         );
         new IntlMessageFormatter();
     }

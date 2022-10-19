@@ -13,7 +13,7 @@ final class IntlMessageFormatter implements MessageFormatterInterface
     {
         if (!extension_loaded('intl')) {
             throw new RuntimeException(
-                'In order to use intl message formatter intl extension must be installed and enabled.'
+                'In order to use intl message formatter, intl extension must be installed and enabled.'
             );
         }
     }
