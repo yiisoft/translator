@@ -119,7 +119,7 @@ final class TranslatorTest extends TestCase
         $translator = new Translator();
         $this->assertSame('Without translation', $translator->translate('Without translation'));
         $this->assertSame('Without translation', $translator->translate('Without translation', [], ''));
-        $this->assertSame('Hello, {name}!', $translator->translate('Hello, {name}!', ['name' => 'kitty']));
+        $this->assertSame('Hello, kitty!', $translator->translate('Hello, {name}!', ['name' => 'kitty']));
     }
 
     public function testWithoutDefaultCategoryMissingEvent(): void
@@ -625,6 +625,15 @@ final class TranslatorTest extends TestCase
             $expectedMessage,
             $translator->translate('test', [], $categorySource->getName())
         );
+    }
+
+    public function testDefaultMessageFormatterWithoutIntl(): void
+    {
+        $translator = new Translator();
+
+        $message = $translator->translate('{count, select, 1{One} other{{count}}} monkeys', ['count' => 1]);
+
+        $this->assertSame('1 monkeys', $message);
     }
 
     private function createCategory(string $categoryName, array $messages = []): CategorySource

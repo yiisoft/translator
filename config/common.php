@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Definitions\Reference;
+use Yiisoft\Translator\IntlMessageFormatter;
 use Yiisoft\Translator\MessageReaderInterface;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Translator\Translator;
@@ -38,6 +39,7 @@ return [
             $params['yiisoft/translator']['locale'],
             $params['yiisoft/translator']['fallbackLocale'],
             Reference::to(EventDispatcherInterface::class),
+            extension_loaded('intl') ? new IntlMessageFormatter() : new SimpleMessageFormatter(),
         ],
         'addCategorySources()' => [
             $params['yiisoft/translator']['categorySources'],

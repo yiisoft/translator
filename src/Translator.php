@@ -10,6 +10,8 @@ use Yiisoft\I18n\Locale;
 use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 
+use function extension_loaded;
+
 /**
  * Translator translates a message into the specified language.
  */
@@ -41,7 +43,13 @@ final class Translator implements TranslatorInterface
         private ?EventDispatcherInterface $eventDispatcher = null,
         ?MessageFormatterInterface $defaultMessageFormatter = null,
     ) {
-        $this->defaultMessageFormatter = $defaultMessageFormatter ?? new NullMessageFormatter();
+        if ($defaultMessageFormatter === null) {
+            $this->defaultMessageFormatter = extension_loaded('intl')
+                ? new IntlMessageFormatter()
+                : new SimpleMessageFormatter();
+        } else {
+            $this->defaultMessageFormatter = $defaultMessageFormatter;
+        }
     }
 
     public function addCategorySource(CategorySource $category): void
