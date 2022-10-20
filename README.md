@@ -27,30 +27,27 @@ standalone PHP applications.
 The package could be installed with composer:
 
 ```shell
-composer require yiisoft/translator --prefer-dist
+composer require yiisoft/translator
 ```
 
-## Additional packages
+### Additional packages
 
 There are two types of additional packages. Message source provide support of various message storage formats such as
 PHP arrays or GNU gettext. Message formatters provide extra syntax that is recognized in translated messages.
 
-### Message sources
+#### Message sources
 
 * [translator-message-php](https://github.com/yiisoft/translator-message-php) - PHP file message storage.
 * [translator-message-db](https://github.com/yiisoft/translator-message-db) - Database message storage.
 * [translator-message-gettext](https://github.com/yiisoft/translator-message-gettext) - gettext message storage.
 
-### Message formatters
+## Built-in message formatters
 
-* [translator-formatter-intl](https://github.com/yiisoft/translator-formatter-intl) - Intl (i18n) formatter
+- [Simple formatter](docs/en/simple-formatter.md) just replaces parameters in messages. Does not take into account the 
+locale.
+- [`intl` formatter](docs/en/intl-formatter.md) utilizes PHP intl extension message formatting capabilities.
 
-### Simple formatter
-
-[Simple formatter](docs/en/simple-formatter.md) is enough when the English language is used for message keys. There's no 
-actual translation and message sources are not required.
-
-### Extracting messages
+## Extracting messages
 
 The message extraction is done via [console extractor](https://github.com/yiisoft/translator-extractor) that searches
 for translator message calls and builds translation files.
@@ -98,7 +95,7 @@ $pathToTranslations = './messages/';
 $messageSource = new \Yiisoft\Translator\Message\Php\MessageSource($pathToTranslations);
 
 // We use Intl message formatter.
-$formatter = new \Yiisoft\Translator\Formatter\Intl\IntlMessageFormatter(); 
+$formatter = new \Yiisoft\Translator\IntlMessageFormatter(); 
 
 // Now get an instance of CategorySource.
 $category = new Yiisoft\Translator\CategorySource(
