@@ -2,7 +2,6 @@
 
 ## 1.1.2 under development
 
-- Enh: Add composer require checker into CI
 - Enh #74: Dispatch `MissingTranslationCategoryEvent` once per category (@vjik)
 - Enh #73: Set `en_US` as default locale for translator (@vjik)
 - Enh #72, #75: Format messages when missing translation category (@vjik)
