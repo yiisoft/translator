@@ -1,6 +1,6 @@
-## Simple Formatter
+# Simple Formatter
 
-### Configuration
+## Configuration
 
 In case of using [yiisoft/config](http://github.com/yiisoft/config), the configuration is added automatically. If not, 
 add the following mapping:
@@ -18,7 +18,7 @@ return [
 ];
 ```
 
-### Using with `Translator`
+## Using with `Translator`
 
 ```php
 /** @var \Yiisoft\Translator\Translator $translator **/
@@ -36,7 +36,7 @@ $translator->translate('Test string: {str}', ['str' => 'string data'], 'moduleId
 // output: Test string: string data
 ```
 
-### Using without `Translator`
+## Using without `Translator`
 
 ```php
 /** @var \Yiisoft\Translator\SimpleMessageFormatter $formatter */

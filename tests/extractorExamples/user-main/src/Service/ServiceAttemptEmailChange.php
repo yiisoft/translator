@@ -14,24 +14,8 @@ use Yiisoft\Translator\TranslatorInterface;
 
 final class ServiceAttemptEmailChange
 {
-    private RepositorySetting $repositorySetting;
-    private RepositoryToken $repositoryToken;
-    private RepositoryUser $repositoryUser;
-    private ServiceFlashMessage $serviceFlashMessage;
-    private TranslatorInterface $translator;
-
-    public function __construct(
-        RepositorySetting $repositorySetting,
-        RepositoryToken $repositoryToken,
-        RepositoryUser $repositoryUser,
-        ServiceFlashMessage $serviceFlashMessage,
-        TranslatorInterface $translator
-    ) {
-        $this->repositorySetting = $repositorySetting;
-        $this->repositoryToken = $repositoryToken;
-        $this->repositoryUser = $repositoryUser;
-        $this->serviceFlashMessage = $serviceFlashMessage;
-        $this->translator = $translator;
+    public function __construct(private RepositorySetting $repositorySetting, private RepositoryToken $repositoryToken, private RepositoryUser $repositoryUser, private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator)
+    {
     }
 
     public function run(string $id, string $code, User $user): bool

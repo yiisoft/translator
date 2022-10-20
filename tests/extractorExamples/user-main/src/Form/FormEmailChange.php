@@ -19,23 +19,17 @@ final class FormEmailChange extends FormModel
     private string $email = '';
     private string $oldEmail = '';
     private User $identity;
-    private RepositorySetting $repositorySetting;
-    private RepositoryUser $repositoryUser;
-    private TranslatorInterface $translator;
 
     /**
      * @psalm-suppress PropertyTypeCoercion
      */
     public function __construct(
         Identity $identity,
-        RepositoryUser $repositoryUser,
-        RepositorySetting $repositorySetting,
-        TranslatorInterface $translator
+        private RepositoryUser $repositoryUser,
+        private RepositorySetting $repositorySetting,
+        private TranslatorInterface $translator
     ) {
         $this->identity = $identity->getIdentity();
-        $this->repositorySetting = $repositorySetting;
-        $this->repositoryUser = $repositoryUser;
-        $this->translator = $translator;
         $this->loadData();
 
         parent::__construct();

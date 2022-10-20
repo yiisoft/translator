@@ -15,15 +15,20 @@ use Yiisoft\Translator\Event\MissingTranslationEvent;
  */
 final class Translator implements TranslatorInterface
 {
+    private MessageFormatterInterface $defaultMessageFormatter;
+
     private string $defaultCategory = 'app';
-    private string $locale;
-    private ?string $fallbackLocale;
-    private ?EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @var CategorySource[][] Array of category message sources indexed by category names.
+     * @var array Array of category message sources indexed by category names.
+     * @psalm-var array<string,CategorySource[]>
      */
     private array $categorySources = [];
+
+    /**
+     * @psalm-var array<string,true>
+     */
+    private array $dispatchedMissingTranslationCategoryEvents = [];
 
     /**
      * @param string $locale Default locale to use if locale is not specified explicitly.
@@ -31,13 +36,12 @@ final class Translator implements TranslatorInterface
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
     public function __construct(
-        string $locale,
-        ?string $fallbackLocale = null,
-        ?EventDispatcherInterface $eventDispatcher = null
+        private string $locale = 'en_US',
+        private ?string $fallbackLocale = null,
+        private ?EventDispatcherInterface $eventDispatcher = null,
+        ?MessageFormatterInterface $defaultMessageFormatter = null,
     ) {
-        $this->locale = $locale;
-        $this->fallbackLocale = $fallbackLocale;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->defaultMessageFormatter = $defaultMessageFormatter ?? new NullMessageFormatter();
     }
 
     public function addCategorySource(CategorySource $category): void
@@ -72,15 +76,13 @@ final class Translator implements TranslatorInterface
         string $category = null,
         string $locale = null
     ): string {
-        $locale = $locale ?? $this->locale;
+        $locale ??= $this->locale;
 
-        $category = $category ?? $this->defaultCategory;
+        $category ??= $this->defaultCategory;
 
         if (empty($this->categorySources[$category])) {
-            if ($this->eventDispatcher !== null) {
-                $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
-            }
-            return $id;
+            $this->dispatchMissingTranslationCategoryEvent($category);
+            return $this->defaultMessageFormatter->format($id, $parameters, $locale);
         }
 
         return $this->translateUsingCategorySources($id, $parameters, $category, $locale);
@@ -118,7 +120,7 @@ final class Translator implements TranslatorInterface
             $message = $sourceCategory->getMessage($id, $locale, $parameters);
 
             if ($message !== null) {
-                return $sourceCategory->format($message, $parameters, $locale);
+                return $sourceCategory->format($message, $parameters, $locale, $this->defaultMessageFormatter);
             }
 
             if ($this->eventDispatcher !== null) {
@@ -140,7 +142,22 @@ final class Translator implements TranslatorInterface
             }
         }
 
-        $categorySource = end($this->categorySources[$category]);
-        return $categorySource->format($id, $parameters, $locale);
+        return end($this->categorySources[$category])->format(
+            $id,
+            $parameters,
+            $locale,
+            $this->defaultMessageFormatter
+        );
+    }
+
+    private function dispatchMissingTranslationCategoryEvent(string $category): void
+    {
+        if (
+            $this->eventDispatcher !== null
+            && !isset($this->dispatchedMissingTranslationCategoryEvents[$category])
+        ) {
+            $this->dispatchedMissingTranslationCategoryEvents[$category] = true;
+            $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
+        }
     }
 }

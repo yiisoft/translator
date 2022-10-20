@@ -13,24 +13,8 @@ use Yiisoft\Translator\TranslatorInterface;
 
 final class ServiceDefaultEmailChange
 {
-    private MailerUser $mailerUser;
-    private RepositoryToken $repositoryToken;
-    private ServiceFlashMessage $serviceFlashMessage;
-    private TranslatorInterface $translator;
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(
-        MailerUser $mailerUser,
-        RepositoryToken $repositoryToken,
-        ServiceFlashMessage $serviceFlashMessage,
-        TranslatorInterface $translator,
-        UrlGeneratorInterface $urlGenerator
-    ) {
-        $this->mailerUser = $mailerUser;
-        $this->repositoryToken = $repositoryToken;
-        $this->serviceFlashMessage = $serviceFlashMessage;
-        $this->translator = $translator;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(private MailerUser $mailerUser, private RepositoryToken $repositoryToken, private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator, private UrlGeneratorInterface $urlGenerator)
+    {
     }
 
     public function run(string $email, User $user, bool $flash = true): void

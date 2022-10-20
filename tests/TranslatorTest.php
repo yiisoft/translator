@@ -11,11 +11,18 @@ use Yiisoft\Translator\Event\MissingTranslationCategoryEvent;
 use Yiisoft\Translator\Event\MissingTranslationEvent;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
+use Yiisoft\Translator\SimpleMessageFormatter;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\TranslatorInterface;
 
 final class TranslatorTest extends TestCase
 {
+    public function testDefaultLocale(): void
+    {
+        $translator = new Translator();
+        $this->assertSame('en_US', $translator->getLocale());
+    }
+
     private function getMessages(): array
     {
         return [
@@ -109,10 +116,10 @@ final class TranslatorTest extends TestCase
 
     public function testWithoutDefaultCategory(): void
     {
-        $locale = 'en';
-        $translator = new Translator($locale);
-        $this->assertEquals('Without translation', $translator->translate('Without translation'));
-        $this->assertEquals('Without translation', $translator->translate('Without translation', [], ''));
+        $translator = new Translator();
+        $this->assertSame('Without translation', $translator->translate('Without translation'));
+        $this->assertSame('Without translation', $translator->translate('Without translation', [], ''));
+        $this->assertSame('Hello, {name}!', $translator->translate('Hello, {name}!', ['name' => 'kitty']));
     }
 
     public function testWithoutDefaultCategoryMissingEvent(): void
@@ -128,6 +135,15 @@ final class TranslatorTest extends TestCase
         $locale = 'en';
         $translator = new Translator($locale, null, $eventDispatcher);
         $this->assertEquals('Without translation', $translator->translate('Without translation'));
+        $this->assertEquals('Without translation 2', $translator->translate('Without translation 2'));
+    }
+
+    public function testWithoutDefaultCategoryWithCustomDefaultMessageFormatter(): void
+    {
+        $translator = new Translator(
+            defaultMessageFormatter: new SimpleMessageFormatter(),
+        );
+        $this->assertSame('Hello, kitty!', $translator->translate('Hello, {name}!', ['name' => 'kitty']));
     }
 
     public function testMultiCategories(): void
@@ -291,12 +307,6 @@ final class TranslatorTest extends TestCase
 
     /**
      * @dataProvider manyTranslations
-     *
-     * @param string $expected
-     * @param string $id
-     * @param array $params
-     * @param string|null $category
-     * @param string|null $locale
      */
     public function testManySourcesForSingleCategory(
         string $expected,
@@ -549,6 +559,74 @@ final class TranslatorTest extends TestCase
         $translator->translate('missing_message', [], 'app');
     }
 
+    public function dataDefaultMessageFormatterWithCategory(): array
+    {
+        return [
+            'with formatter' => [
+                'formatted by category',
+                new CategorySource(
+                    'withFormatter',
+                    $this->createMessageReader(
+                        'withFormatter',
+                        [
+                            'withFormatter' => [
+                                'en' => [
+                                    'hello' => 'Hello, {name}!',
+                                ],
+                            ],
+                        ]
+                    ),
+                    new class () implements MessageFormatterInterface {
+                        public function format(string $message, array $parameters, string $locale): string
+                        {
+                            return 'formatted by category';
+                        }
+                    },
+                ),
+            ],
+            'without formatter' => [
+                'formatted by translator',
+                new CategorySource(
+                    'withoutFormatter',
+                    $this->createMessageReader(
+                        'withoutFormatter',
+                        [
+                            'withoutFormatter' => [
+                                'en' => [
+                                    'hello' => 'Hello, {name}!',
+                                ],
+                            ],
+                        ]
+                    ),
+                ),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataDefaultMessageFormatterWithCategory
+     */
+    public function testDefaultMessageFormatterWithCategory(
+        string $expectedMessage,
+        CategorySource $categorySource
+    ): void {
+        $translator = new Translator(
+            locale: 'en',
+            defaultMessageFormatter: new class () implements MessageFormatterInterface {
+                public function format(string $message, array $parameters, string $locale): string
+                {
+                    return 'formatted by translator';
+                }
+            },
+        );
+        $translator->addCategorySource($categorySource);
+
+        $this->assertSame(
+            $expectedMessage,
+            $translator->translate('test', [], $categorySource->getName())
+        );
+    }
+
     private function createCategory(string $categoryName, array $messages = []): CategorySource
     {
         return new CategorySource(
@@ -561,13 +639,8 @@ final class TranslatorTest extends TestCase
     private function createMessageReader(string $category, array $messages): MessageReaderInterface
     {
         return new class ($category, $messages) implements MessageReaderInterface {
-            private string $category;
-            private array $messages;
-
-            public function __construct(string $category, array $messages)
+            public function __construct(private string $category, private array $messages)
             {
-                $this->category = $category;
-                $this->messages = $messages;
             }
 
             public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string

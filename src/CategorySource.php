@@ -12,22 +12,21 @@ use RuntimeException;
 final class CategorySource
 {
     private string $name;
-    private MessageReaderInterface $reader;
-    private MessageFormatterInterface $formatter;
 
     /**
      * @param string $name Category name.
      * @param MessageReaderInterface $reader Message reader to get messages from for this category.
-     * @param MessageFormatterInterface $formatter Message formatter to format messages with for this category.
+     * @param MessageFormatterInterface|null $formatter Message formatter to format messages with for this category.
      */
-    public function __construct(string $name, MessageReaderInterface $reader, MessageFormatterInterface $formatter)
-    {
+    public function __construct(
+        string $name,
+        private MessageReaderInterface $reader,
+        private ?MessageFormatterInterface $formatter = null
+    ) {
         if (!preg_match('/^[a-z0-9_-]+$/i', $name)) {
             throw new RuntimeException('Category name is invalid. Only letters and numbers are allowed.');
         }
         $this->name = $name;
-        $this->reader = $reader;
-        $this->formatter = $formatter;
     }
 
     /**
@@ -58,11 +57,17 @@ final class CategorySource
      * @param string $message Message to be formatted.
      * @param array $parameters Parameters to use.
      * @param string $locale Locale to use. Usually affects formatting numbers, dates etc.
+     * @param MessageFormatterInterface $defaultFormatter Message formatter that will be used if formatter not specified
+     * in message category.
      *
      * @return string Formatted message.
      */
-    public function format(string $message, array $parameters, string $locale): string
-    {
-        return $this->formatter->format($message, $parameters, $locale);
+    public function format(
+        string $message,
+        array $parameters,
+        string $locale,
+        MessageFormatterInterface $defaultFormatter
+    ): string {
+        return ($this->formatter ?? $defaultFormatter)->format($message, $parameters, $locale);
     }
 }
