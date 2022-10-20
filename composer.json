@@ -32,7 +32,8 @@
         "vimeo/psalm": "^4.18"
     },
     "suggest": {
-        "ext-intl": "Allows using intl message formatter"
+        "ext-intl": "Allows using intl message formatter",
+        "ext-tokenizer": "Allows using message extraction"
     },
     "autoload": {
         "psr-4": {

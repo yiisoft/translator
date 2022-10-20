@@ -1,6 +1,14 @@
-## Translation Extractor
+# Translation Extractor
 
-Extractor can get messages to translate from a set of PHP files. Usage is the following:
+Extractor can get messages to translate from a set of PHP files.
+
+## Requirements
+
+- `tokenizer` PHP extension.
+
+## General usage
+
+Usage is the following:
 
 ```php
 $path = '/path/to/your/project';
@@ -14,7 +22,7 @@ $messages = $extractor->extract($defaultCategory, $translatorCall);
 // Result is same as from `extract` function of ContentParser (see below).
 ```
 
-### Adding files with non-`.php` extension or skipping some directories
+## Adding files with non-`.php` extension or skipping some directories
 
 ```php
 $path = '/path/to/your/project';
@@ -25,7 +33,7 @@ $extractor = new \Yiisoft\Translator\Extractor\TranslationExtractor($path, $only
 
 For more information about `only` and `except` parameters [see yiisoft/files](https://github.com/yiisoft/files).
 
-### Getting a list of issues while extracting messages
+## Getting a list of issues while extracting messages
 
 In case you have complicated parameters, such as callbacks, constants etc., extractor may skip some lines:
 
