@@ -189,7 +189,7 @@ final class TranslatorTest extends TestCase
             ],
         ]));
 
-        $translator->addCategorySources([
+        $translator->addCategorySource(
             $this->createCategory('app', [
                 'app' => [
                     'en' => [
@@ -205,7 +205,7 @@ final class TranslatorTest extends TestCase
                     ],
                 ],
             ]),
-        ]);
+        );
 
         return $translator;
     }
@@ -366,7 +366,7 @@ final class TranslatorTest extends TestCase
     {
         $locale = 'en';
         $translator = new Translator($locale);
-        $translator->addCategorySources([
+        $translator->addCategorySource(
             $this->createCategory('app', [
                 'app' => [
                     'en' => [
@@ -388,7 +388,7 @@ final class TranslatorTest extends TestCase
                     ],
                 ],
             ]),
-        ]);
+        );
 
         $this->assertEquals('app: Test 1 on the (en)', $translator->translate('test.id1'));
         $this->assertEquals('app2: Test 1 on the (en)', $translator->translate('test.id1', [], 'app2'));

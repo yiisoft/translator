@@ -206,14 +206,13 @@ $translator->addCategorySource($additionalCategory);
 ### Adding many category sources at once
 
 ```php
-/** @var \Yiisoft\Translator\TranslatorInterface $translator */
-/** @var \Yiisoft\Translator\CategorySource $additionalCategory1 */
-/** @var \Yiisoft\Translator\CategorySource $additionalCategory2 */
+/** 
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
+ * @var \Yiisoft\Translator\CategorySource $additionalCategory1
+ * @var \Yiisoft\Translator\CategorySource $additionalCategory2 
+ */
 
-$translator->addCategorySources([
-    $additionalCategory1,
-    $additionalCategory2,
-]);
+$translator->addCategorySource($additionalCategory1, $additionalCategory2);
 ```
 
 ### Overriding translation messages

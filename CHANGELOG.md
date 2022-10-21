@@ -10,6 +10,8 @@
 - Enh #69: Raise minimum PHP version to 8.0 (@xepozz, @vjik)
 - Enh #76: Make message formatter in category source optional (@vjik)
 - New #78: Add `IntlMessageFormatter` that utilizes PHP intl extension message formatting capabilities (@vjik)
+- Chg #81: Make category parameter in `TranslatorInterface::addCategorySource()` variadic, and remove 
+ `TranslatorInterface::addCategorySources()` method (@vjik) 
 
 ## 1.1.1 September 09, 2022
 
