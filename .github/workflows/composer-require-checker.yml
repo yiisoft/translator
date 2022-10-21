@@ -6,6 +6,8 @@ on:
       - 'CHANGELOG.md'
       - '.gitignore'
       - '.gitattributes'
+      - 'infection.json.dist'
+      - 'phpunit.xml.dist'
       - 'psalm.xml'
 
   push:
@@ -15,18 +17,18 @@ on:
       - 'CHANGELOG.md'
       - '.gitignore'
       - '.gitattributes'
+      - 'infection.json.dist'
+      - 'phpunit.xml.dist'
       - 'psalm.xml'
 
-name: mutation test
+name: Composer require checker
 
 jobs:
-  mutation:
-    uses: yiisoft/actions/.github/workflows/roave-infection.yml@master
+  composer-require-checker:
+    uses: yiisoft/actions/.github/workflows/composer-require-checker.yml@master
     with:
-      extensions: :intl
+      config: ./composer-require-checker.json
       os: >-
         ['ubuntu-latest']
       php: >-
         ['8.1']
-    secrets:
-      STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}

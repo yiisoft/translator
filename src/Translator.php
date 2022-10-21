@@ -21,7 +21,8 @@ final class Translator implements TranslatorInterface
     private string $defaultCategory = 'app';
 
     /**
-     * @var CategorySource[][] Array of category message sources indexed by category names.
+     * @var array Array of category message sources indexed by category names.
+     * @psalm-var array<string,CategorySource[]>
      */
     private array $categorySources = [];
 
@@ -120,7 +121,7 @@ final class Translator implements TranslatorInterface
             $message = $sourceCategory->getMessage($id, $locale, $parameters);
 
             if ($message !== null) {
-                return $sourceCategory->format($message, $parameters, $locale);
+                return $sourceCategory->format($message, $parameters, $locale, $this->defaultMessageFormatter);
             }
 
             if ($this->eventDispatcher !== null) {
@@ -142,8 +143,12 @@ final class Translator implements TranslatorInterface
             }
         }
 
-        $categorySource = end($this->categorySources[$category]);
-        return $categorySource->format($id, $parameters, $locale);
+        return end($this->categorySources[$category])->format(
+            $id,
+            $parameters,
+            $locale,
+            $this->defaultMessageFormatter
+        );
     }
 
     private function dispatchMissingTranslationCategoryEvent(string $category): void

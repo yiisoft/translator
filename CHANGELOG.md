@@ -8,6 +8,8 @@
 - Enh #72, #75: Format messages when missing translation category (@vjik)
 - New #75: Add `NullMessageFormatter` that returns message as is (@vjik)
 - Enh #69: Raise minimum PHP version to 8.0 (@xepozz, @vjik)
+- Enh #76: Make message formatter in category source optional (@vjik)
+- New #78: Add `IntlMessageFormatter` that utilizes PHP intl extension message formatting capabilities (@vjik)
 
 ## 1.1.1 September 09, 2022
 

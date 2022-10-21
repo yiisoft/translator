@@ -9,6 +9,8 @@ use RuntimeException;
 use Yiisoft\Translator\CategorySource;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
+use Yiisoft\Translator\NullMessageFormatter;
+use Yiisoft\Translator\SimpleMessageFormatter;
 
 final class CategoryTest extends TestCase
 {
@@ -29,6 +31,40 @@ final class CategoryTest extends TestCase
             'test category name',
             $this->createMessageReader(),
             $this->createMessageFormatter()
+        );
+    }
+
+    public function dataWithoutFormatter(): array
+    {
+        return [
+            'null formatter' => [
+                'test message {n}',
+                'test message {n}',
+                ['n' => 7],
+                new NullMessageFormatter(),
+            ],
+            'simple formatter' => [
+                'test message 7',
+                'test message {n}',
+                ['n' => 7],
+                new SimpleMessageFormatter(),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataWithoutFormatter
+     */
+    public function testWithoutFormatter(
+        string $expectedMessage,
+        string $message,
+        array $parameters,
+        MessageFormatterInterface $defaultMessageFormatter
+    ): void {
+        $categorySource = new CategorySource('test', $this->createMessageReader());
+        $this->assertSame(
+            $expectedMessage,
+            $categorySource->format($message, $parameters, 'en_US', $defaultMessageFormatter)
         );
     }
 
