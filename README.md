@@ -105,7 +105,7 @@ $category = new Yiisoft\Translator\CategorySource(
 );
 
 // And add it.
-$translator->addCategorySource($category);
+$translator->addCategorySources($category);
 ```
 
 That's it. Translator is ready to be used.

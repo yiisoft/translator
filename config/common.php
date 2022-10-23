@@ -39,7 +39,7 @@ return [
             $params['yiisoft/translator']['fallbackLocale'],
             Reference::to(EventDispatcherInterface::class),
         ],
-        'addCategorySource()' => [
+        'addCategorySources()' => [
             ...$params['yiisoft/translator']['categorySources'],
         ],
         'reset' => function () use ($params) {
