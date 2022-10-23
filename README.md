@@ -105,7 +105,7 @@ $category = new Yiisoft\Translator\CategorySource(
 );
 
 // And add it.
-$translator->addCategorySource($category);
+$translator->addCategorySources($category);
 ```
 
 That's it. Translator is ready to be used.
@@ -200,20 +200,19 @@ $additionalCategory = new Yiisoft\Translator\CategorySource(
     $moduleMessageSource,
     $formatter
 );
-$translator->addCategorySource($additionalCategory);
+$translator->addCategorySources($additionalCategory);
 ```
 
 ### Adding many category sources at once
 
 ```php
-/** @var \Yiisoft\Translator\TranslatorInterface $translator */
-/** @var \Yiisoft\Translator\CategorySource $additionalCategory1 */
-/** @var \Yiisoft\Translator\CategorySource $additionalCategory2 */
+/** 
+ * @var \Yiisoft\Translator\TranslatorInterface $translator
+ * @var \Yiisoft\Translator\CategorySource $additionalCategory1
+ * @var \Yiisoft\Translator\CategorySource $additionalCategory2 
+ */
 
-$translator->addCategorySources([
-    $additionalCategory1,
-    $additionalCategory2,
-]);
+$translator->addCategorySources($additionalCategory1, $additionalCategory2);
 ```
 
 ### Overriding translation messages
@@ -238,7 +237,7 @@ $moduleCategorySource = new Yiisoft\Translator\CategorySource(
 );
 
 // Needs be added after module category source is added.
-$translator->addCategorySource($moduleCategorySource);
+$translator->addCategorySources($moduleCategorySource);
 ```
 
 ## General usage

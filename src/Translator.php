@@ -45,19 +45,14 @@ final class Translator implements TranslatorInterface
         $this->defaultMessageFormatter = $defaultMessageFormatter ?? new NullMessageFormatter();
     }
 
-    public function addCategorySource(CategorySource $category): void
-    {
-        if (isset($this->categorySources[$category->getName()])) {
-            $this->categorySources[$category->getName()][] = $category;
-        } else {
-            $this->categorySources[$category->getName()] = [$category];
-        }
-    }
-
-    public function addCategorySources(array $categories): void
+    public function addCategorySources(CategorySource ...$categories): void
     {
         foreach ($categories as $category) {
-            $this->addCategorySource($category);
+            if (isset($this->categorySources[$category->getName()])) {
+                $this->categorySources[$category->getName()][] = $category;
+            } else {
+                $this->categorySources[$category->getName()] = [$category];
+            }
         }
     }
 

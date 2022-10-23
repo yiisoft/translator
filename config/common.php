@@ -40,7 +40,7 @@ return [
             Reference::to(EventDispatcherInterface::class),
         ],
         'addCategorySources()' => [
-            $params['yiisoft/translator']['categorySources'],
+            ...$params['yiisoft/translator']['categorySources'],
         ],
         'reset' => function () use ($params) {
             $this->setLocale($params['yiisoft/translator']['locale']);
