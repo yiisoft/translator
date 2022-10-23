@@ -12,9 +12,9 @@ use Stringable;
 interface TranslatorInterface
 {
     /**
-     * Add category source.
+     * Add category sources.
      */
-    public function addCategorySource(CategorySource ...$categories): void;
+    public function addCategorySources(CategorySource ...$categories): void;
 
     /**
      * Set the default locale.

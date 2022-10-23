@@ -30,7 +30,7 @@ $additionalCategory = new Yiisoft\Translator\CategorySource(
     new \Yiisoft\Translator\Message\Php\MessageSource($pathToModuleTranslations),
     new \Yiisoft\Translator\SimpleMessageFormatter()
 );
-$translator->addCategorySource($additionalCategory);
+$translator->addCategorySources($additionalCategory);
 
 $translator->translate('Test string: {str}', ['str' => 'string data'], 'moduleId', 'en');
 // output: Test string: string data
