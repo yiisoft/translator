@@ -322,6 +322,32 @@ final class TranslatorTest extends TestCase
         $this->assertEquals($expected, $translator->translate($id, $params, $category, $locale));
     }
 
+    public function testCustomDefaultCategory(): void
+    {
+        $translator = new Translator(
+            locale: 'en',
+            defaultCategory: 'app2',
+        );
+        $translator->addCategorySources(
+            $this->createCategory('app', [
+                'app' => [
+                    'en' => [
+                        'test.id1' => 'app: Test 1 on the (en)',
+                    ],
+                ],
+            ]),
+            $this->createCategory('app2', [
+                'app2' => [
+                    'en' => [
+                        'test.id1' => 'app2: Test 1 on the (en)',
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertSame('app2: Test 1 on the (en)', $translator->translate('test.id1'));
+    }
+
     public function testWithCategory(): void
     {
         $locale = 'en';
