@@ -11,7 +11,8 @@
 - Enh #76: Make message formatter in category source optional (@vjik)
 - New #78: Add `IntlMessageFormatter` that utilizes PHP intl extension message formatting capabilities (@vjik)
 - Chg #81: Make category parameter in `TranslatorInterface::addCategorySources()` variadic, and remove 
- `TranslatorInterface::addCategorySource()` method (@vjik) 
+ `TranslatorInterface::addCategorySource()` method (@vjik)
+- New #82: Add parameter `$defaultCategory` to `Translator` constructor (@vjik)
 
 ## 1.1.1 September 09, 2022
 
