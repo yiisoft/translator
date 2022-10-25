@@ -51,7 +51,7 @@ interface TranslatorInterface
      *
      * @psalm-immutable
      */
-    public function withCategory(string $category): self;
+    public function withDefaultCategory(string $category): self;
 
     /**
      * Get a new Translator instance with locale to be used by default in case locale isn't specified explicitly.
