@@ -18,8 +18,6 @@ final class Translator implements TranslatorInterface
 {
     private MessageFormatterInterface $defaultMessageFormatter;
 
-    private string $defaultCategory = 'app';
-
     /**
      * @var array Array of category message sources indexed by category names.
      * @psalm-var array<string,CategorySource[]>
@@ -39,6 +37,7 @@ final class Translator implements TranslatorInterface
     public function __construct(
         private string $locale = 'en_US',
         private ?string $fallbackLocale = null,
+        private string $defaultCategory = 'app',
         private ?EventDispatcherInterface $eventDispatcher = null,
         ?MessageFormatterInterface $defaultMessageFormatter = null,
     ) {
