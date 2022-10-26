@@ -87,7 +87,7 @@ final class Translator implements TranslatorInterface
     /**
      * @psalm-immutable
      */
-    public function withCategory(string $category): self
+    public function withDefaultCategory(string $category): self
     {
         if (!isset($this->categorySources[$category])) {
             throw new RuntimeException('Category with name "' . $category . '" does not exist.');

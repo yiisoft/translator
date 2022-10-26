@@ -288,7 +288,7 @@ echo $translator->withLocale($newDefaultLocale);
 
 ```php
 $newDefaultCategoryId = 'module2';
-echo $translator->withCategory($newDefaultCategoryId);
+echo $translator->withDefaultCategory($newDefaultCategoryId);
 ```
 
 ## Additional info
