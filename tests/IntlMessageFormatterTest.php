@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Yiisoft\Translator\IntlMessageFormatter;
 
+use function extension_loaded;
+
 final class IntlMessageFormatterTest extends TestCase
 {
     public function testException(): void

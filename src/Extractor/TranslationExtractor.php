@@ -32,11 +32,12 @@ final class TranslationExtractor
     ];
 
     /**
-     * TranslationExtractor constructor.
+     * `TranslationExtractor` constructor.
      *
      * @param string $path Path to start extraction at.
      * @param string[]|null $only List of patterns that the files or directories should match. See {@see PathMatcher}.
-     * @param string[]|null $except List of patterns that the files or directories should not match. See {@see PathMatcher}.
+     * @param string[]|null $except List of patterns that the files or directories should not match. See
+     * {@see PathMatcher}.
      */
     public function __construct(string $path, ?array $only = null, ?array $except = null)
     {
