@@ -2,18 +2,15 @@
 
 declare(strict_types=1);
 
-use Yiisoft\Definitions\Reference;
-
 return [
     'yiisoft/translator' => [
-        'locale' => 'en-US',
+        'locale' => 'en_US',
         'fallbackLocale' => null,
         'defaultCategory' => 'app',
         'categorySources' => [
-            Reference::to('DefaultCategorySource'),
-            // You can add categories from your application and additional modules using `Reference::to` below
-            // Reference::to(ApplicationCategorySource::class),
-            // Reference::to(MyModuleCategorySource::class),
+            // You can add categories from your application and additional modules using `Reference::to()` below
+            // \Yiisoft\Definitions\Reference\Reference::to('translator.app'),
+            // \Yiisoft\Definitions\Reference\Reference::to('translator.moduleA'),
         ],
     ],
 ];
