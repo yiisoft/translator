@@ -42,7 +42,7 @@ final class IntlMessageFormatterTest extends TestCase
         ];
     }
 
-    public function patterns()
+    public function patterns(): array
     {
         return [
             [
@@ -279,7 +279,7 @@ _MSG_
         ];
     }
 
-    public function parsePatterns()
+    public function parsePatterns(): array
     {
         return [
             [
@@ -381,10 +381,6 @@ _MSG_
         array $args,
         string $locale = 'en-US'
     ): void {
-        if (!extension_loaded('intl')) {
-            $this->markTestSkipped('intl not installed. Skipping.');
-        }
-
         $formatter = new IntlMessageFormatter();
         $result = $formatter->format($pattern, $args, $locale);
         $this->assertEquals($expected, $result);

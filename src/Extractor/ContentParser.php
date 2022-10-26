@@ -255,7 +255,7 @@ final class ContentParser
      * @psalm-param TranslatorToken $a
      * @psalm-param TranslatorToken $b
      */
-    private function tokensEqual($a, $b): bool
+    private function tokensEqual(array|string $a, array|string $b): bool
     {
         if (is_string($a)) {
             return $a === $b;

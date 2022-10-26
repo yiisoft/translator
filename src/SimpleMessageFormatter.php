@@ -6,6 +6,10 @@ namespace Yiisoft\Translator;
 
 use InvalidArgumentException;
 
+use function count;
+use function in_array;
+use function is_int;
+
 class SimpleMessageFormatter implements MessageFormatterInterface
 {
     private const PLURAL_ONE = 'one';

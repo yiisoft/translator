@@ -31,7 +31,8 @@ final class Translator implements TranslatorInterface
 
     /**
      * @param string $locale Default locale to use if locale is not specified explicitly.
-     * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for none.
+     * @param string|null $fallbackLocale Locale to use if message for the locale specified was not found. Null for
+     * none.
      * @param EventDispatcherInterface|null $eventDispatcher Event dispatcher for translation events. Null for none.
      */
     public function __construct(
