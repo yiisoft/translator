@@ -7,6 +7,8 @@ namespace Yiisoft\Translator;
 use MessageFormatter;
 use RuntimeException;
 
+use function extension_loaded;
+
 final class IntlMessageFormatter implements MessageFormatterInterface
 {
     public function __construct()

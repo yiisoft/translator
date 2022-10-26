@@ -34,7 +34,8 @@
     },
     "suggest": {
         "ext-intl": "Allows using intl message formatter",
-        "ext-tokenizer": "Allows using message extraction"
+        "ext-tokenizer": "Allows using message extraction",
+        "yiisoft/event-dispatcher": "To listen for events about missing categories and messages"
     },
     "autoload": {
         "psr-4": {

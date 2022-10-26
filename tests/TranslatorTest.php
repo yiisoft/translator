@@ -348,7 +348,7 @@ final class TranslatorTest extends TestCase
         $this->assertSame('app2: Test 1 on the (en)', $translator->translate('test.id1'));
     }
 
-    public function testWithCategory(): void
+    public function testWithDefaultCategory(): void
     {
         $locale = 'en';
         $translator = new Translator($locale);
@@ -368,7 +368,7 @@ final class TranslatorTest extends TestCase
         ]));
         $this->assertEquals('app: Test 1 on the (en)', $translator->translate('test.id1'));
 
-        $newTranslator = $translator->withCategory('app2');
+        $newTranslator = $translator->withDefaultCategory('app2');
         $this->assertNotSame($translator, $newTranslator);
         $this->assertEquals('app: Test 1 on the (en)', $translator->translate('test.id1'));
         $this->assertEquals('app2: Test 1 on the (en)', $newTranslator->translate('test.id1'));
@@ -423,7 +423,7 @@ final class TranslatorTest extends TestCase
         $this->assertEquals('app3: Test 1 on the (en)', $translator->translate('test.id1', [], 'app3'));
     }
 
-    public function testWithNotExistCategory(): void
+    public function testWithNotExistDefaultCategory(): void
     {
         $locale = 'en';
         $translator = new Translator($locale);
@@ -445,7 +445,7 @@ final class TranslatorTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Category with name "app3" does not exist.');
 
-        $translator->withCategory('app3');
+        $translator->withDefaultCategory('app3');
     }
 
     /**

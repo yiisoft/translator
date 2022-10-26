@@ -47,14 +47,14 @@ interface TranslatorInterface
     ): string;
 
     /**
-     * Get a new Translator instance with category to be used by default in case category isn't specified explicitly.
+     * Get a new translator instance with category to be used by default in case category isn't specified explicitly.
      *
      * @psalm-immutable
      */
-    public function withCategory(string $category): self;
+    public function withDefaultCategory(string $category): self;
 
     /**
-     * Get a new Translator instance with locale to be used by default in case locale isn't specified explicitly.
+     * Get a new translator instance with locale to be used by default in case locale isn't specified explicitly.
      */
     public function withLocale(string $locale): self;
 }

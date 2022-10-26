@@ -14,6 +14,7 @@
  `TranslatorInterface::addCategorySource()` method (@vjik)
 - New #82: Add parameter `$defaultCategory` to `Translator` constructor (@vjik)
 - Chg #87: Fix package configuration, remove default category source, change default locale to `en_US` (@vjik) 
+- Chg #84: In `TranslatorInterface` rename method `withCategory()` to `withDefaultCategory()` (@vjik)
 
 ## 1.1.1 September 09, 2022
 

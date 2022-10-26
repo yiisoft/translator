@@ -13,7 +13,8 @@ interface MessageFormatterInterface
      * Formats the message using parameters and taking locale into account.
      *
      * @param string $message A message to format.
-     * @param array $parameters Parameters to replace in the message in `['name1' => 'value1', 'name2' => 'value2']` format.
+     * @param array $parameters Parameters to replace in the message in `['name1' => 'value1', 'name2' => 'value2']`
+     * format.
      * @psalm-param array<array-key, mixed> $parameters
      *
      * @param string $locale Locale to use when formatting. Usually affects formatting numbers, dates etc.
