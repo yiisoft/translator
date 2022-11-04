@@ -11,13 +11,18 @@ use Yiisoft\Translator\Translator;
 
 return [
     // Configure application CategorySource
-    // 'translator.app' => static function (\Yiisoft\Translator\IntlMessageFormatter $formatter) use ($params) {
-    //     return new \Yiisoft\Translator\CategorySource(
-    //         $params['yiisoft/translator']['defaultCategory'],
-    //         new \Yiisoft\Translator\Message\Php\MessageSource('/path/to/messages'),
-    //         $formatter
-    //     );
-    // },
+    //'translation.app' => [
+    //    'definition' => static function (Aliases $aliases, MessageFormatterInterface $messageFormatter) use ($params) {
+    //        $messageSource = new MessageSource($aliases->get('@messages'));
+    //
+    //        return new CategorySource(
+    //            $params['yiisoft/translator']['defaultCategory'],
+    //            $messageSource,
+    //            $messageFormatter,
+    //        );
+    //    },
+    //    'tags' => ['translation.categorySource']
+    //],
 
     TranslatorInterface::class => [
         'class' => Translator::class,
@@ -27,9 +32,7 @@ return [
             $params['yiisoft/translator']['defaultCategory'],
             Reference::optional(EventDispatcherInterface::class),
         ],
-        'addCategorySources()' => [
-            ...$params['yiisoft/translator']['categorySources'],
-        ],
+        'addCategorySources()' => [Reference::to('tag@translation.categorySource')],
         'reset' => function () use ($params) {
             /** @var Translator $this */
             $this->setLocale($params['yiisoft/translator']['locale']);
