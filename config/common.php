@@ -12,10 +12,11 @@ use Yiisoft\Translator\Translator;
 return [
     // Configure application CategorySource
     //'translation.app' => [
-    //    'definition' => static function (Aliases $aliases, MessageFormatterInterface $messageFormatter) use ($params) {
-    //        $messageSource = new MessageSource($aliases->get('@messages'));
+    //    'definition' => static function () use ($params) {
+    //        $messageSource = new \Yiisoft\TranslatorExtractor\MessageSource($params['messages']);
+    //        $messageFormatter = new \Yiisoft\Translator\SimpleMessageFormatter();
     //
-    //        return new CategorySource(
+    //        return new \Yiisoft\Translator\CategorySource(
     //            $params['yiisoft/translator']['defaultCategory'],
     //            $messageSource,
     //            $messageFormatter,
