@@ -53,7 +53,7 @@ final class ConfigTest extends TestCase
         );
     }
 
-    private function getCommonDefinitions(?array $params = null, bool $withCategorySources): array
+    private function getCommonDefinitions(?array $params, bool $withCategorySources): array
     {
         if ($params === null) {
             $params = $this->getParams();
