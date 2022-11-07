@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Yiisoft\Di\Container;
 use Yiisoft\Di\ContainerConfig;
 use Yiisoft\Di\StateResetter;
+use Yiisoft\Translator\MessageReaderInterface;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\TranslatorInterface;
 
@@ -20,6 +21,7 @@ final class ConfigTest extends TestCase
         $translator = $container->get(TranslatorInterface::class);
 
         $this->assertInstanceOf(Translator::class, $translator);
+        $this->assertSame('test', $translator->translate('a'));
     }
 
     public function testReset(): void
@@ -48,11 +50,36 @@ final class ConfigTest extends TestCase
         if ($params === null) {
             $params = $this->getParams();
         }
-        return require dirname(__DIR__) . '/config/common.php';
+        $common = require dirname(__DIR__) . '/config/common.php';
+
+        return array_merge($this->getCategorySourceDefinition($params), $common);
     }
 
     private function getParams(): array
     {
         return require dirname(__DIR__) . '/config/params.php';
+    }
+
+    private function getCategorySourceDefinition(array $params): array
+    {
+        $messageReader = $this->createMock(MessageReaderInterface::class);
+        $messageReader
+            ->method('getMessage')
+            ->willReturn('test');
+
+        return [
+            'translation.app' => [
+                'definition' => static function () use ($messageReader, $params) {
+                    $messageFormatter = new \Yiisoft\Translator\SimpleMessageFormatter();
+
+                    return new \Yiisoft\Translator\CategorySource(
+                        $params['yiisoft/translator']['defaultCategory'],
+                        $messageReader,
+                        $messageFormatter,
+                    );
+                },
+                'tags' => ['translation.categorySource'],
+            ],
+        ];
     }
 }

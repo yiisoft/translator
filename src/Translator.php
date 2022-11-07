@@ -119,9 +119,7 @@ final class Translator implements TranslatorInterface
                 return $sourceCategory->format($message, $parameters, $locale, $this->defaultMessageFormatter);
             }
 
-            if ($this->eventDispatcher !== null) {
-                $this->eventDispatcher->dispatch(new MissingTranslationEvent($sourceCategory->getName(), $locale, $id));
-            }
+            $this->eventDispatcher?->dispatch(new MissingTranslationEvent($sourceCategory->getName(), $locale, $id));
         } while (($sourceCategory = prev($this->categorySources[$category])) !== false);
 
         $localeObject = new Locale($locale);
