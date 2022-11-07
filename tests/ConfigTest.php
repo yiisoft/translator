@@ -21,6 +21,14 @@ final class ConfigTest extends TestCase
         $translator = $container->get(TranslatorInterface::class);
 
         $this->assertInstanceOf(Translator::class, $translator);
+    }
+
+    public function testCategorySources(): void
+    {
+        $container = $this->createContainer(withCategorySources: true);
+
+        $translator = $container->get(TranslatorInterface::class);
+
         $this->assertSame('test', $translator->translate('a'));
     }
 
@@ -36,23 +44,26 @@ final class ConfigTest extends TestCase
         $this->assertSame('en_US', $translator->getLocale());
     }
 
-    private function createContainer(?array $params = null): Container
+    private function createContainer(?array $params = null, bool $withCategorySources = false): Container
     {
         return new Container(
             ContainerConfig::create()->withDefinitions(
-                $this->getCommonDefinitions($params)
+                $this->getCommonDefinitions($params, $withCategorySources)
             )
         );
     }
 
-    private function getCommonDefinitions(?array $params = null): array
+    private function getCommonDefinitions(?array $params = null, bool $withCategorySources): array
     {
         if ($params === null) {
             $params = $this->getParams();
         }
         $common = require dirname(__DIR__) . '/config/common.php';
 
-        return array_merge($this->getCategorySourceDefinition($params), $common);
+        if ($withCategorySources) {
+            return array_merge($this->getCategorySourceDefinition($params), $common);
+        }
+        return $common;
     }
 
     private function getParams(): array

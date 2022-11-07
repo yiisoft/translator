@@ -13,7 +13,7 @@ return [
     // Configure application CategorySource
     //'translation.app' => [
     //    'definition' => static function () use ($params) {
-    //        $messageSource = new \Yiisoft\Translator\Message\Php\MessageSource($params['messages'] ?? __DIR__);
+    //        $messageSource = new \Yiisoft\Translator\Message\Php\MessageSource('/path/to/messages');
     //        $messageFormatter = new \Yiisoft\Translator\SimpleMessageFormatter();
     //
     //        return new \Yiisoft\Translator\CategorySource(
