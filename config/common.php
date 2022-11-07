@@ -13,7 +13,7 @@ return [
     // Configure application CategorySource
     //'translation.app' => [
     //    'definition' => static function () use ($params) {
-    //        $messageSource = new \Yiisoft\TranslatorExtractor\MessageSource($params['messages']);
+    //        $messageSource = new \Yiisoft\Translator\Message\Php\MessageSource($params['messages'] ?? __DIR__);
     //        $messageFormatter = new \Yiisoft\Translator\SimpleMessageFormatter();
     //
     //        return new \Yiisoft\Translator\CategorySource(
@@ -33,7 +33,7 @@ return [
             $params['yiisoft/translator']['defaultCategory'],
             Reference::optional(EventDispatcherInterface::class),
         ],
-        'addCategorySources()' => [Reference::to('tag@translation.categorySource')],
+        'addCategorySources()' => ['categories' => Reference::to('tag@translation.categorySource')],
         'reset' => function () use ($params) {
             /** @var Translator $this */
             $this->setLocale($params['yiisoft/translator']['locale']);
