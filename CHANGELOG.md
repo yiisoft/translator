@@ -2,7 +2,7 @@
 
 ## 2.0.1 under development
 
-- no changes in this release.
+- New #91: Add `IdMessageReader` that returns ID as message and don't support receiving all messages (@vjik)
 
 ## 2.0.0 November 08, 2022
 
