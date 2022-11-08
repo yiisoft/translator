@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 2.0.1 under development
+
+- no changes in this release.
+
 ## 2.0.0 November 08, 2022
 
 - New #75: Add `NullMessageFormatter` that returns message as is (@vjik)
