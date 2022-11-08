@@ -7,7 +7,7 @@ namespace Yiisoft\Translator;
 use RuntimeException;
 
 /**
- * ID message reader returns ID as message and don't support receiving all messages.
+ * ID message reader returns ID as message and doesn't support getting all messages at once.
  */
 final class IdMessageReader implements MessageReaderInterface
 {
@@ -18,6 +18,6 @@ final class IdMessageReader implements MessageReaderInterface
 
     public function getMessages(string $category, string $locale): array
     {
-        throw new RuntimeException('IdMessageReader do not support receiving all messages.');
+        throw new RuntimeException('IdMessageReader doesn\'t support getting all messages at once.');
     }
 }
