@@ -22,7 +22,7 @@ final class IdMessageReaderTest extends TestCase
         $reader = new IdMessageReader();
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('IdMessageReader do not support receiving all messages.');
+        $this->expectExceptionMessage('IdMessageReader doesn\'t support getting all messages at once');
         $reader->getMessages('my-module', 'en_US');
     }
 }
