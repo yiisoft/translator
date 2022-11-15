@@ -1,6 +1,6 @@
 # Yii Message Translator Change Log
 
-## 2.0.1 under development
+## 2.1.0 November 15, 2022
 
 - New #91: Add `IdMessageReader` that returns ID as message and doesn't support getting all messages at once (@vjik)
 
