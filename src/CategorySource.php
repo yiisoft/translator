@@ -12,22 +12,32 @@ use RuntimeException;
 final class CategorySource
 {
     private string $name;
+    private null|MessageWriterInterface $writer = null;
+    private null|MessageFormatterInterface $formatter = null;
 
     /**
      * @param string $name Category name.
      * @param MessageReaderInterface $reader Message reader to get messages from for this category.
-     * @param MessageWriterInterface $writer Message writer to write messages for this category.
+     * @param MessageFormatterInterface|MessageWriterInterface|null $writer Message writer to write messages for this category.
      * @param MessageFormatterInterface|null $formatter Message formatter to format messages with for this category.
      */
     public function __construct(
         string $name,
         private MessageReaderInterface $reader,
-        private MessageWriterInterface $writer,
-        private ?MessageFormatterInterface $formatter = null
+        // TODO: remove it at next major release
+        null|MessageFormatterInterface|MessageWriterInterface $writer = null,
+        ?MessageFormatterInterface $formatter = null
     ) {
         if (!preg_match('/^[a-z0-9_-]+$/i', $name)) {
             throw new RuntimeException('Category name is invalid. Only letters and numbers are allowed.');
         }
+        if ($writer instanceof MessageFormatterInterface) {
+            $this->formatter = $writer;
+        } elseif ($writer instanceof MessageWriterInterface) {
+            $this->writer = $writer;
+            $this->formatter = $formatter;
+        }
+
         $this->name = $name;
     }
 
@@ -102,9 +112,13 @@ final class CategorySource
      * ]
      * ```
      * @param string $locale Locale to write messages for.
+     * @throws UnwritableCategorySourceException When $write is not configured or it's impossible to write the messages into the source.
      */
     public function write(array $messages, string $locale): void
     {
+        if ($this->writer === null) {
+            throw new UnwritableCategorySourceException($this->name);
+        }
         $this->writer->write($this->name, $locale, $messages);
     }
 

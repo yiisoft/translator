@@ -11,6 +11,7 @@ use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
 use Yiisoft\Translator\NullMessageFormatter;
 use Yiisoft\Translator\SimpleMessageFormatter;
+use Yiisoft\Translator\UnwritableCategorySourceException;
 
 final class CategoryTest extends TestCase
 {
@@ -32,6 +33,19 @@ final class CategoryTest extends TestCase
             $this->createMessageReader(),
             $this->createMessageFormatter()
         );
+    }
+
+    public function testWriterAbsence(): void
+    {
+        $category = new CategorySource(
+            'app',
+            $this->createMessageReader(),
+            $this->createMessageFormatter(),
+        );
+
+        $this->expectException(UnwritableCategorySourceException::class);
+        $this->expectExceptionMessage('Unable to write into category with name "app".');
+        $category->write([], 'en');
     }
 
     public function dataWithoutFormatter(): array
