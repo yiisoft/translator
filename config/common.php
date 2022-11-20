@@ -19,6 +19,7 @@ return [
     //        return new \Yiisoft\Translator\CategorySource(
     //            $params['yiisoft/translator']['defaultCategory'],
     //            $messageSource,
+    //            $messageSource,
     //            $messageFormatter,
     //        );
     //    },

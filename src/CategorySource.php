@@ -16,11 +16,13 @@ final class CategorySource
     /**
      * @param string $name Category name.
      * @param MessageReaderInterface $reader Message reader to get messages from for this category.
+     * @param MessageWriterInterface $writer Message writer to write messages for this category.
      * @param MessageFormatterInterface|null $formatter Message formatter to format messages with for this category.
      */
     public function __construct(
         string $name,
         private MessageReaderInterface $reader,
+        private MessageWriterInterface $writer,
         private ?MessageFormatterInterface $formatter = null
     ) {
         if (!preg_match('/^[a-z0-9_-]+$/i', $name)) {
@@ -76,6 +78,34 @@ final class CategorySource
     public function getMessages(string $locale): array
     {
         return $this->reader->getMessages($this->name, $locale);
+    }
+
+    /**
+     * Writes a set of messages for a specified category and locale.
+     *
+     * @psalm-param array<string, array<string, string>> $messages
+     *
+     * @param array $messages A set of messages to write. The format is the following:
+     *
+     * ```php
+     * [
+     *   'key1' => [
+     *     'message' => 'translation1',
+     *     // Extra metadata that writer may use:
+     *     'comment' => 'Translate carefully!',
+     *   ],
+     *   'key2' => [
+     *     'message' => 'translation2',
+     *     // Extra metadata that writer may use:
+     *     'comment' => 'Translate carefully!',
+     *   ],
+     * ]
+     * ```
+     * @param string $locale Locale to write messages for.
+     */
+    public function write(array $messages, string $locale): void
+    {
+        $this->writer->write($this->name, $locale, $messages);
     }
 
     /**
