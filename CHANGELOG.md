@@ -2,7 +2,7 @@
 
 ## 2.1.1 under development
 
-- New #94: Add `getMessages` method to `CategorySource` (@xepozz)
+- New #94: Add `getMessages()` method to `CategorySource` (@xepozz)
 
 ## 2.1.0 November 15, 2022
 

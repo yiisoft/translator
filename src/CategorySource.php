@@ -72,6 +72,8 @@ final class CategorySource
      *   ],
      * ]
      * ```
+     *
+     * @see MessageReaderInterface::getMessages()
      */
     public function getMessages(string $locale): array
     {
