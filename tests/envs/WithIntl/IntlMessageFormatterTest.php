@@ -15,7 +15,7 @@ final class IntlMessageFormatterTest extends TestCase
     private const F_VALUE = 2e+8;
     private const F_VALUE_FORMATTED = '200,000,000';
     private const D = 'd';
-    private const D_VALUE = 200000000.101;
+    private const D_VALUE = 200_000_000.101;
     private const D_VALUE_FORMATTED = '200,000,000.101';
     private const D_VALUE_FORMATTED_INTEGER = '200,000,000';
     private const SUBJECT = 'сабж';
