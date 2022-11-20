@@ -57,6 +57,7 @@ final class CategorySource
      * Writes a set of messages for a specified category and locale.
      *
      * @psalm-param array<string, array<string, string>> $messages
+     *
      * @param array $messages A set of messages to write. The format is the following:
      *
      * ```php
@@ -73,7 +74,6 @@ final class CategorySource
      *   ],
      * ]
      * ```
-     *
      * @param string $locale Locale to write messages for.
      */
     public function write(array $messages, string $locale): void
