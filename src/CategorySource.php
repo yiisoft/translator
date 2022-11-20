@@ -12,8 +12,6 @@ use RuntimeException;
 final class CategorySource
 {
     private string $name;
-    private null|MessageWriterInterface $writer = null;
-    private null|MessageFormatterInterface $formatter = null;
 
     /**
      * @param string $name Category name.
@@ -24,18 +22,11 @@ final class CategorySource
     public function __construct(
         string $name,
         private MessageReaderInterface $reader,
-        // TODO: remove it at next major release
-        null|MessageFormatterInterface|MessageWriterInterface $writer = null,
-        ?MessageFormatterInterface $formatter = null
+        private ?MessageFormatterInterface $formatter = null,
+        private null|MessageWriterInterface $writer = null,
     ) {
         if (!preg_match('/^[a-z0-9_-]+$/i', $name)) {
             throw new RuntimeException('Category name is invalid. Only letters and numbers are allowed.');
-        }
-        if ($writer instanceof MessageFormatterInterface) {
-            $this->formatter = $writer;
-        } elseif ($writer instanceof MessageWriterInterface) {
-            $this->writer = $writer;
-            $this->formatter = $formatter;
         }
 
         $this->name = $name;

@@ -9,6 +9,7 @@ use RuntimeException;
 use Yiisoft\Translator\CategorySource;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
+use Yiisoft\Translator\MessageWriterInterface;
 use Yiisoft\Translator\NullMessageFormatter;
 use Yiisoft\Translator\SimpleMessageFormatter;
 use Yiisoft\Translator\UnwritableCategorySourceException;
@@ -46,6 +47,19 @@ final class CategoryTest extends TestCase
         $this->expectException(UnwritableCategorySourceException::class);
         $this->expectExceptionMessage('Unable to write into category with name "app".');
         $category->write([], 'en');
+    }
+
+    public function testWriterAvailable(): void
+    {
+        $category = new CategorySource(
+            'app',
+            $this->createMessageReader(),
+            $this->createMessageFormatter(),
+            $this->createMock(MessageWriterInterface::class)
+        );
+
+        $category->write([], 'en');
+        $this->expectNotToPerformAssertions();
     }
 
     public function dataWithoutFormatter(): array
