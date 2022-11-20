@@ -85,6 +85,7 @@ final class CategorySource
      * ]
      * ```
      * @param string $locale Locale to write messages for.
+     *
      * @throws UnwritableCategorySourceException When $write is not configured or it's impossible to write the messages into the source.
      */
     public function write(array $messages, string $locale): void
