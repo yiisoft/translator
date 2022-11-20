@@ -16,8 +16,8 @@ final class CategorySource
     /**
      * @param string $name Category name.
      * @param MessageReaderInterface $reader Message reader to get messages from for this category.
-     * @param MessageFormatterInterface|MessageWriterInterface|null $writer Message writer to write messages for this category.
      * @param MessageFormatterInterface|null $formatter Message formatter to format messages with for this category.
+     * @param MessageWriterInterface|null $writer Message writer to write messages for this category.
      */
     public function __construct(
         string $name,
