@@ -2,7 +2,7 @@
 
 ## 2.1.1 under development
 
-- no changes in this release.
+- New #95: Add `write` method to `CategorySource` (@xepozz)
 
 ## 2.1.0 November 15, 2022
 
