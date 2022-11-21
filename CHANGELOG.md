@@ -2,7 +2,8 @@
 
 ## 2.1.1 under development
 
-- no changes in this release.
+- Bug #93: Throw exceptions on empty and not passed parameters, cast `null` to empty string in `SimpleMessageFormatter` 
+  (@arogachev)
 
 ## 2.1.0 November 15, 2022
 

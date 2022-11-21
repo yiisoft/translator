@@ -23,13 +23,17 @@ class SimpleMessageFormatter implements MessageFormatterInterface
 
         foreach ($matches[0] as $match) {
             $parts = explode(',', $match);
-            $parameter = trim($parts[0], '{}');
+            $parameter = trim($parts[0], '{} ');
 
-            if (!isset($parameters[$parameter])) {
+            if ($parameter === '') {
+                throw new InvalidArgumentException('Parameter\'s name can not be empty.');
+            }
+
+            if (!array_key_exists($parameter, $parameters)) {
                 throw new InvalidArgumentException("\"$parameter\" parameter's value is missing.");
             }
 
-            $value = $parameters[$parameter];
+            $value = $parameters[$parameter] ?? '';
 
             if (!is_scalar($value)) {
                 continue;
