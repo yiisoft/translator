@@ -13,7 +13,6 @@ class SimpleMessageFormatterTest extends TestCase
     public function formatProvider(): array
     {
         return [
-            // simple
             'simple, scalar (integer)' => [
                 'Test number: {number}',
                 ['number' => 5],
@@ -29,7 +28,6 @@ class SimpleMessageFormatterTest extends TestCase
                 ['arr' => ['string data']],
                 'Test array: {arr}',
             ],
-            // plural
             'plural, one' => [
                 '{min, plural, one{character} other{characters}}',
                 ['min' => 1],
@@ -50,18 +48,21 @@ class SimpleMessageFormatterTest extends TestCase
                 ['min' => 1],
                 'character',
             ],
-            // not supported
             'not supported' => [
                 '{min, notsupported}',
                 ['min' => 1],
                 '1',
             ],
-            // complex
             'complex' => [
                 'text1 {param1} text2 {param2, number} text3 {param3, plural, one{item} other{items}} text4 {param4} ' .
                 'text5',
                 ['param1' => 1, 'param2' => 2, 'param3' => 3, 'param4' => 4],
                 'text1 1 text2 2 text3 items text4 4 text5',
+            ],
+            'parameter with null value' => [
+                'Attribute - {attribute}, type - {type}.',
+                ['attribute' => null, 'type' => 'int'],
+                'Attribute - , type - int.',
             ],
         ];
     }
@@ -130,5 +131,27 @@ class SimpleMessageFormatterTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('"min" parameter\'s value is missing.');
         $formatter->format('{min}', []);
+    }
+
+    public function dataFormatWithEmptyParameters(): array
+    {
+        return [
+            'empty without parameters' => ['{}', []],
+            'empty with parameters' => ['{}', ['' => 'test']],
+            'empty after trimming without parameters' => ['{ }', []],
+            'empty after trimming with parameters' => ['{ }', [' ' => 'test']],
+        ];
+    }
+
+    /**
+     * @dataProvider dataFormatWithEmptyParameters
+     */
+    public function testFormatWithEmptyParameters(string $message, array $parameters): void
+    {
+        $formatter = new SimpleMessageFormatter();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Parameter\'s name can not be empty.');
+        $formatter->format($message, $parameters);
     }
 }
