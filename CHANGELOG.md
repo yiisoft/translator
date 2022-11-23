@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 2.1.2 under development
+
+- no changes in this release.
+
 ## 2.1.1 November 23, 2022
 
 - Bug #93: Throw exceptions on empty and not passed parameters, cast `null` to empty string in `SimpleMessageFormatter` 
