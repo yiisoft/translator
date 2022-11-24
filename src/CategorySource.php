@@ -88,8 +88,8 @@ final class CategorySource
      *
      * @psalm-param array<string, array<string, string>> $messages
      *
+     * @param string $locale Locale to write messages for.
      * @param array $messages A set of messages to write. The format is the following:
-     *
      * ```php
      * [
      *   'key1' => [
@@ -104,11 +104,10 @@ final class CategorySource
      *   ],
      * ]
      * ```
-     * @param string $locale Locale to write messages for.
      *
-     * @throws UnwritableCategorySourceException When $write is not configured or it's impossible to write the messages into the source.
+     * @throws UnwritableCategorySourceException When $write is not configured, or it's impossible to write the messages into the source.
      */
-    public function write(array $messages, string $locale): void
+    public function write(string $locale, array $messages): void
     {
         if ($this->writer === null) {
             throw new UnwritableCategorySourceException($this->name);

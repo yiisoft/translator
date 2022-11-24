@@ -2,7 +2,7 @@
 
 ## 2.1.2 under development
 
-- New #95: Add `write` method to `CategorySource` (@xepozz)
+- New #95: Add `write()` method to `CategorySource` (@xepozz)
 
 ## 2.1.1 November 23, 2022
 

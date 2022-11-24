@@ -45,8 +45,8 @@ final class CategoryTest extends TestCase
         );
 
         $this->expectException(UnwritableCategorySourceException::class);
-        $this->expectExceptionMessage('Unable to write into category with name "app".');
-        $category->write([], 'en');
+        $this->expectExceptionMessage('The category source "app" does not support writing.');
+        $category->write('en', []);
     }
 
     public function testWriterAvailable(): void
@@ -58,7 +58,7 @@ final class CategoryTest extends TestCase
             $this->createMock(MessageWriterInterface::class)
         );
 
-        $category->write([], 'en');
+        $category->write('en', []);
         $this->expectNotToPerformAssertions();
     }
 
