@@ -55,6 +55,35 @@ final class CategorySource
     }
 
     /**
+     * @param string $locale Locale of messages to get.
+     *
+     * @psalm-return array<string, array<string, string>>
+     *
+     * @return array All messages from category. The format is the following:
+     *
+     * ```php
+     * [
+     *   'key1' => [
+     *     'message' => 'translation1',
+     *     // Extra metadata that writer may use:
+     *     'comment' => 'Translate carefully!',
+     *   ],
+     *   'key2' => [
+     *     'message' => 'translation2',
+     *     // Extra metadata that writer may use:
+     *     'comment' => 'Translate carefully!',
+     *   ],
+     * ]
+     * ```
+     *
+     * @see MessageReaderInterface::getMessages()
+     */
+    public function getMessages(string $locale): array
+    {
+        return $this->reader->getMessages($this->name, $locale);
+    }
+
+    /**
      * Writes a set of messages for a specified category and locale.
      *
      * @psalm-param array<string, array<string, string>> $messages

@@ -96,6 +96,39 @@ final class CategoryTest extends TestCase
         );
     }
 
+    public function testGetMessages(): void
+    {
+        $categorySource = new CategorySource(
+            'test',
+            new class () implements MessageReaderInterface {
+                public function getMessage(
+                    string $id,
+                    string $category,
+                    string $locale,
+                    array $parameters = []
+                ): ?string {
+                    return null;
+                }
+
+                public function getMessages(string $category, string $locale): array
+                {
+                    return [
+                        'message1' => ['message' => 'message1'],
+                        'message2' => ['message' => 'message2'],
+                    ];
+                }
+            }
+        );
+
+        $this->assertEquals(
+            [
+                'message1' => ['message' => 'message1'],
+                'message2' => ['message' => 'message2'],
+            ],
+            $categorySource->getMessages('en'),
+        );
+    }
+
     private function createMessageReader(): MessageReaderInterface
     {
         return new class () implements MessageReaderInterface {
