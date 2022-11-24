@@ -6,7 +6,8 @@
 
 ## 2.1.1 November 23, 2022
 
-- Bug #93: Throw exceptions on empty and not passed parameters, cast `null` to empty string in `SimpleMessageFormatter` 
+- New #94: Add `getMessages()` method to `CategorySource` (@xepozz)
+- Bug #93: Throw exceptions on empty and not passed parameters, cast `null` to empty string in `SimpleMessageFormatter`
   (@arogachev)
 
 ## 2.1.0 November 15, 2022
