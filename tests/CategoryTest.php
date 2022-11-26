@@ -45,6 +45,7 @@ final class CategoryTest extends TestCase
         );
 
         $this->expectException(UnwritableCategorySourceException::class);
+        $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The category source "app" does not support writing.');
         $category->write('en', []);
     }
