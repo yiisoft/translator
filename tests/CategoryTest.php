@@ -9,8 +9,10 @@ use RuntimeException;
 use Yiisoft\Translator\CategorySource;
 use Yiisoft\Translator\MessageFormatterInterface;
 use Yiisoft\Translator\MessageReaderInterface;
+use Yiisoft\Translator\MessageWriterInterface;
 use Yiisoft\Translator\NullMessageFormatter;
 use Yiisoft\Translator\SimpleMessageFormatter;
+use Yiisoft\Translator\UnwritableCategorySourceException;
 
 final class CategoryTest extends TestCase
 {
@@ -32,6 +34,33 @@ final class CategoryTest extends TestCase
             $this->createMessageReader(),
             $this->createMessageFormatter()
         );
+    }
+
+    public function testWriterAbsence(): void
+    {
+        $category = new CategorySource(
+            'app',
+            $this->createMessageReader(),
+            $this->createMessageFormatter(),
+        );
+
+        $this->expectException(UnwritableCategorySourceException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('The category source "app" does not support writing.');
+        $category->write('en', []);
+    }
+
+    public function testWriterAvailable(): void
+    {
+        $category = new CategorySource(
+            'app',
+            $this->createMessageReader(),
+            $this->createMessageFormatter(),
+            $this->createMock(MessageWriterInterface::class)
+        );
+
+        $category->write('en', []);
+        $this->expectNotToPerformAssertions();
     }
 
     public function dataWithoutFormatter(): array
