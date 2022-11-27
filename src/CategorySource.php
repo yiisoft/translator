@@ -23,7 +23,7 @@ final class CategorySource
         string $name,
         private MessageReaderInterface $reader,
         private ?MessageFormatterInterface $formatter = null,
-        private null|MessageWriterInterface $writer = null,
+        private ?MessageWriterInterface $writer = null,
     ) {
         if (!preg_match('/^[a-z0-9_-]+$/i', $name)) {
             throw new RuntimeException('Category name is invalid. Only letters and numbers are allowed.');
