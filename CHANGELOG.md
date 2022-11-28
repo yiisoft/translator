@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 2.2.1 under development
+
+- no changes in this release.
+
 ## 2.2.0 November 28, 2022
 
 - New #94: Add `getMessages()` method to `CategorySource` (@xepozz)
