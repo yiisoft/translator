@@ -2,7 +2,8 @@
 
 ## 2.2.1 under development
 
-- no changes in this release.
+- Enh #99: In `SimpleMessageFormatter` add support of messages where used parameters with plural modifier that contain 
+  non-supported keys (@vjik)
 
 ## 2.2.0 November 28, 2022
 
