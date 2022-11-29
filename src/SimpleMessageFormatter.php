@@ -77,17 +77,14 @@ class SimpleMessageFormatter implements MessageFormatterInterface
         $map = [];
         foreach ($pluralMatches[1] as $index => $match) {
             if (!in_array($match, self::PLURAL_KEYS, true)) {
-                $keysStr = self::formatList(self::PLURAL_KEYS);
-
-                throw new InvalidArgumentException("Invalid plural key - \"$match\". The valid keys are $keysStr.");
+                continue;
             }
 
             $map[$match] = $pluralMatches[3][$index];
         }
 
-        $diff = array_diff(self::PLURAL_KEYS, $pluralMatches[1]);
-        if ($diff !== []) {
-            throw new InvalidArgumentException('Missing plural keys: ' . self::formatList($diff) . '.');
+        if (!in_array(self::PLURAL_OTHER, $pluralMatches[1], true)) {
+            throw new InvalidArgumentException('Missing plural key "' . self::PLURAL_OTHER . '".');
         }
 
         return $value === 1 ? $map[self::PLURAL_ONE] : $map[self::PLURAL_OTHER];
