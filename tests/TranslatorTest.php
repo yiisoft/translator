@@ -20,7 +20,7 @@ final class TranslatorTest extends TestCase
     public function testDefaultLocale(): void
     {
         $translator = new Translator();
-        $this->assertSame('en_US', $translator->getLocale());
+        $this->assertSame('en-US', $translator->getLocale());
     }
 
     private function getMessages(): array
