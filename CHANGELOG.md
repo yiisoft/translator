@@ -1,7 +1,9 @@
 # Yii Message Translator Change Log
 
-## 2.2.1 under development
+## 3.0.0 under development
 
+- Chg #92: Implement fluent interface into `TranslatorInterface`: methods `addCategorySources()`, `setLocale()`, 
+  `withDefaultCategory()` and `withLocale()` returns `static` (@vjik)
 - Enh #99: In `SimpleMessageFormatter` add support of messages where used parameters with plural modifier that contain 
   non-supported keys (@vjik)
 

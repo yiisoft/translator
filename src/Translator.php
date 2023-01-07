@@ -45,7 +45,7 @@ final class Translator implements TranslatorInterface
         $this->defaultMessageFormatter = $defaultMessageFormatter ?? new NullMessageFormatter();
     }
 
-    public function addCategorySources(CategorySource ...$categories): void
+    public function addCategorySources(CategorySource ...$categories): static
     {
         foreach ($categories as $category) {
             if (isset($this->categorySources[$category->getName()])) {
@@ -54,11 +54,14 @@ final class Translator implements TranslatorInterface
                 $this->categorySources[$category->getName()] = [$category];
             }
         }
+
+        return $this;
     }
 
-    public function setLocale(string $locale): void
+    public function setLocale(string $locale): static
     {
         $this->locale = $locale;
+        return $this;
     }
 
     public function getLocale(): string
@@ -84,10 +87,7 @@ final class Translator implements TranslatorInterface
         return $this->translateUsingCategorySources((string) $id, $parameters, $category, $locale);
     }
 
-    /**
-     * @psalm-immutable
-     */
-    public function withDefaultCategory(string $category): self
+    public function withDefaultCategory(string $category): static
     {
         if (!isset($this->categorySources[$category])) {
             throw new RuntimeException('Category with name "' . $category . '" does not exist.');
@@ -98,7 +98,7 @@ final class Translator implements TranslatorInterface
         return $new;
     }
 
-    public function withLocale(string $locale): self
+    public function withLocale(string $locale): static
     {
         $new = clone $this;
         $new->setLocale($locale);

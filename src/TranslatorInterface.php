@@ -14,12 +14,12 @@ interface TranslatorInterface
     /**
      * Add category sources.
      */
-    public function addCategorySources(CategorySource ...$categories): void;
+    public function addCategorySources(CategorySource ...$categories): static;
 
     /**
      * Set the default locale.
      */
-    public function setLocale(string $locale): void;
+    public function setLocale(string $locale): static;
 
     /**
      * @return string Default locale.
@@ -48,13 +48,11 @@ interface TranslatorInterface
 
     /**
      * Get a new translator instance with category to be used by default in case category isn't specified explicitly.
-     *
-     * @psalm-immutable
      */
-    public function withDefaultCategory(string $category): self;
+    public function withDefaultCategory(string $category): static;
 
     /**
      * Get a new translator instance with locale to be used by default in case locale isn't specified explicitly.
      */
-    public function withLocale(string $locale): self;
+    public function withLocale(string $locale): static;
 }
