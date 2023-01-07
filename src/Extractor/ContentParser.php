@@ -111,6 +111,8 @@ final class ContentParser
 
     /**
      * @psalm-param array<integer, TranslatorToken> $tokens
+     *
+     * @psalm-suppress UnusedVariable See https://github.com/vimeo/psalm/issues/9080
      */
     private function extractMessagesFromTokens(array $tokens): array
     {
