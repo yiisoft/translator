@@ -28,6 +28,11 @@ class SimpleMessageFormatterTest extends TestCase
                 ['arr' => ['string data']],
                 'Test array: {arr}',
             ],
+            'simple, non-scalar and scalar' => [
+                'Test array: {arr}, {str}.',
+                ['arr' => ['string data'], 'str' => 'String'],
+                'Test array: {arr}, String.',
+            ],
             'plural, one' => [
                 '{min, plural, one{character} other{characters}}',
                 ['min' => 1],
