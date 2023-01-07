@@ -4,7 +4,7 @@
 
 - Enh #99: In `SimpleMessageFormatter` add support of messages where used parameters with plural modifier that contain 
   non-supported keys (@vjik)
-- Bug #110: Changed default value for locale to BCP-47 compatible (darkdef)
+- Bug #110: Changed default value for locale to BCP-47 compatible (@darkdef)
 
 ## 2.2.0 November 28, 2022
 
