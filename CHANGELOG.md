@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 2.2.2 under development
+
+- no changes in this release.
+
 ## 2.2.1 January 07, 2023
 
 - Enh #99: In `SimpleMessageFormatter` add support of messages where used parameters with plural modifier that contain 
