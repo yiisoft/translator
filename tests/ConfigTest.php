@@ -37,11 +37,11 @@ final class ConfigTest extends TestCase
         $container = $this->createContainer();
 
         $translator = $container->get(TranslatorInterface::class);
-        $translator->setLocale('ru_RU');
+        $translator->setLocale('ru-RU');
 
         $container->get(StateResetter::class)->reset();
 
-        $this->assertSame('en_US', $translator->getLocale());
+        $this->assertSame('en-US', $translator->getLocale());
     }
 
     private function createContainer(?array $params = null, bool $withCategorySources = false): Container

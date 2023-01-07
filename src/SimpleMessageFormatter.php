@@ -16,7 +16,7 @@ class SimpleMessageFormatter implements MessageFormatterInterface
     private const PLURAL_OTHER = 'other';
     private const PLURAL_KEYS = [self::PLURAL_ONE, self::PLURAL_OTHER];
 
-    public function format(string $message, array $parameters, string $locale = 'en_US'): string
+    public function format(string $message, array $parameters, string $locale = 'en-US'): string
     {
         preg_match_all('/{((?>[^{}]+)|(?R))*}/', $message, $matches);
         $replacements = [];
