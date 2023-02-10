@@ -13,11 +13,15 @@ interface TranslatorInterface
 {
     /**
      * Add category sources.
+     *
+     * @return $this
      */
     public function addCategorySources(CategorySource ...$categories): static;
 
     /**
      * Set the default locale.
+     *
+     * @return $this
      */
     public function setLocale(string $locale): static;
 
@@ -48,11 +52,15 @@ interface TranslatorInterface
 
     /**
      * Get a new translator instance with category to be used by default in case category isn't specified explicitly.
+     *
+     * @return $this
      */
     public function withDefaultCategory(string $category): static;
 
     /**
      * Get a new translator instance with locale to be used by default in case locale isn't specified explicitly.
+     *
+     * @return $this
      */
     public function withLocale(string $locale): static;
 }
