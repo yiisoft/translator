@@ -662,6 +662,18 @@ final class TranslatorTest extends TestCase
         );
     }
 
+    public function testFluentInterface(): void
+    {
+        $translator = new Translator();
+
+        $categorySource = $this->createCategory('app', $this->getMessages());
+
+        $this->assertSame($translator, $translator->addCategorySources($categorySource));
+        $this->assertSame($translator, $translator->setLocale('ru'));
+        $this->assertNotSame($translator, $translator->withDefaultCategory('app'));
+        $this->assertNotSame($translator, $translator->withLocale('ru'));
+    }
+
     private function createCategory(string $categoryName, array $messages = []): CategorySource
     {
         return new CategorySource(

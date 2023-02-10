@@ -2,7 +2,8 @@
 
 ## 2.2.2 under development
 
-- no changes in this release.
+- Chg #92: Implement fluent interface into `TranslatorInterface`: methods `addCategorySources()`, `setLocale()`,
+  `withDefaultCategory()` and `withLocale()` returns `static` (@vjik)
 
 ## 2.2.1 January 07, 2023
 
