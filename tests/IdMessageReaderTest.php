@@ -14,7 +14,7 @@ final class IdMessageReaderTest extends TestCase
     {
         $reader = new IdMessageReader();
 
-        $this->assertSame('test', $reader->getMessage('test', 'my-module', 'en_US'));
+        $this->assertSame('test', $reader->getMessage('test', 'my-module', 'en-US'));
     }
 
     public function testGetMessages(): void
@@ -23,6 +23,6 @@ final class IdMessageReaderTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('IdMessageReader doesn\'t support getting all messages at once');
-        $reader->getMessages('my-module', 'en_US');
+        $reader->getMessages('my-module', 'en-US');
     }
 }

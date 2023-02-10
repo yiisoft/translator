@@ -20,7 +20,18 @@ final class TranslatorTest extends TestCase
     public function testDefaultLocale(): void
     {
         $translator = new Translator();
-        $this->assertSame('en_US', $translator->getLocale());
+        $this->assertSame('en-US', $translator->getLocale());
+        $this->assertSame('test', $translator->translate('test'));
+    }
+
+    public function testDefaultLocaleWithCategorySource(): void
+    {
+        $translator = new Translator();
+        $this->assertSame('en-US', $translator->getLocale());
+
+        $categorySource = $this->createCategory('app', []);
+        $translator->addCategorySources($categorySource);
+        $this->assertSame('test', $translator->translate('test'));
     }
 
     private function getMessages(): array

@@ -93,7 +93,7 @@ final class CategoryTest extends TestCase
         $categorySource = new CategorySource('test', $this->createMessageReader());
         $this->assertSame(
             $expectedMessage,
-            $categorySource->format($message, $parameters, 'en_US', $defaultMessageFormatter)
+            $categorySource->format($message, $parameters, 'en-US', $defaultMessageFormatter)
         );
     }
 
