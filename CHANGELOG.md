@@ -1,6 +1,6 @@
 # Yii Message Translator Change Log
 
-## 3.0.0 under development
+## 3.0.0 February 17, 2023
 
 - Chg #92: Implement fluent interface into `TranslatorInterface`: methods `addCategorySources()`, `setLocale()`,
   `withDefaultCategory()` and `withLocale()` returns `static` (@vjik)
