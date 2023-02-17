@@ -53,7 +53,7 @@
         },
         "config-plugin": {
             "params": "params.php",
-            "common": "common.php"
+            "di": "di.php"
         }
     },
     "config": {

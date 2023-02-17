@@ -48,17 +48,17 @@ final class ConfigTest extends TestCase
     {
         return new Container(
             ContainerConfig::create()->withDefinitions(
-                $this->getCommonDefinitions($params, $withCategorySources)
+                $this->getContainerDefinitions($params, $withCategorySources)
             )
         );
     }
 
-    private function getCommonDefinitions(?array $params, bool $withCategorySources): array
+    private function getContainerDefinitions(?array $params, bool $withCategorySources): array
     {
         if ($params === null) {
             $params = $this->getParams();
         }
-        $common = require dirname(__DIR__) . '/config/common.php';
+        $common = require dirname(__DIR__) . '/config/di.php';
 
         if ($withCategorySources) {
             return array_merge($this->getCategorySourceDefinition($params), $common);
