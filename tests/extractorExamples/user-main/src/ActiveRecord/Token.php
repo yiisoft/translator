@@ -54,14 +54,12 @@ final class Token extends ActiveRecord
 
     public function toUrl(): string
     {
-        $route = match ($this->getAttribute('type')) {
+        return match ($this->getAttribute('type')) {
             self::TYPE_CONFIRMATION => 'confirm',
             self::TYPE_RECOVERY => 'reset',
             self::TYPE_CONFIRM_NEW_EMAIL, self::TYPE_CONFIRM_OLD_EMAIL => 'email/attempt',
             default => throw new RuntimeException('Url not available.'),
         };
-
-        return $route;
     }
 
     public function isExpired(int $tokenConfirmWithin = 0, int $tokenRecoverWithin = 0): bool
