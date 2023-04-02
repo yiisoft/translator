@@ -1,7 +1,7 @@
 <?php
+
 /**
  * @var Yiisoft\Translator\Translator $translator
- *
  */
 
 $translator
@@ -57,11 +57,11 @@ $translator->translate('message' . 'Id' . 1 . '7', ['test' => $translator->trans
 // With categoryName and complex params
 $translator->translate('messageId1', ['1', 2], 'categoryName2');
 $translator->translate('messageId2', [1, '2'], 'categoryName2');
-$translator->translate('message' . 'Id3', ["1", '2'], 'categoryName2');
-$translator->translate('message' . 'Id4', ["1", '2'], 'categoryName2');
+$translator->translate('message' . 'Id3', ['1', '2'], 'categoryName2');
+$translator->translate('message' . 'Id4', ['1', '2'], 'categoryName2');
 
-$translator->translate('message' . "Id" . 5, [null, 2], 'categoryName2');
-$translator->translate("message" . 'Id' . 6, [null, 2], 'categoryName2');
+$translator->translate('message' . 'Id' . 5, [null, 2], 'categoryName2');
+$translator->translate('message' . 'Id' . 6, [null, 2], 'categoryName2');
 
 $translator->translate('messageId7', ['n' => 1], 'categoryName2');
 $translator->translate('messageId8', ['s', 't' => 2,], 'categoryName2');
@@ -81,9 +81,10 @@ $translator->translate('message18', ['s', '1' => [2]], 'categoryName2');
 */
 
 $translator->translate('Сообщение1', [], 'Категория1');
-$translator->translate('Сообщение2', $translator::test(),
+$translator->translate(
+    'Сообщение2',
+    $translator::test(),
     // 345
-    'Категория1');
+    'Категория1'
+);
 $translator->translate->translate('Сообщение3' /* 123 */, /* 123 */ $translator::test(), 'Категория1');
-
-

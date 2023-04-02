@@ -52,7 +52,6 @@ final class RepositoryUser implements IdentityRepositoryInterface
     }
 
     /**
-     *
      * @return IdentityInterface|null
      * @psalm-suppress InvalidReturnType, InvalidReturnStatement
      */
@@ -182,7 +181,6 @@ final class RepositoryUser implements IdentityRepositoryInterface
      * digit. The remaining characters in the password are chosen at random from those three sets
      *
      * @param int $length
-     *
      *
      * {@see https://gist.github.com/tylerhall/521810}
      * @psalm-suppress MixedOperand, PossiblyInvalidArrayOffset
