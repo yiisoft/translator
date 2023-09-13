@@ -52,15 +52,19 @@ final class CategoryTest extends TestCase
 
     public function testWriterAvailable(): void
     {
+        $writer = $this->createMock(MessageWriterInterface::class);
+        $writer
+            ->expects($this->once())
+            ->method('write')
+            ->with('app', 'en', []);
         $category = new CategorySource(
             'app',
             $this->createMessageReader(),
             $this->createMessageFormatter(),
-            $this->createMock(MessageWriterInterface::class)
+            $writer,
         );
 
         $category->write('en', []);
-        $this->expectNotToPerformAssertions();
     }
 
     public function dataWithoutFormatter(): array
