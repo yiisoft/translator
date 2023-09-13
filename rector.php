@@ -25,6 +25,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip([
         ClosureToArrowFunctionRector::class,
         JsonThrowOnErrorRector::class,
-        __DIR__ . '/tests/extractorExamples'
+        __DIR__ . '/tests/extractorExamples',
     ]);
 };
