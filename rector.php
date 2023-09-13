@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
-use Rector\Php80\Rector\FuncCall\TokenGetAllToObjectRector;
+use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
+use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\Set\ValueObject\LevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -22,6 +23,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->skip([
-        TokenGetAllToObjectRector::class,
+        ClosureToArrowFunctionRector::class,
+        JsonThrowOnErrorRector::class,
     ]);
 };
