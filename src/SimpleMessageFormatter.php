@@ -83,7 +83,11 @@ class SimpleMessageFormatter implements MessageFormatterInterface
             $map[$match] = $pluralMatches[3][$index];
         }
 
-        if (!in_array(self::PLURAL_OTHER, $pluralMatches[1], true)) {
+        if (!isset($map[self::PLURAL_ONE])) {
+            throw new InvalidArgumentException('Missing plural key "' . self::PLURAL_ONE . '".');
+        }
+
+        if (!isset($map[self::PLURAL_OTHER])) {
             throw new InvalidArgumentException('Missing plural key "' . self::PLURAL_OTHER . '".');
         }
 
