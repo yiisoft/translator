@@ -2,7 +2,7 @@
 
 ## 3.0.1 under development
 
-- no changes in this release.
+- Enh #131: Throw `InvalidArgumentException` when missed "one" plural key (@vjik) 
 
 ## 3.0.0 February 17, 2023
 
