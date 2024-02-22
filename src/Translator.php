@@ -136,12 +136,7 @@ final class Translator implements TranslatorInterface
             }
         }
 
-        return end($this->categorySources[$category])->format(
-            $id,
-            $parameters,
-            $locale,
-            $this->defaultMessageFormatter
-        );
+        return $this->defaultMessageFormatter->format($id, $parameters, $locale);
     }
 
     private function dispatchMissingTranslationCategoryEvent(string $category): void
