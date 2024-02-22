@@ -598,7 +598,7 @@ final class TranslatorTest extends TestCase
     {
         return [
             'with formatter' => [
-                'formatted by category',
+                'formatted by category (ru)',
                 new CategorySource(
                     'withFormatter',
                     $this->createMessageReader(
@@ -614,13 +614,13 @@ final class TranslatorTest extends TestCase
                     new class () implements MessageFormatterInterface {
                         public function format(string $message, array $parameters, string $locale): string
                         {
-                            return 'formatted by category';
+                            return 'formatted by category (' . $locale . ')';
                         }
                     },
                 ),
             ],
             'without formatter' => [
-                'formatted by translator',
+                'formatted by translator (ru)',
                 new CategorySource(
                     'withoutFormatter',
                     $this->createMessageReader(
@@ -646,11 +646,12 @@ final class TranslatorTest extends TestCase
         CategorySource $categorySource
     ): void {
         $translator = new Translator(
-            locale: 'en',
+            locale: 'ru',
+            fallbackLocale: 'en',
             defaultMessageFormatter: new class () implements MessageFormatterInterface {
                 public function format(string $message, array $parameters, string $locale): string
                 {
-                    return 'formatted by translator';
+                    return 'formatted by translator (' . $locale . ')';
                 }
             },
         );
@@ -658,74 +659,7 @@ final class TranslatorTest extends TestCase
 
         $this->assertSame(
             $expectedMessage,
-            $translator->translate('hello', [], $categorySource->getName())
-        );
-    }
-
-    public function dataDefaultMessageFormatterWithoutId(): array
-    {
-        return [
-            'without category' => [null],
-            'category with formatter' => [
-                new CategorySource(
-                    'withFormatter',
-                    $this->createMessageReader(
-                        'withFormatter',
-                        [
-                            'withFormatter' => [
-                                'en' => [
-                                    'hello' => 'Hello, {name}!',
-                                ],
-                            ],
-                        ]
-                    ),
-                    new class () implements MessageFormatterInterface {
-                        public function format(string $message, array $parameters, string $locale): string
-                        {
-                            return 'formatted by category';
-                        }
-                    },
-                ),
-            ],
-            'category without formatter' => [
-                new CategorySource(
-                    'withoutFormatter',
-                    $this->createMessageReader(
-                        'withoutFormatter',
-                        [
-                            'withoutFormatter' => [
-                                'en' => [
-                                    'hello' => 'Hello, {name}!',
-                                ],
-                            ],
-                        ]
-                    ),
-                ),
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataDefaultMessageFormatterWithoutId
-     */
-    public function testDefaultMessageFormatterWithoutId(?CategorySource $categorySource): void
-    {
-        $translator = new Translator(
-            locale: 'en',
-            defaultMessageFormatter: new class () implements MessageFormatterInterface {
-                public function format(string $message, array $parameters, string $locale): string
-                {
-                    return 'formatted by translator';
-                }
-            },
-        );
-        if ($categorySource !== null) {
-            $translator->addCategorySources($categorySource);
-        }
-
-        $this->assertSame(
-            'formatted by translator',
-            $translator->translate('non-exist-id', [], 'test-category')
+            $translator->translate('test', [], $categorySource->getName())
         );
     }
 

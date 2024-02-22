@@ -84,7 +84,7 @@ final class Translator implements TranslatorInterface
             return $this->defaultMessageFormatter->format((string) $id, $parameters, $locale);
         }
 
-        return $this->translateUsingCategorySources((string) $id, $parameters, $category, $locale);
+        return $this->translateUsingCategorySources((string) $id, $parameters, $category, $locale, $locale);
     }
 
     public function withDefaultCategory(string $category): static
@@ -109,9 +109,11 @@ final class Translator implements TranslatorInterface
         string $id,
         array $parameters,
         string $category,
-        string $locale
+        string $locale,
+        string $defaultLocale,
     ): string {
-        $sourceCategory = end($this->categorySources[$category]);
+        $endSourceCategory = end($this->categorySources[$category]);
+        $sourceCategory = $endSourceCategory;
         do {
             $message = $sourceCategory->getMessage($id, $locale, $parameters);
 
@@ -126,17 +128,28 @@ final class Translator implements TranslatorInterface
         $fallback = $localeObject->fallbackLocale();
 
         if ($fallback->asString() !== $localeObject->asString()) {
-            return $this->translateUsingCategorySources($id, $parameters, $category, $fallback->asString());
+            return $this->translateUsingCategorySources($id, $parameters, $category, $fallback->asString(), $locale);
         }
 
         if (!empty($this->fallbackLocale)) {
             $fallbackLocaleObject = (new Locale($this->fallbackLocale))->fallbackLocale();
             if ($fallbackLocaleObject->asString() !== $localeObject->asString()) {
-                return $this->translateUsingCategorySources($id, $parameters, $category, $fallbackLocaleObject->asString());
+                return $this->translateUsingCategorySources(
+                    $id,
+                    $parameters,
+                    $category,
+                    $fallbackLocaleObject->asString(),
+                    $locale
+                );
             }
         }
 
-        return $this->defaultMessageFormatter->format($id, $parameters, $locale);
+        return $endSourceCategory->format(
+            $id,
+            $parameters,
+            $defaultLocale,
+            $this->defaultMessageFormatter
+        );
     }
 
     private function dispatchMissingTranslationCategoryEvent(string $category): void
