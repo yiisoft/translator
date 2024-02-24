@@ -3,7 +3,7 @@
 ## 3.0.1 under development
 
 - Enh #131: Throw `InvalidArgumentException` when missed "one" plural key (@vjik) 
-- Bug #132: Fix incorrect locale usage when message ID is not exist (@vjik)
+- Bug #132: Fix incorrect locale usage when category source is not exist and specified fallback locale (@vjik)
 
 ## 3.0.0 February 17, 2023
 
