@@ -598,7 +598,7 @@ final class TranslatorTest extends TestCase
     {
         return [
             'with formatter' => [
-                'formatted by category (ru)',
+                'formatted by category',
                 new CategorySource(
                     'withFormatter',
                     $this->createMessageReader(
@@ -614,13 +614,13 @@ final class TranslatorTest extends TestCase
                     new class () implements MessageFormatterInterface {
                         public function format(string $message, array $parameters, string $locale): string
                         {
-                            return 'formatted by category (' . $locale . ')';
+                            return 'formatted by category';
                         }
                     },
                 ),
             ],
             'without formatter' => [
-                'formatted by translator (ru)',
+                'formatted by translator',
                 new CategorySource(
                     'withoutFormatter',
                     $this->createMessageReader(
@@ -646,12 +646,11 @@ final class TranslatorTest extends TestCase
         CategorySource $categorySource
     ): void {
         $translator = new Translator(
-            locale: 'ru',
-            fallbackLocale: 'en',
+            locale: 'en',
             defaultMessageFormatter: new class () implements MessageFormatterInterface {
                 public function format(string $message, array $parameters, string $locale): string
                 {
-                    return 'formatted by translator (' . $locale . ')';
+                    return 'formatted by translator';
                 }
             },
         );
