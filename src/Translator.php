@@ -81,7 +81,7 @@ final class Translator implements TranslatorInterface
 
         if (empty($this->categorySources[$category])) {
             $this->dispatchMissingTranslationCategoryEvent($category);
-            return $this->defaultMessageFormatter->format((string) $id, $parameters, $locale);
+            return $this->defaultMessageFormatter->format((string) $id, $parameters, $this->fallbackLocale ?? $locale);
         }
 
         return $this->translateUsingCategorySources((string) $id, $parameters, $category, $locale);

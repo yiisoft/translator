@@ -662,6 +662,43 @@ final class TranslatorTest extends TestCase
         );
     }
 
+    public static function dataDefaultMessageFormatterWithoutCategory(): array
+    {
+        return [
+            'another-fallback-locale' => [
+                '(en)',
+                'en',
+            ],
+            'same-fallback-locale' => [
+                '(ru)',
+                'ru',
+            ],
+            'without-fallback-locale' => [
+                '(ru)',
+                null,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataDefaultMessageFormatterWithoutCategory
+     */
+    public function testDefaultMessageFormatterWithoutCategory(string $expected, ?string $fallbackLocale)
+    {
+        $translator = new Translator(
+            locale: 'ru',
+            fallbackLocale: $fallbackLocale,
+            defaultMessageFormatter: new class () implements MessageFormatterInterface {
+                public function format(string $message, array $parameters, string $locale): string
+                {
+                    return '(' . $locale . ')';
+                }
+            },
+        );
+
+        $this->assertSame($expected, $translator->translate('test'));
+    }
+
     public function testFluentInterface(): void
     {
         $translator = new Translator();
