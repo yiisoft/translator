@@ -1,16 +1,16 @@
-# `intl` formatter
+# Formatador `intl`
 
-`intl` message formatter utilizes PHP intl extension message formatting capabilities.
+O formatador de mensagens `intl` utiliza recursos de formatação de mensagens de extensão intl do PHP.
 
-## Requirements
+## Requisitos
 
-- `intl` PHP extension 1.0.2 or higher.
-- `ICU` library 49.0 or higher.
+- `intl` Extensão PHP 1.0.2 ou superior.
+- Biblioteca `ICU` 49.0 ou superior.
 
-## Configuration
+## Configuração
 
-In case you use [`yiisoft/config`](http://github.com/yiisoft/config), you will get configuration automatically. If not,
-the following DI container configuration is necessary:
+Caso use [`yiisoft/config`](http://github.com/yiisoft/config), você obterá a configuração automaticamente. Se não,
+a seguinte configuração do contêiner DI é necessária:
 
 ```php
 use Yiisoft\Translator\MessageFormatterInterface;
@@ -21,9 +21,9 @@ return [
 ];
 ```
 
-## General usage
+## Uso geral
 
-### Example of usage with `yiisoft/translator`
+### Exemplo de uso com `yiisoft/translator`
 
 ```php
 /** @var \Yiisoft\Translator\Translator $translator **/
@@ -41,7 +41,7 @@ $translator->translate('Test string: {str}', ['str' => 'string data'], 'moduleId
 // output: Test string: string data
 ```
 
-### Example of usage without `yiisoft/translator` package
+### Exemplo de uso sem o pacote `yiisoft/translator`
 
 ```php
 /** @var \Yiisoft\Translator\IntlMessageFormatter $formatter */
@@ -62,5 +62,5 @@ echo $formatter->format($pattern, $params, $locale);
 // output: Alexander is male and he loves Yii! 
 ```
 
-To get a list of options available for locale you're using see
+Para obter uma lista de opções disponíveis para a localidade que você está usando consulte
 [https://intl.rmcreative.ru/](https://intl.rmcreative.ru/)

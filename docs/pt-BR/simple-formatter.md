@@ -1,9 +1,9 @@
-# Simple Formatter
+# Formatador Simples
 
-## Configuration
+## Configuração
 
-In case of using [yiisoft/config](http://github.com/yiisoft/config), the configuration is added automatically. If not,
-add the following mapping:
+No caso de usar [yiisoft/config](http://github.com/yiisoft/config), a configuração é adicionada automaticamente. Se não,
+adicione o seguinte mapeamento:
 
 ```php
 use Yiisoft\Translator\MessageFormatterInterface;
@@ -14,7 +14,7 @@ return [
 ];
 ```
 
-## Using with `Translator`
+## Usando com `Translator`
 
 ```php
 /** @var \Yiisoft\Translator\Translator $translator **/
@@ -32,7 +32,7 @@ $translator->translate('Test string: {str}', ['str' => 'string data'], 'moduleId
 // output: Test string: string data
 ```
 
-## Using without `Translator`
+## Usando sem `Translator`
 
 ```php
 /** @var \Yiisoft\Translator\SimpleMessageFormatter $formatter */
