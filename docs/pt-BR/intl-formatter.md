@@ -9,7 +9,7 @@ O formatador de mensagens `intl` utiliza recursos de formatação de mensagens d
 
 ## Configuração
 
-Caso use [`yiisoft/config`](http://github.com/yiisoft/config), você obterá a configuração automaticamente. Se não,
+Caso use [`yiisoft/config`](https://github.com/yiisoft/config), você obterá a configuração automaticamente. Se não,
 a seguinte configuração do contêiner DI é necessária:
 
 ```php

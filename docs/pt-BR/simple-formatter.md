@@ -2,7 +2,7 @@
 
 ## Configuração
 
-No caso de usar [yiisoft/config](http://github.com/yiisoft/config), a configuração é adicionada automaticamente. Se não,
+No caso de usar [yiisoft/config](https://github.com/yiisoft/config), a configuração é adicionada automaticamente. Se não,
 adicione o seguinte mapeamento:
 
 ```php
