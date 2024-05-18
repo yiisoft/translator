@@ -43,16 +43,16 @@ PHP arrays or GNU gettext. Message formatters provide extra syntax that is recog
 
 ## Built-in message formatters
 
-- [Simple formatter](docs/en/simple-formatter.md) just replaces parameters in messages. Does not take into account the 
+- [Simple formatter](docs/guide/en/simple-formatter.md) just replaces parameters in messages. Does not take into account the 
 locale.
-- [`intl` formatter](docs/en/intl-formatter.md) utilizes PHP intl extension message formatting capabilities.
+- [`intl` formatter](docs/guide/en/intl-formatter.md) utilizes PHP intl extension message formatting capabilities.
 
 ## Extracting messages
 
 The message extraction is done via [console extractor](https://github.com/yiisoft/translator-extractor) that searches
 for translator message calls and builds translation files.
 
-In some cases you need to do so without using console. If that is your case, check [extractor guide](docs/en/extractor.md).
+In some cases you need to do so without using console. If that is your case, check [extractor guide](docs/guide/en/extractor.md).
 
 ## Configuration
 
