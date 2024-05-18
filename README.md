@@ -24,7 +24,7 @@ standalone PHP applications.
 
 ## Installation
 
-The package could be installed with composer:
+The package could be installed with [Composer](https://getcomposer.org):
 
 ```shell
 composer require yiisoft/translator
@@ -43,16 +43,16 @@ PHP arrays or GNU gettext. Message formatters provide extra syntax that is recog
 
 ## Built-in message formatters
 
-- [Simple formatter](docs/en/simple-formatter.md) just replaces parameters in messages. Does not take into account the 
+- [Simple formatter](docs/guide/en/simple-formatter.md) just replaces parameters in messages. Does not take into account the 
 locale.
-- [`intl` formatter](docs/en/intl-formatter.md) utilizes PHP intl extension message formatting capabilities.
+- [`intl` formatter](docs/guide/en/intl-formatter.md) utilizes PHP intl extension message formatting capabilities.
 
 ## Extracting messages
 
 The message extraction is done via [console extractor](https://github.com/yiisoft/translator-extractor) that searches
 for translator message calls and builds translation files.
 
-In some cases you need to do so without using console. If that is your case, check [extractor guide](docs/en/extractor.md).
+In some cases you need to do so without using console. If that is your case, check [extractor guide](docs/guide/en/extractor.md).
 
 ## Configuration
 
@@ -295,32 +295,13 @@ echo $translator->withDefaultCategory($newDefaultCategoryId);
 
 The package contains interfaces for development of custom formatters, readers, and writers.
 
-## Testing
+## Documentation
 
-### Unit testing
+- Guide: [English](docs/guide/en/README.md), [Português - Brasil](docs/guide/pt-BR/README.md)
+- [Internals](docs/internals.md)
 
-The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
-
-```shell
-./vendor/bin/phpunit
-```
-
-### Mutation testing
-
-The package tests are checked with [Infection](https://infection.github.io/) mutation framework with
-[Infection Static Analysis Plugin](https://github.com/Roave/infection-static-analysis-plugin). To run it:
-
-```shell
-./vendor/bin/roave-infection-static-analysis-plugin
-```
-
-### Static analysis
-
-The code is statically analyzed with [Psalm](https://psalm.dev/). To run static analysis:
-
-```shell
-./vendor/bin/psalm
-```
+If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for that.
+You may also check out other [Yii Community Resources](https://www.yiiframework.com/community).
 
 ## License
 
