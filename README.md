@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px">
+        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px" alt="Yii">
     </a>
     <h1 align="center">Yii Message Translator</h1>
     <br>
@@ -37,13 +37,13 @@ PHP arrays or GNU gettext. Message formatters provide extra syntax that is recog
 
 #### Message sources
 
-* [translator-message-php](https://github.com/yiisoft/translator-message-php) - PHP file message storage.
-* [translator-message-db](https://github.com/yiisoft/translator-message-db) - Database message storage.
-* [translator-message-gettext](https://github.com/yiisoft/translator-message-gettext) - gettext message storage.
+- [translator-message-php](https://github.com/yiisoft/translator-message-php) - PHP file message storage.
+- [translator-message-db](https://github.com/yiisoft/translator-message-db) - Database message storage.
+- [translator-message-gettext](https://github.com/yiisoft/translator-message-gettext) - gettext message storage.
 
 ## Built-in message formatters
 
-- [Simple formatter](docs/en/simple-formatter.md) just replaces parameters in messages. Does not take into account the 
+- [Simple formatter](docs/en/simple-formatter.md) just replaces parameters in messages. Does not take into account the
 locale.
 - [`intl` formatter](docs/en/intl-formatter.md) utilizes PHP intl extension message formatting capabilities.
 
@@ -277,14 +277,14 @@ $translator->setLocale($newDefaultLocale);
 echo $translator->getLocale();
 ```
 
-### Get a new Translator instance with a locale to be used by default in case locale isn't specified explicitly.
+### Get a new Translator instance with a locale to be used by default in case locale isn't specified explicitly
 
 ```php
 $newDefaultLocale = 'de-DE';
 echo $translator->withLocale($newDefaultLocale);
 ```
 
-### Get a new Translator instance with a category to be used by default in case category isn't specified explicitly.
+### Get a new Translator instance with a category to be used by default in case category isn't specified explicitly
 
 ```php
 $newDefaultCategoryId = 'module2';
