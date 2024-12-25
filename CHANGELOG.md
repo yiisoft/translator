@@ -4,6 +4,7 @@
 
 - Enh #131: Throw `InvalidArgumentException` when missed "one" plural key (@vjik) 
 - Bug #132: Fix incorrect locale usage when category source is not exist and specified fallback locale (@vjik)
+- Bug #148: Fix the nullable parameter declarations for compatibility with PHP 8.4 (@martio)
 
 ## 3.0.0 February 17, 2023
 
