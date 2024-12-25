@@ -46,8 +46,8 @@ interface TranslatorInterface
     public function translate(
         string|Stringable $id,
         array $parameters = [],
-        string $category = null,
-        string $locale = null
+        ?string $category = null,
+        ?string $locale = null
     ): string;
 
     /**
