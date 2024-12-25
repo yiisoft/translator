@@ -12,8 +12,19 @@ use function is_int;
 
 class SimpleMessageFormatter implements MessageFormatterInterface
 {
+    /**
+     * @psalm-suppress MissingClassConstType
+     */
     private const PLURAL_ONE = 'one';
+
+    /**
+     * @psalm-suppress MissingClassConstType
+     */
     private const PLURAL_OTHER = 'other';
+
+    /**
+     * @psalm-suppress MissingClassConstType
+     */
     private const PLURAL_KEYS = [self::PLURAL_ONE, self::PLURAL_OTHER];
 
     public function format(string $message, array $parameters, string $locale = 'en-US'): string
