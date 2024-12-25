@@ -6,9 +6,9 @@
     <br>
 </p>
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/translator/v/stable.png)](https://packagist.org/packages/yiisoft/translator)
-[![Total Downloads](https://poser.pugx.org/yiisoft/translator/downloads.png)](https://packagist.org/packages/yiisoft/translator)
-[![Build Status](https://github.com/yiisoft/translator/workflows/build/badge.svg)](https://github.com/yiisoft/translator/actions)
+[![Latest Stable Version](https://poser.pugx.org/yiisoft/translator/v)](https://packagist.org/packages/yiisoft/translator)
+[![Total Downloads](https://poser.pugx.org/yiisoft/translator/downloads)](https://packagist.org/packages/yiisoft/translator)
+[![Build status](https://github.com/yiisoft/translator/actions/workflows/build.yml/badge.svg)](https://github.com/yiisoft/translator/actions/workflows/build.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yiisoft/translator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/translator/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/yiisoft/translator/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/translator/?branch=master)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2Ftranslator%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/translator/master)
