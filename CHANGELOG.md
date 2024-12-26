@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 3.1.1 under development
+
+- no changes in this release.
+
 ## 3.1.0 December 26, 2024
 
 - Enh #131: Throw `InvalidArgumentException` when missed "one" plural key (@vjik)
