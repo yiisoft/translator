@@ -1,8 +1,8 @@
 # Yii Message Translator Change Log
 
-## 3.0.1 under development
+## 3.1.0 December 26, 2024
 
-- Enh #131: Throw `InvalidArgumentException` when missed "one" plural key (@vjik) 
+- Enh #131: Throw `InvalidArgumentException` when missed "one" plural key (@vjik)
 - Bug #132: Fix incorrect locale usage when category source is not exist and specified fallback locale (@vjik)
 - Bug #148: Fix the nullable parameter declarations for compatibility with PHP 8.4 (@martio)
 
