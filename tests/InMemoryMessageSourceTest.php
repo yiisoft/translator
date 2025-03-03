@@ -13,6 +13,26 @@ final class InMemoryMessageSourceTest extends TestCase
     {
         $source = new InMemoryMessageSource();
         $source->write('app', 'ru', [
+            'test' => ['message' => 'тест'],
+            'hello' => ['message' => 'привет'],
+        ]);
+
+        $this->assertSame('тест', $source->getMessage('test', 'app', 'ru'));
+        $this->assertNull($source->getMessage('test', 'app', 'en'));
+        $this->assertSame([], $source->getMessages('app', 'en'));
+        $this->assertSame(
+            [
+                'test' => ['message' => 'тест'],
+                'hello' => ['message' => 'привет'],
+            ],
+            $source->getMessages('app', 'ru'),
+        );
+    }
+
+    public function testShortSyntax(): void
+    {
+        $source = new InMemoryMessageSource();
+        $source->write('app', 'ru', [
             'test' => 'тест',
             'hello' => 'привет',
         ]);
