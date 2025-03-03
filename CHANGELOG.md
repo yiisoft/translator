@@ -2,7 +2,7 @@
 
 ## 3.1.1 under development
 
-- no changes in this release.
+- New #149: Add `InMemoryMessageSource` (@vjik)
 
 ## 3.1.0 December 26, 2024
 

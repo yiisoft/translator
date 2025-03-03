@@ -39,6 +39,7 @@ PHP arrays or GNU gettext. Message formatters provide extra syntax that is recog
 - [translator-message-php](https://github.com/yiisoft/translator-message-php) - PHP file message storage.
 - [translator-message-db](https://github.com/yiisoft/translator-message-db) - Database message storage.
 - [translator-message-gettext](https://github.com/yiisoft/translator-message-gettext) - gettext message storage.
+- `InMemoryMessageSource` - simple in-memory message source that can be used for testing purposes.
 
 ## Built-in message formatters
 
