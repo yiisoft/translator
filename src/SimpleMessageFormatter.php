@@ -10,6 +10,9 @@ use function count;
 use function in_array;
 use function is_int;
 
+/**
+ * @final
+ */
 class SimpleMessageFormatter implements MessageFormatterInterface
 {
     /**
