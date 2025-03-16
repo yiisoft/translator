@@ -3,6 +3,7 @@
 ## 3.1.1 under development
 
 - New #149: Add `InMemoryMessageSource` (@vjik)
+- Chg #150: Change PHP constraint in `composer.json` to `8.0 - 8.4` (@vjik)
 
 ## 3.1.0 December 26, 2024
 

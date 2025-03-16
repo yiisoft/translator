@@ -20,12 +20,12 @@ final class Translator implements TranslatorInterface
 
     /**
      * @var array Array of category message sources indexed by category names.
-     * @psalm-var array<string,CategorySource[]>
+     * @psalm-var array<string, non-empty-list<CategorySource>>
      */
     private array $categorySources = [];
 
     /**
-     * @psalm-var array<string,true>
+     * @psalm-var array<string, true>
      */
     private array $dispatchedMissingTranslationCategoryEvents = [];
 

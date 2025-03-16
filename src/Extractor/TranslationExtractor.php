@@ -77,6 +77,9 @@ final class TranslationExtractor
         ]);
 
         foreach ($files as $file) {
+            /**
+             * @var string $fileContent We assume that `file_get_contents` can always read the file.
+             */
             $fileContent = file_get_contents($file);
             $messages = array_merge_recursive($messages, $parser->extract($fileContent));
             if ($parser->hasSkippedLines()) {
