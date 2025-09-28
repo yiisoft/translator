@@ -1,6 +1,6 @@
 # Yii Message Translator Change Log
 
-## 3.1.1 under development
+## 3.2.0 September 28, 2025
 
 - New #149: Add `InMemoryMessageSource` (@vjik)
 - Chg #150: Change PHP constraint in `composer.json` to `8.0 - 8.4` (@vjik)
