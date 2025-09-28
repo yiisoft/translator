@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 3.2.1 under development
+
+- no changes in this release.
+
 ## 3.2.0 September 28, 2025
 
 - New #149: Add `InMemoryMessageSource` (@vjik)
