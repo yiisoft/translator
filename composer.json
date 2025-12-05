@@ -79,6 +79,7 @@
     },
     "scripts": {
         "test": "phpunit --testdox --no-interaction",
-        "test-watch": "phpunit-watcher watch"
+        "test-watch": "phpunit-watcher watch",
+        "mutation": "infection --min-covered-msi=100 -j$(nproc)"
     }
 }
