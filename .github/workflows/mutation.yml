@@ -27,12 +27,11 @@ jobs:
   mutation:
     uses: yiisoft/actions/.github/workflows/infection.yml@master
     with:
-      min-covered-msi: 100
       extensions: :intl
       os: >-
         ['ubuntu-latest']
       php: >-
         ['8.5']
-      infection-args: "--ignore-msi-with-no-mutations"
+      infection-args: "--ignore-msi-with-no-mutations --min-covered-msi=100"
     secrets:
       STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
