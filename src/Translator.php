@@ -150,6 +150,7 @@ final class Translator implements TranslatorInterface
             $this->eventDispatcher !== null
             && !isset($this->dispatchedMissingTranslationCategoryEvents[$category])
         ) {
+            /** @infection-ignore-all */
             $this->dispatchedMissingTranslationCategoryEvents[$category] = true;
             $this->eventDispatcher->dispatch(new MissingTranslationCategoryEvent($category));
         }
