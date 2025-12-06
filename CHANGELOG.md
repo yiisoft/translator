@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 3.2.2 under development
+
+- no changes in this release.
+
 ## 3.2.1 December 06, 2025
 
 - Enh #153: Add PHP 8.5 support (@vjik)
