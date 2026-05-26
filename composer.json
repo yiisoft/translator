@@ -36,7 +36,7 @@
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8.3",
         "maglnet/composer-require-checker": "^4.4",
-        "phpunit/phpunit": "^9.6.29",
+        "phpunit/phpunit": "^13.1.12",
         "rector/rector": "^2.1.7",
         "spatie/phpunit-watcher": "^1.23.6",
         "yiisoft/di": "^1.2.1"
