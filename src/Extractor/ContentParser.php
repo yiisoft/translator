@@ -12,6 +12,12 @@ use function in_array;
 use function is_array;
 use function is_string;
 
+use const T_COMMENT;
+use const T_CONSTANT_ENCAPSED_STRING;
+use const T_DNUMBER;
+use const T_LNUMBER;
+use const T_WHITESPACE;
+
 /**
  * Extracts translation keys from a string given.
  *

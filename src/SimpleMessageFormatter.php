@@ -9,6 +9,8 @@ use InvalidArgumentException;
 use function count;
 use function in_array;
 use function is_int;
+use function array_key_exists;
+use function is_scalar;
 
 /**
  * @final
@@ -113,6 +115,6 @@ class SimpleMessageFormatter implements MessageFormatterInterface
      */
     private static function formatList(array $items): string
     {
-        return implode(', ', array_map(fn (string $value): string => '"' . $value . '"', $items));
+        return implode(', ', array_map(fn(string $value): string => '"' . $value . '"', $items));
     }
 }

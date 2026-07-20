@@ -15,7 +15,7 @@ final class Logout
     public function run(
         Identity $identity,
         RepositoryUser $repositoryUser,
-        ServiceUrl $serviceUrl
+        ServiceUrl $serviceUrl,
     ): ResponseInterface {
         $id = $identity->getId();
 

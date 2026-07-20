@@ -38,7 +38,7 @@ final class M200605195559CreateTokenTable implements RevertibleMigrationInterfac
                     ->smallInteger()
                     ->notNull(),
             ],
-            $tableOptions
+            $tableOptions,
         );
 
         $b->createIndex('token_unique', '{{%token}}', ['user_id', 'code', 'type'], true);

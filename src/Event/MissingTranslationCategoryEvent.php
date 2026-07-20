@@ -12,9 +12,7 @@ final class MissingTranslationCategoryEvent
     /**
      * @param string $category Category that is missing.
      */
-    public function __construct(private string $category)
-    {
-    }
+    public function __construct(private string $category) {}
 
     /**
      * @return string Category that is missing.

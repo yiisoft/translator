@@ -7,6 +7,8 @@ namespace Yiisoft\Translator;
 use Exception;
 use Throwable;
 
+use function sprintf;
+
 final class UnwritableCategorySourceException extends Exception
 {
     public function __construct(string $categoryName, int $code = 0, ?Throwable $previous = null)
@@ -14,7 +16,7 @@ final class UnwritableCategorySourceException extends Exception
         parent::__construct(
             sprintf('The category source "%s" does not support writing.', $categoryName),
             $code,
-            $previous
+            $previous,
         );
     }
 }

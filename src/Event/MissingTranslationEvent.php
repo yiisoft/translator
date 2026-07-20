@@ -14,9 +14,7 @@ final class MissingTranslationEvent
      * @param string $language Language of the missing translation.
      * @param string $message Message of the missing translation.
      */
-    public function __construct(private string $category, private string $language, private string $message)
-    {
-    }
+    public function __construct(private string $category, private string $language, private string $message) {}
 
     /**
      * @return string Category of the missing translation.

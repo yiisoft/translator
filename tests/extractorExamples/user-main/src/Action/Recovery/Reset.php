@@ -32,7 +32,7 @@ final class Reset
         ServiceUrl $serviceUrl,
         TranslatorInterface $translator,
         ValidatorInterface $validator,
-        ViewRenderer $viewRenderer
+        ViewRenderer $viewRenderer,
     ): ResponseInterface {
         /** @var array $body */
         $body = $serverRequest->getParsedBody();
@@ -55,7 +55,7 @@ final class Reset
         $token = $repositoryToken->findTokenByParams(
             $user->getId(),
             $code,
-            Token::TYPE_RECOVERY
+            Token::TYPE_RECOVERY,
         );
 
         if ($token === null || $token->isExpired(0, $repositorySetting->getTokenRecoverWithin())) {
@@ -93,7 +93,7 @@ final class Reset
                     'code' => $code,
                     'data' => $formReset,
                     'id' => $id,
-                ]
+                ],
             );
     }
 }

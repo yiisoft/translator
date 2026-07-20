@@ -35,7 +35,7 @@ final class M200605195402CreateSocialAccountTable implements RevertibleMigration
                 'email' => $b->string(255),
                 'username' => $b->string(255),
             ],
-            $tableOptions
+            $tableOptions,
         );
 
         $b->createIndex('account_unique', '{{%social_account}}', ['provider', 'client_id'], true);

@@ -8,6 +8,8 @@ use RuntimeException;
 use Yiisoft\Files\FileHelper;
 use Yiisoft\Files\PathMatcher\PathMatcher;
 
+use function sprintf;
+
 /**
  * Extracts translator IDs from files within a given path.
  */

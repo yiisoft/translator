@@ -7,6 +7,4 @@ namespace Yii\Extension\User\Event;
 /**
  * @codeCoverageIgnore
  */
-final class AfterRequest
-{
-}
+final class AfterRequest {}

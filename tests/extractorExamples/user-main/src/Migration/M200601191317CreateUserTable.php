@@ -47,7 +47,7 @@ final class M200601191317CreateUserTable implements RevertibleMigrationInterface
                 'last_login_at' => $b->integer(),
                 'last_logout_at' => $b->integer(),
             ],
-            $tableOptions
+            $tableOptions,
         );
 
         $b->createIndex('user_unique_email', '{{%user}}', ['email'], true);

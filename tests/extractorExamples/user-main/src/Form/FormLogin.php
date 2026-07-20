@@ -29,7 +29,7 @@ final class FormLogin extends FormModel
         private Identity $identity,
         private RepositoryUser $repositoryUser,
         private RepositorySetting $repositorySetting,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
         parent::__construct();
     }
@@ -96,13 +96,13 @@ final class FormLogin extends FormModel
 
                 if ($user !== null && $user->isBlocked()) {
                     $result->addError(
-                        $this->translator->translate('Your user has been blocked, contact an administrator', [], 'user')
+                        $this->translator->translate('Your user has been blocked, contact an administrator', [], 'user'),
                     );
                 }
 
                 if ($user !== null && !$user->isConfirmed()) {
                     $result->addError(
-                        $this->translator->translate('Please check your email to activate your account', [], 'user')
+                        $this->translator->translate('Please check your email to activate your account', [], 'user'),
                     );
                 }
 

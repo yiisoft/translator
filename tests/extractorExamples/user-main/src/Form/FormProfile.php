@@ -11,6 +11,8 @@ use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\InRange;
 use Yiisoft\Validator\Rule\Url;
 
+use function is_array;
+
 final class FormProfile extends FormModel
 {
     private string $name = '';
@@ -21,7 +23,7 @@ final class FormProfile extends FormModel
     private string $timezone = '';
 
     public function __construct(
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
         parent::__construct();
     }

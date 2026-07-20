@@ -10,9 +10,7 @@ use Yiisoft\Translator\TranslatorInterface;
 
 final class ServiceInsecureEmailChange
 {
-    public function __construct(private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator)
-    {
-    }
+    public function __construct(private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator) {}
 
     public function run(string $email, User $user): void
     {

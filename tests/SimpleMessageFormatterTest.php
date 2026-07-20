@@ -59,8 +59,8 @@ class SimpleMessageFormatterTest extends TestCase
                 '1',
             ],
             'complex' => [
-                'text1 {param1} text2 {param2, number} text3 {param3, plural, one{item} other{items}} text4 {param4} ' .
-                'text5',
+                'text1 {param1} text2 {param2, number} text3 {param3, plural, one{item} other{items}} text4 {param4} '
+                . 'text5',
                 ['param1' => 1, 'param2' => 2, 'param3' => 3, 'param4' => 4],
                 'text1 1 text2 2 text3 items text4 4 text5',
             ],

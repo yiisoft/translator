@@ -13,9 +13,7 @@ use Yiisoft\Translator\TranslatorInterface;
 
 final class ServiceSecureEmailChange
 {
-    public function __construct(private MailerUser $mailerUser, private RepositoryToken $repositoryToken, private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator, private UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    public function __construct(private MailerUser $mailerUser, private RepositoryToken $repositoryToken, private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator, private UrlGeneratorInterface $urlGenerator) {}
 
     public function run(User $user): void
     {
@@ -24,7 +22,7 @@ final class ServiceSecureEmailChange
 
         /** @var Token|null $token */
         $token = $this->repositoryToken->findTokenByCondition(
-            ['user_id' => $user->getId(), 'type' => Token::TYPE_CONFIRM_OLD_EMAIL]
+            ['user_id' => $user->getId(), 'type' => Token::TYPE_CONFIRM_OLD_EMAIL],
         );
 
         if ($result && $token !== null) {
@@ -32,7 +30,7 @@ final class ServiceSecureEmailChange
                 'username' => $user->getUsername(),
                 'url' => $this->urlGenerator->generateAbsolute(
                     $token->toUrl(),
-                    ['id' => $token->getUserId(), 'code' => $token->getCode()]
+                    ['id' => $token->getUserId(), 'code' => $token->getCode()],
                 ),
             ];
 
@@ -41,8 +39,8 @@ final class ServiceSecureEmailChange
                     'info',
                     $this->translator->translate('System Notification', [], 'user'),
                     $this->translator->translate(
-                        'We have sent confirmation links to both old email: {email} and new email: {newEmail} addresses.' .
-                        ' You must click both links to complete your request',
+                        'We have sent confirmation links to both old email: {email} and new email: {newEmail} addresses.'
+                        . ' You must click both links to complete your request',
                         ['email' => $user->getEmail(), 'newEmail' => $user->getUnconfirmedEmail()],
                         'user',
                     ),

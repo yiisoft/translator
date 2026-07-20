@@ -22,7 +22,7 @@ final class FormResend extends FormModel
 
     public function __construct(
         private RepositoryUser $repositoryUser,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
         parent::__construct();
     }
@@ -82,7 +82,7 @@ final class FormResend extends FormModel
                             'Thank you. If said email is registered, you will get a resend confirmation message',
                             [],
                             'user',
-                        )
+                        ),
                     );
                 }
 

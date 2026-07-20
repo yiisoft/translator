@@ -37,7 +37,7 @@ final class Resend
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
         ValidatorInterface $validator,
-        ViewRenderer $viewRenderer
+        ViewRenderer $viewRenderer,
     ): ResponseInterface {
         /** @var array $body */
         $body = $serverRequest->getParsedBody();
@@ -57,7 +57,7 @@ final class Resend
                 'username' => $username,
                 'url' => $urlGenerator->generateAbsolute(
                     $token->toUrl(),
-                    ['id' => $token->getUserId(), 'code' => $token->getCode()]
+                    ['id' => $token->getUserId(), 'code' => $token->getCode()],
                 ),
             ];
 

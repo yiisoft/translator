@@ -26,7 +26,7 @@ final class Login
         ServiceUrl $serviceUrl,
         TranslatorInterface $translator,
         ValidatorInterface $validator,
-        ViewRenderer $viewRenderer
+        ViewRenderer $viewRenderer,
     ): ResponseInterface {
         /** @var array $body */
         $body = $serverRequest->getParsedBody();

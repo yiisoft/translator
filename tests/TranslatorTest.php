@@ -14,6 +14,7 @@ use Yiisoft\Translator\MessageReaderInterface;
 use Yiisoft\Translator\SimpleMessageFormatter;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\TranslatorInterface;
+use RuntimeException;
 
 final class TranslatorTest extends TestCase
 {
@@ -32,34 +33,6 @@ final class TranslatorTest extends TestCase
         $categorySource = $this->createCategory('app', []);
         $translator->addCategorySources($categorySource);
         $this->assertSame('test', $translator->translate('test'));
-    }
-
-    private function getMessages(): array
-    {
-        return [
-            'app' => [
-                'en' => [
-                    'test.id1' => 'app: Test 1 on the (en)',
-                    'test.id2' => 'app: Test 2 on the (en)',
-                    'test.id3' => 'app: Test 3 on the (en)',
-                ],
-                'ua' => [
-                    'test.id1' => 'app: Test 1 on the (ua)',
-                ],
-                'de' => [
-                    'test.id1' => 'app: Test 1 on the (de)',
-                    'test.id2' => 'app: Test 2 on the (de)',
-                    'test.id3' => 'app: Test 3 on the (de)',
-                ],
-                'de-DE' => [
-                    'test.id1' => 'app: Test 1 on the (de-DE)',
-                    'test.id2' => 'app: Test 2 on the (de-DE)',
-                ],
-                'de-DE-Latin' => [
-                    'test.id1' => 'app: Test 1 on the (de-DE-Latin)',
-                ],
-            ],
-        ];
     }
 
     public function getTranslations(): array
@@ -113,11 +86,11 @@ final class TranslatorTest extends TestCase
         array $parameters,
         string $categoryName,
         string $locale,
-        string $expected
+        string $expected,
     ): void {
         $translator = new Translator(
             locale: $locale,
-            eventDispatcher: $this->createMock(EventDispatcherInterface::class)
+            eventDispatcher: $this->createMock(EventDispatcherInterface::class),
         );
         $categorySource = $this->createCategory($categoryName, $this->getMessages());
         $translator->addCategorySources($categorySource);
@@ -145,7 +118,7 @@ final class TranslatorTest extends TestCase
         $locale = 'en';
         $translator = new Translator(
             locale: $locale,
-            eventDispatcher: $eventDispatcher
+            eventDispatcher: $eventDispatcher,
         );
         $this->assertEquals('Without translation', $translator->translate('Without translation'));
         $this->assertEquals('Without translation 2', $translator->translate('Without translation 2'));
@@ -179,48 +152,6 @@ final class TranslatorTest extends TestCase
         ]));
         $this->assertEquals('app: Test 1 on the (en)', $translator->translate('test.id1'));
         $this->assertEquals('app2: Test 1 on the (en)', $translator->translate('test.id1', [], 'app2'));
-    }
-
-    private function createTranslatorWithManySources(string $locale, string $fallbackLocale): TranslatorInterface
-    {
-        $translator = new Translator($locale, $fallbackLocale);
-
-        $translator->addCategorySources($this->createCategory('app', [
-            'app' => [
-                'de' => [
-                    'test.id5' => 'app: Test 5 on the (de). First source',
-                ],
-                'en' => [
-                    'test.id1' => 'app: Test 1 on the (en). First source',
-                    'test.id2' => 'app: Test 2 on the (en). First source',
-                    'test.id3' => 'app: Test 3 on the (en). First source',
-                ],
-                'en-US' => [
-                    'test.id1' => 'app: Test 1 on the (en-US). First source',
-                    'test.id2' => 'app: Test 2 on the (en-US). First source',
-                ],
-            ],
-        ]));
-
-        $translator->addCategorySources(
-            $this->createCategory('app', [
-                'app' => [
-                    'en' => [
-                        'test.id1' => 'app: Test 1 on the (en). Second source',
-                        'test.id2' => 'app: Test 2 on the (en). Second source',
-                    ],
-                ],
-            ]),
-            $this->createCategory('app', [
-                'app' => [
-                    'en-US' => [
-                        'test.id1' => 'app: Test 1 on the (en-US). Third source',
-                    ],
-                ],
-            ]),
-        );
-
-        return $translator;
     }
 
     public function manyTranslations(): array
@@ -326,7 +257,7 @@ final class TranslatorTest extends TestCase
         string $id,
         array $params = [],
         ?string $category = null,
-        ?string $locale = null
+        ?string $locale = null,
     ): void {
         $translator = $this->createTranslatorWithManySources('en', 'de');
 
@@ -353,7 +284,7 @@ final class TranslatorTest extends TestCase
                         'test.id1' => 'app2: Test 1 on the (en)',
                     ],
                 ],
-            ])
+            ]),
         );
 
         $this->assertSame('app2: Test 1 on the (en)', $translator->translate('test.id1'));
@@ -453,7 +384,7 @@ final class TranslatorTest extends TestCase
             ],
         ]));
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Category with name "app3" does not exist.');
 
         $translator->withDefaultCategory('app3');
@@ -467,7 +398,7 @@ final class TranslatorTest extends TestCase
         array $parameters,
         string $categoryName,
         string $locale,
-        string $expected
+        string $expected,
     ): void {
         $translator = new Translator($locale);
         $translator->addCategorySources($this->createCategory($categoryName, $this->getMessages()));
@@ -483,12 +414,12 @@ final class TranslatorTest extends TestCase
         string $categoryName,
         string $locale,
         string $fallbackLocale,
-        string $expected
+        string $expected,
     ): void {
         $translator = new Translator(
             locale: $locale,
             fallbackLocale: $fallbackLocale,
-            eventDispatcher: $this->createMock(EventDispatcherInterface::class)
+            eventDispatcher: $this->createMock(EventDispatcherInterface::class),
         );
         $translator->addCategorySources($this->createCategory($categoryName, $this->getMessages()));
 
@@ -504,7 +435,7 @@ final class TranslatorTest extends TestCase
         string $categoryName,
         string $locale,
         string $fallbackLocale,
-        string $expected
+        string $expected,
     ): void {
         $eventDispatcher = $this
             ->getMockBuilder(EventDispatcherInterface::class)
@@ -521,7 +452,7 @@ final class TranslatorTest extends TestCase
 
         $translator = new Translator(
             locale: $locale,
-            eventDispatcher: $eventDispatcher
+            eventDispatcher: $eventDispatcher,
         );
         $translator->addCategorySources($this->createCategory($categoryName, $this->getMessages()));
 
@@ -537,11 +468,11 @@ final class TranslatorTest extends TestCase
         string $categoryName,
         string $defaultLocale,
         string $locale,
-        string $expected
+        string $expected,
     ): void {
         $translator = new Translator(
             locale: $defaultLocale,
-            eventDispatcher: $this->createMock(EventDispatcherInterface::class)
+            eventDispatcher: $this->createMock(EventDispatcherInterface::class),
         );
         $translator->addCategorySources($this->createCategory($categoryName, $this->getMessages()));
         $this->assertEquals($defaultLocale, $translator->getLocale());
@@ -567,7 +498,7 @@ final class TranslatorTest extends TestCase
         /** @var EventDispatcherInterface $eventDispatcher */
         $translator = new Translator(
             locale: 'en-US',
-            eventDispatcher: $eventDispatcher
+            eventDispatcher: $eventDispatcher,
         );
         $translator->addCategorySources($this->createCategory('app', $this->getMessages()));
 
@@ -587,7 +518,7 @@ final class TranslatorTest extends TestCase
         /** @var EventDispatcherInterface $eventDispatcher */
         $translator = new Translator(
             locale: 'en',
-            eventDispatcher: $eventDispatcher
+            eventDispatcher: $eventDispatcher,
         );
         $translator->addCategorySources($this->createCategory('app', $this->getMessages()));
 
@@ -609,9 +540,9 @@ final class TranslatorTest extends TestCase
                                     'hello' => 'Hello, {name}!',
                                 ],
                             ],
-                        ]
+                        ],
                     ),
-                    new class () implements MessageFormatterInterface {
+                    new class implements MessageFormatterInterface {
                         public function format(string $message, array $parameters, string $locale): string
                         {
                             return 'formatted by category';
@@ -631,7 +562,7 @@ final class TranslatorTest extends TestCase
                                     'hello' => 'Hello, {name}!',
                                 ],
                             ],
-                        ]
+                        ],
                     ),
                 ),
             ],
@@ -643,11 +574,11 @@ final class TranslatorTest extends TestCase
      */
     public function testDefaultMessageFormatterWithCategory(
         string $expectedMessage,
-        CategorySource $categorySource
+        CategorySource $categorySource,
     ): void {
         $translator = new Translator(
             locale: 'en',
-            defaultMessageFormatter: new class () implements MessageFormatterInterface {
+            defaultMessageFormatter: new class implements MessageFormatterInterface {
                 public function format(string $message, array $parameters, string $locale): string
                 {
                     return 'formatted by translator';
@@ -658,7 +589,7 @@ final class TranslatorTest extends TestCase
 
         $this->assertSame(
             $expectedMessage,
-            $translator->translate('test', [], $categorySource->getName())
+            $translator->translate('test', [], $categorySource->getName()),
         );
     }
 
@@ -688,7 +619,7 @@ final class TranslatorTest extends TestCase
         $translator = new Translator(
             locale: 'ru',
             fallbackLocale: $fallbackLocale,
-            defaultMessageFormatter: new class () implements MessageFormatterInterface {
+            defaultMessageFormatter: new class implements MessageFormatterInterface {
                 public function format(string $message, array $parameters, string $locale): string
                 {
                     return '(' . $locale . ')';
@@ -711,21 +642,89 @@ final class TranslatorTest extends TestCase
         $this->assertNotSame($translator, $translator->withLocale('ru'));
     }
 
+    private function getMessages(): array
+    {
+        return [
+            'app' => [
+                'en' => [
+                    'test.id1' => 'app: Test 1 on the (en)',
+                    'test.id2' => 'app: Test 2 on the (en)',
+                    'test.id3' => 'app: Test 3 on the (en)',
+                ],
+                'ua' => [
+                    'test.id1' => 'app: Test 1 on the (ua)',
+                ],
+                'de' => [
+                    'test.id1' => 'app: Test 1 on the (de)',
+                    'test.id2' => 'app: Test 2 on the (de)',
+                    'test.id3' => 'app: Test 3 on the (de)',
+                ],
+                'de-DE' => [
+                    'test.id1' => 'app: Test 1 on the (de-DE)',
+                    'test.id2' => 'app: Test 2 on the (de-DE)',
+                ],
+                'de-DE-Latin' => [
+                    'test.id1' => 'app: Test 1 on the (de-DE-Latin)',
+                ],
+            ],
+        ];
+    }
+
+    private function createTranslatorWithManySources(string $locale, string $fallbackLocale): TranslatorInterface
+    {
+        $translator = new Translator($locale, $fallbackLocale);
+
+        $translator->addCategorySources($this->createCategory('app', [
+            'app' => [
+                'de' => [
+                    'test.id5' => 'app: Test 5 on the (de). First source',
+                ],
+                'en' => [
+                    'test.id1' => 'app: Test 1 on the (en). First source',
+                    'test.id2' => 'app: Test 2 on the (en). First source',
+                    'test.id3' => 'app: Test 3 on the (en). First source',
+                ],
+                'en-US' => [
+                    'test.id1' => 'app: Test 1 on the (en-US). First source',
+                    'test.id2' => 'app: Test 2 on the (en-US). First source',
+                ],
+            ],
+        ]));
+
+        $translator->addCategorySources(
+            $this->createCategory('app', [
+                'app' => [
+                    'en' => [
+                        'test.id1' => 'app: Test 1 on the (en). Second source',
+                        'test.id2' => 'app: Test 2 on the (en). Second source',
+                    ],
+                ],
+            ]),
+            $this->createCategory('app', [
+                'app' => [
+                    'en-US' => [
+                        'test.id1' => 'app: Test 1 on the (en-US). Third source',
+                    ],
+                ],
+            ]),
+        );
+
+        return $translator;
+    }
+
     private function createCategory(string $categoryName, array $messages = []): CategorySource
     {
         return new CategorySource(
             $categoryName,
             $this->createMessageReader($categoryName, $messages),
-            $this->createMessageFormatter()
+            $this->createMessageFormatter(),
         );
     }
 
     private function createMessageReader(string $category, array $messages): MessageReaderInterface
     {
         return new class ($category, $messages) implements MessageReaderInterface {
-            public function __construct(private string $category, private array $messages)
-            {
-            }
+            public function __construct(private string $category, private array $messages) {}
 
             public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
             {
@@ -741,7 +740,7 @@ final class TranslatorTest extends TestCase
 
     private function createMessageFormatter(): MessageFormatterInterface
     {
-        return new class () implements MessageFormatterInterface {
+        return new class implements MessageFormatterInterface {
             public function format(string $message, array $parameters, string $locale): string
             {
                 return $message;

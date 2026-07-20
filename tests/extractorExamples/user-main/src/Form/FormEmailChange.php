@@ -27,7 +27,7 @@ final class FormEmailChange extends FormModel
         Identity $identity,
         private RepositoryUser $repositoryUser,
         private RepositorySetting $repositorySetting,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
         $this->identity = $identity->getIdentity();
         $this->loadData();

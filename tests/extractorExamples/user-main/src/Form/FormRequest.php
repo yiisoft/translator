@@ -24,7 +24,7 @@ final class FormRequest extends FormModel
     public function __construct(
         private Token $token,
         private RepositoryUser $repositoryUser,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
         parent::__construct();
     }
@@ -84,7 +84,7 @@ final class FormRequest extends FormModel
                             'Thank you. If said email is registered, you will get a password reset',
                             [],
                             'user',
-                        )
+                        ),
                     );
                 }
 

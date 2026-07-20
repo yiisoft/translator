@@ -7,6 +7,4 @@ namespace Yii\Extension\User\Event;
 /**
  * @codeCoverageIgnore
  */
-final class AfterConfirm
-{
-}
+final class AfterConfirm {}

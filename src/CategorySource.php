@@ -130,7 +130,7 @@ final class CategorySource
         string $message,
         array $parameters,
         string $locale,
-        MessageFormatterInterface $defaultFormatter
+        MessageFormatterInterface $defaultFormatter,
     ): string {
         return ($this->formatter ?? $defaultFormatter)->format($message, $parameters, $locale);
     }

@@ -47,7 +47,7 @@ interface TranslatorInterface
         string|Stringable $id,
         array $parameters = [],
         ?string $category = null,
-        ?string $locale = null
+        ?string $locale = null,
     ): string;
 
     /**
