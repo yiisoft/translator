@@ -3,6 +3,7 @@ name: mutation test
 on:
   pull_request:
     paths: &paths
+      - '.github/workflows/mutation.yml'
       - 'src/**'
       - 'config/**'
       - 'tests/**'

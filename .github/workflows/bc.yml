@@ -3,6 +3,7 @@ name: backwards compatibility
 on:
   pull_request:
     paths: &paths
+      - '.github/workflows/bc.yml'
       - 'src/**'
       - 'config/**'
       - 'composer.json'

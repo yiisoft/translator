@@ -3,6 +3,7 @@ name: build
 on:
   pull_request:
     paths: &paths
+      - '.github/workflows/build.yml'
       - 'src/**'
       - 'config/**'
       - 'tests/**'

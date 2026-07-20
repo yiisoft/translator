@@ -3,6 +3,7 @@ name: static analysis
 on:
   pull_request:
     paths: &paths
+      - '.github/workflows/static.yml'
       - 'src/**'
       - 'config/**'
       - 'psalm.xml'

@@ -3,6 +3,7 @@ name: Composer require checker
 on:
   pull_request:
     paths: &paths
+      - '.github/workflows/composer-require-checker.yml'
       - 'src/**'
       - 'config/**'
       - 'tests/**'
