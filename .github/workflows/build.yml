@@ -1,35 +1,31 @@
+name: build
+
 on:
   pull_request:
-    paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - '.gitignore'
-      - '.gitattributes'
-      - 'infection.json.dist'
-      - 'psalm.xml'
-
+    paths: &paths
+      - '.github/workflows/build.yml'
+      - 'src/**'
+      - 'config/**'
+      - 'tests/**'
+      - 'phpunit.xml.dist'
+      - 'phpunit-with-intl.xml'
+      - 'composer.json'
   push:
     branches: ['master']
-    paths-ignore:
-      - 'docs/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
-      - '.gitignore'
-      - '.gitattributes'
-      - 'infection.json.dist'
-      - 'psalm.xml'
-
-name: build
+    paths: *paths
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   phpunit:
     uses: yiisoft/actions/.github/workflows/phpunit.yml@master
     secrets:
-      codecovToken: ${{ secrets.CODECOV_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     with:
       extensions: :intl
       coverage: xdebug
@@ -40,7 +36,7 @@ jobs:
   phpunit-with-intl:
     uses: yiisoft/actions/.github/workflows/phpunit.yml@master
     secrets:
-      codecovToken: ${{ secrets.CODECOV_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     with:
       phpunitConfig: phpunit-with-intl.xml
       extensions: intl

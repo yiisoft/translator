@@ -3,6 +3,7 @@ name: Rector and PHP CS Fixer
 on:
   pull_request:
     paths:
+      - '.github/workflows/rector-cs.yml'
       - 'config/**'
       - 'src/**'
       - 'tests/**'
