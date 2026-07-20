@@ -33,7 +33,7 @@ final class M200602215007CreateProfileTable implements RevertibleMigrationInterf
                 'bio' => $b->text(),
                 'timezone' => $b->string(40),
             ],
-            $tableOptions
+            $tableOptions,
         );
 
         $b->addForeignKey(

@@ -28,7 +28,7 @@ final class EmailChange
         ServiceInsecureEmailChange $serviceInsecureEmailChange,
         ServiceSecureEmailChange $serviceSecureEmailChange,
         ValidatorInterface $validator,
-        ViewRenderer $viewRenderer
+        ViewRenderer $viewRenderer,
     ): ResponseInterface {
         /** @var array $body */
         $body = $serverRequest->getParsedBody();

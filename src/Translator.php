@@ -73,7 +73,7 @@ final class Translator implements TranslatorInterface
         string|Stringable $id,
         array $parameters = [],
         ?string $category = null,
-        ?string $locale = null
+        ?string $locale = null,
     ): string {
         $locale ??= $this->locale;
 
@@ -109,7 +109,7 @@ final class Translator implements TranslatorInterface
         string $id,
         array $parameters,
         string $category,
-        string $locale
+        string $locale,
     ): string {
         $sourceCategory = end($this->categorySources[$category]);
         do {
@@ -140,7 +140,7 @@ final class Translator implements TranslatorInterface
             $id,
             $parameters,
             $locale,
-            $this->defaultMessageFormatter
+            $this->defaultMessageFormatter,
         );
     }
 

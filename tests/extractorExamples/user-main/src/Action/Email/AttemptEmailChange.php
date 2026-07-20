@@ -21,7 +21,7 @@ final class AttemptEmailChange
         RequestHandlerInterface $requestHandler,
         ServerRequestInterface $serverRequest,
         ServiceAttemptEmailChange $serviceAttemptEmailChange,
-        ServiceUrl $serviceUrl
+        ServiceUrl $serviceUrl,
     ): ResponseInterface {
         /** @var string|null $id */
         $id = $serverRequest->getAttribute('id');

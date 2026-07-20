@@ -24,7 +24,7 @@ final class Profile
         TranslatorInterface $translator,
         CurrentUser $user,
         ValidatorInterface $validator,
-        ViewRenderer $viewRenderer
+        ViewRenderer $viewRenderer,
     ): ResponseInterface {
         /** @var array $body */
         $body = $serverRequest->getParsedBody();
@@ -37,13 +37,13 @@ final class Profile
         }
 
         if (
-            $method === 'POST' &&
-            $id !== null &&
-            $formProfile->load($body) &&
-            $validator
+            $method === 'POST'
+            && $id !== null
+            && $formProfile->load($body)
+            && $validator
                 ->validate($formProfile)
-                ->isValid() &&
-            $repositoryProfile->update($id, $formProfile)
+                ->isValid()
+            && $repositoryProfile->update($id, $formProfile)
         ) {
             $serviceFlashMessage->run(
                 'success',

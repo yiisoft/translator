@@ -14,9 +14,7 @@ use Yiisoft\Translator\TranslatorInterface;
 
 final class ServiceAttemptEmailChange
 {
-    public function __construct(private RepositorySetting $repositorySetting, private RepositoryToken $repositoryToken, private RepositoryUser $repositoryUser, private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator)
-    {
-    }
+    public function __construct(private RepositorySetting $repositorySetting, private RepositoryToken $repositoryToken, private RepositoryUser $repositoryUser, private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator) {}
 
     public function run(string $id, string $code, User $user): bool
     {
@@ -59,8 +57,8 @@ final class ServiceAttemptEmailChange
             }
 
             if (
-                $emailChangeStrategy === User::STRATEGY_DEFAULT ||
-                ($user->flags & User::NEW_EMAIL_CONFIRMED) && ($user->flags & User::OLD_EMAIL_CONFIRMED)
+                $emailChangeStrategy === User::STRATEGY_DEFAULT
+                || ($user->flags & User::NEW_EMAIL_CONFIRMED) && ($user->flags & User::OLD_EMAIL_CONFIRMED)
             ) {
                 $user->email($user->getUnconfirmedEmail());
                 $user->unconfirmedEmail(null);

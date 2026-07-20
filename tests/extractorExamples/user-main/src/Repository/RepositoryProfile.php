@@ -12,9 +12,7 @@ use Yiisoft\ActiveRecord\ActiveRecordInterface;
 
 final class RepositoryProfile
 {
-    public function __construct(private ActiveRecordFactory $activeRecordFactory)
-    {
-    }
+    public function __construct(private ActiveRecordFactory $activeRecordFactory) {}
 
     public function findProfileByCondition(array $condition): ?ActiveRecordInterface
     {

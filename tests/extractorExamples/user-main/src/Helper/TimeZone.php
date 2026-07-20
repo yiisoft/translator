@@ -8,6 +8,11 @@ use DateTime;
 use DateTimeZone;
 use Yiisoft\Arrays\ArraySorter;
 
+use function is_array;
+
+use const SORT_ASC;
+use const SORT_NUMERIC;
+
 final class TimeZone
 {
     public function getAll(): array
@@ -20,13 +25,12 @@ final class TimeZone
             $name = str_replace('_', ' ', $timeZone);
             $date = new DateTime('now', new DateTimeZone($timeZone));
 
-
-                $timeZones[] =
-                [
-                    'timezone' => $timeZone,
-                    'name' => "{$name} (UTC {$date->format('P')})",
-                    'offset' => $date->getOffset(),
-                ]
+            $timeZones[]
+            = [
+                'timezone' => $timeZone,
+                'name' => "{$name} (UTC {$date->format('P')})",
+                'offset' => $date->getOffset(),
+            ]
             ;
         }
 

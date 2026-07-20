@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Yiisoft\Translator\Extractor\TranslationExtractor;
 
+use const DIRECTORY_SEPARATOR;
+
 /**
  * @group extractor
  */

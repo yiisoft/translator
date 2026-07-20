@@ -14,7 +14,7 @@ final class FormReset extends FormModel
     private string $password = '';
 
     public function __construct(
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
         parent::__construct();
     }

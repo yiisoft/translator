@@ -71,7 +71,6 @@ final class IntlMessageFormatterTest extends TestCase
                 ],
             ],
 
-
             [
                 'Here is a big number: ' . self::F_VALUE_FORMATTED, // expected
                 'Here is a big number: {' . self::F . ', number, integer}', // pattern
@@ -379,7 +378,7 @@ _MSG_
         string $expected,
         string $pattern,
         array $args,
-        string $locale = 'en-US'
+        string $locale = 'en-US',
     ): void {
         $formatter = new IntlMessageFormatter();
         $result = $formatter->format($pattern, $args, $locale);

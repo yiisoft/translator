@@ -11,6 +11,10 @@ use Yiisoft\Di\StateResetter;
 use Yiisoft\Translator\MessageReaderInterface;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\Translator\CategorySource;
+use Yiisoft\Translator\SimpleMessageFormatter;
+
+use function dirname;
 
 final class ConfigTest extends TestCase
 {
@@ -48,8 +52,8 @@ final class ConfigTest extends TestCase
     {
         return new Container(
             ContainerConfig::create()->withDefinitions(
-                $this->getContainerDefinitions($params, $withCategorySources)
-            )
+                $this->getContainerDefinitions($params, $withCategorySources),
+            ),
         );
     }
 
@@ -81,9 +85,9 @@ final class ConfigTest extends TestCase
         return [
             'translation.app' => [
                 'definition' => static function () use ($messageReader, $params) {
-                    $messageFormatter = new \Yiisoft\Translator\SimpleMessageFormatter();
+                    $messageFormatter = new SimpleMessageFormatter();
 
-                    return new \Yiisoft\Translator\CategorySource(
+                    return new CategorySource(
                         $params['yiisoft/translator']['defaultCategory'],
                         $messageReader,
                         $messageFormatter,

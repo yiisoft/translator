@@ -21,7 +21,7 @@ final class CategoryTest extends TestCase
         $this->assertInstanceOf(CategorySource::class, new CategorySource(
             'testcategoryname',
             $this->createMessageReader(),
-            $this->createMessageFormatter()
+            $this->createMessageFormatter(),
         ));
     }
 
@@ -32,7 +32,7 @@ final class CategoryTest extends TestCase
         new CategorySource(
             'test category name',
             $this->createMessageReader(),
-            $this->createMessageFormatter()
+            $this->createMessageFormatter(),
         );
     }
 
@@ -92,12 +92,12 @@ final class CategoryTest extends TestCase
         string $expectedMessage,
         string $message,
         array $parameters,
-        MessageFormatterInterface $defaultMessageFormatter
+        MessageFormatterInterface $defaultMessageFormatter,
     ): void {
         $categorySource = new CategorySource('test', $this->createMessageReader());
         $this->assertSame(
             $expectedMessage,
-            $categorySource->format($message, $parameters, 'en-US', $defaultMessageFormatter)
+            $categorySource->format($message, $parameters, 'en-US', $defaultMessageFormatter),
         );
     }
 
@@ -105,12 +105,12 @@ final class CategoryTest extends TestCase
     {
         $categorySource = new CategorySource(
             'test',
-            new class () implements MessageReaderInterface {
+            new class implements MessageReaderInterface {
                 public function getMessage(
                     string $id,
                     string $category,
                     string $locale,
-                    array $parameters = []
+                    array $parameters = [],
                 ): ?string {
                     return null;
                 }
@@ -122,7 +122,7 @@ final class CategoryTest extends TestCase
                         'message2' => ['message' => 'message2'],
                     ];
                 }
-            }
+            },
         );
 
         $this->assertEquals(
@@ -136,7 +136,7 @@ final class CategoryTest extends TestCase
 
     private function createMessageReader(): MessageReaderInterface
     {
-        return new class () implements MessageReaderInterface {
+        return new class implements MessageReaderInterface {
             public function getMessage(string $id, string $category, string $locale, array $parameters = []): ?string
             {
                 return null;
@@ -151,7 +151,7 @@ final class CategoryTest extends TestCase
 
     private function createMessageFormatter(): MessageFormatterInterface
     {
-        return new class () implements MessageFormatterInterface {
+        return new class implements MessageFormatterInterface {
             public function format(string $message, array $parameters, string $locale): string
             {
                 return $message;

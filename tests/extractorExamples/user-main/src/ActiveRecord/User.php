@@ -10,6 +10,8 @@ use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Security\Random;
 
+use const PASSWORD_ARGON2I;
+
 /**
  * UserAR Active Record - Module AR User.
  *

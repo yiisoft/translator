@@ -26,7 +26,7 @@ final class FormRegister extends FormModel
     public function __construct(
         private RepositoryUser $repositoryUser,
         private RepositorySetting $repositorySetting,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
     ) {
         parent::__construct();
     }
@@ -153,8 +153,8 @@ final class FormRegister extends FormModel
                         $this->translator->translate(
                             'Password should contain at least 6 characters',
                             [],
-                            'user'
-                        )
+                            'user',
+                        ),
                     ),
             ];
         }

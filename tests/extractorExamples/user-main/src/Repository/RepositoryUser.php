@@ -31,6 +31,8 @@ use function filter_var;
 use function str_shuffle;
 use function str_split;
 
+use const FILTER_VALIDATE_EMAIL;
+
 final class RepositoryUser implements IdentityRepositoryInterface
 {
     private Profile $profile;
@@ -44,7 +46,7 @@ final class RepositoryUser implements IdentityRepositoryInterface
         private ActiveRecordFactory $activeRecordFactory,
         private Aliases $aliases,
         private InitialAvatar $avatar,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
     ) {
         $this->token = $activeRecordFactory->createAR(Token::class);
         $this->profile = $activeRecordFactory->createAR(Profile::class);
@@ -108,7 +110,7 @@ final class RepositoryUser implements IdentityRepositoryInterface
                 [
                     'id' => $this->token->getUserId(),
                     'code' => $this->token->getCode(),
-                ]
+                ],
             );
         }
 

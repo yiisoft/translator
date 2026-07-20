@@ -36,7 +36,7 @@ final class Register
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
         ValidatorInterface $validator,
-        ViewRenderer $viewRenderer
+        ViewRenderer $viewRenderer,
     ): ResponseInterface {
         /** @var array $body */
         $body = $serverRequest->getParsedBody();
@@ -46,15 +46,15 @@ final class Register
         $formRegister->ip($ip);
 
         if (
-            $method === 'POST' &&
-            $formRegister->load($body) &&
-            $validator
+            $method === 'POST'
+            && $formRegister->load($body)
+            && $validator
                 ->validate($formRegister)
-                ->isValid() &&
-            $repositoryUser->register(
+                ->isValid()
+            && $repositoryUser->register(
                 $formRegister,
                 $repositorySetting->isConfirmation(),
-                $repositorySetting->isGeneratingPassword()
+                $repositorySetting->isGeneratingPassword(),
             )
         ) {
             $email = $formRegister->getEmail();

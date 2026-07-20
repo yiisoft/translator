@@ -28,7 +28,7 @@ final class Confirm
         RepositoryUser $repositoryUser,
         ServiceFlashMessage $serviceFlashMessage,
         ServiceUrl $serviceUrl,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ): ResponseInterface {
         /** @var string|null $id */
         $id = $serverRequest->getAttribute('id');
@@ -50,7 +50,7 @@ final class Confirm
         $token = $repositoryToken->findTokenByParams(
             $user->getId(),
             $code,
-            Token::TYPE_CONFIRMATION
+            Token::TYPE_CONFIRMATION,
         );
 
         if ($token === null || $token->isExpired($repositorySetting->getTokenConfirmWithin())) {

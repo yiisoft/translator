@@ -13,9 +13,7 @@ use Yiisoft\Translator\TranslatorInterface;
 
 final class ServiceDefaultEmailChange
 {
-    public function __construct(private MailerUser $mailerUser, private RepositoryToken $repositoryToken, private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator, private UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    public function __construct(private MailerUser $mailerUser, private RepositoryToken $repositoryToken, private ServiceFlashMessage $serviceFlashMessage, private TranslatorInterface $translator, private UrlGeneratorInterface $urlGenerator) {}
 
     public function run(string $email, User $user, bool $flash = true): void
     {
@@ -25,7 +23,7 @@ final class ServiceDefaultEmailChange
 
         /** @var Token $token */
         $token = $this->repositoryToken->findTokenByCondition(
-            ['user_id' => $user->getId(), 'type' => Token::TYPE_CONFIRM_NEW_EMAIL]
+            ['user_id' => $user->getId(), 'type' => Token::TYPE_CONFIRM_NEW_EMAIL],
         );
 
         $email = $user->getUnconfirmedEmail();
@@ -37,7 +35,7 @@ final class ServiceDefaultEmailChange
                 'username' => $user->getUsername(),
                 'url' => $this->urlGenerator->generateAbsolute(
                     $token->toUrl(),
-                    ['id' => $token->getUserId(), 'code' => $token->getCode()]
+                    ['id' => $token->getUserId(), 'code' => $token->getCode()],
                 ),
             ];
 

@@ -18,9 +18,7 @@ use Yiisoft\Security\Random;
 
 final class RepositoryToken
 {
-    public function __construct(private ActiveRecordFactory $activeRecordFactory, private LoggerInterface $logger)
-    {
-    }
+    public function __construct(private ActiveRecordFactory $activeRecordFactory, private LoggerInterface $logger) {}
 
     public function findToken(array $condition): QueryInterface
     {
