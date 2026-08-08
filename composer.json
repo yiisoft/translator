@@ -30,6 +30,7 @@
     "require": {
         "php": "8.0 - 8.5",
         "psr/event-dispatcher": "1.0.0",
+        "yiisoft/definitions": "^3.4",
         "yiisoft/files": "^1.0 || ^2.0",
         "yiisoft/i18n": "^1.0"
     },
@@ -38,6 +39,7 @@
         "friendsofphp/php-cs-fixer": "^3.95",
         "phpunit/phpunit": "^9.6.29",
         "rector/rector": "^2.1.7",
+        "shipmonk/composer-dependency-analyser": "^1.8",
         "spatie/phpunit-watcher": "^1.23.6",
         "yiisoft/code-style": "^1.0",
         "yiisoft/di": "^1.2.1"
@@ -83,6 +85,7 @@
         "test-watch": "phpunit-watcher watch",
         "mutation": "infection --min-covered-msi=100 -j$(nproc)",
         "cs-fix": "php-cs-fixer fix",
-        "rector": "rector"
+        "rector": "rector",
+        "dependency-analyser": "composer-dependency-analyser"
     }
 }
