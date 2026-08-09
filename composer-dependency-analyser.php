@@ -14,4 +14,7 @@ return (new Configuration())
     ->addPathToExclude(__DIR__ . '/tests/extractorExamples')
     // Optional extensions, used only when available (see composer.json "suggest").
     ->ignoreErrorsOnExtension('ext-intl', [ErrorType::SHADOW_DEPENDENCY])
-    ->ignoreErrorsOnExtension('ext-tokenizer', [ErrorType::SHADOW_DEPENDENCY]);
+    ->ignoreErrorsOnExtension('ext-tokenizer', [ErrorType::SHADOW_DEPENDENCY])
+    // `yiisoft/definitions` is used only in `config/di.php`, which is loaded by consumers using
+    // `yiisoft/di`, that already requires `yiisoft/definitions` itself.
+    ->ignoreErrorsOnPackages(['yiisoft/definitions'], [ErrorType::SHADOW_DEPENDENCY]);
