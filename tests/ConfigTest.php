@@ -59,9 +59,7 @@ final class ConfigTest extends TestCase
 
     private function getContainerDefinitions(?array $params, bool $withCategorySources): array
     {
-        if ($params === null) {
-            $params = $this->getParams();
-        }
+        $params ??= $this->getParams();
         $common = require dirname(__DIR__) . '/config/di.php';
 
         if ($withCategorySources) {

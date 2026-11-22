@@ -12,7 +12,7 @@ use function is_array;
 final class InMemoryMessageSource implements MessageReaderInterface, MessageWriterInterface
 {
     /**
-     * @psalm-var array<string, array<string, array<string, array<string, string>>>>
+     * @var array<string, array<string, array<string, array<string, string>>>>
      */
     private array $messages = [];
 
@@ -27,7 +27,7 @@ final class InMemoryMessageSource implements MessageReaderInterface, MessageWrit
     }
 
     /**
-     * @psalm-param array<string, array<string, string>|string> $messages
+     * @param array<string, array<string, string>|string> $messages
      */
     public function write(string $category, string $locale, array $messages): void
     {

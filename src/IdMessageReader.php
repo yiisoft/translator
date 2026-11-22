@@ -11,6 +11,9 @@ use RuntimeException;
  */
 final class IdMessageReader implements MessageReaderInterface
 {
+    /**
+     * @param mixed[] $parameters Parameters that may be used to decide about the message to obtain.
+     */
     public function getMessage(string $id, string $category, string $locale, array $parameters = []): string
     {
         return $id;

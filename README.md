@@ -12,7 +12,6 @@
 [![Code Coverage](https://codecov.io/gh/yiisoft/translator/branch/master/graph/badge.svg)](https://codecov.io/gh/yiisoft/translator)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2Ftranslator%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/translator/master)
 [![static analysis](https://github.com/yiisoft/translator/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/translator/actions?query=workflow%3A%22static+analysis%22)
-[![type-coverage](https://shepherd.dev/github/yiisoft/translator/coverage.svg)](https://shepherd.dev/github/yiisoft/translator)
 
 This package allows translating messages into several languages. It can work with both Yii-based applications and
 standalone PHP applications.

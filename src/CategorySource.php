@@ -45,7 +45,7 @@ final class CategorySource
      *
      * @param string $id Message ID.
      * @param string $locale Locale to get message for.
-     * @param array $parameters Message parameters.
+     * @param mixed[] $parameters Message parameters.
      *
      * @return string|null Message string or null if message was not found.
      */
@@ -57,9 +57,7 @@ final class CategorySource
     /**
      * @param string $locale Locale of messages to get.
      *
-     * @psalm-return array<string, array<string, string>>
-     *
-     * @return array All messages from category. The format is the following:
+     * @return array<string, array<string, string>> All messages from category. The format is the following:
      *
      * ```php
      * [
@@ -86,10 +84,8 @@ final class CategorySource
     /**
      * Writes a set of messages for a specified category and locale.
      *
-     * @psalm-param array<string, array<string, string>> $messages
-     *
      * @param string $locale Locale to write messages for.
-     * @param array $messages A set of messages to write. The format is the following:
+     * @param array<string, array<string, string>> $messages A set of messages to write. The format is the following:
      * ```php
      * [
      *   'key1' => [
@@ -119,7 +115,7 @@ final class CategorySource
      * Format the message given parameters and locale.
      *
      * @param string $message Message to be formatted.
-     * @param array $parameters Parameters to use.
+     * @param mixed[] $parameters Parameters to use.
      * @param string $locale Locale to use. Usually affects formatting numbers, dates etc.
      * @param MessageFormatterInterface $defaultFormatter Message formatter that will be used if formatter not specified
      * in message category.
