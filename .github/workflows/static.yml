@@ -6,7 +6,7 @@ on:
       - '.github/workflows/static.yml'
       - 'src/**'
       - 'config/**'
-      - 'psalm.xml'
+      - 'phpstan.neon'
       - 'composer.json'
   push:
     branches: ['master']
@@ -20,8 +20,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  psalm:
-    uses: yiisoft/actions/.github/workflows/psalm.yml@master
+  phpstan:
+    uses: yiisoft/actions/.github/workflows/phpstan.yml@master
     with:
       os: >-
         ['ubuntu-latest']

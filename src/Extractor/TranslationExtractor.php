@@ -20,6 +20,7 @@ final class TranslationExtractor
     /** @var string[] */
     private array $only = ['**.php'];
 
+    /** @var array<string, array<int, array{0: int|null, 1: string}>> */
     private array $skippedLines = [];
 
     /** @var string[] */
@@ -64,7 +65,7 @@ final class TranslationExtractor
      * @param string $defaultCategory Category to use if category isn't set in translation call.
      * @param string|null $translatorCall Translation call to look for.
      *
-     * @return array Extracted messages.
+     * @return array<string, list<string>> Extracted messages.
      */
     public function extract(string $defaultCategory = 'app', ?string $translatorCall = null): array
     {
@@ -83,6 +84,7 @@ final class TranslationExtractor
              * @var string $fileContent We assume that `file_get_contents` can always read the file.
              */
             $fileContent = file_get_contents($file);
+            /** @var array<string, list<string>> $messages */
             $messages = array_merge_recursive($messages, $parser->extract($fileContent));
             if ($parser->hasSkippedLines()) {
                 $this->skippedLines[$file] = $parser->getSkippedLines();
@@ -101,7 +103,7 @@ final class TranslationExtractor
     }
 
     /**
-     * @return array Lines that were skipped during parsing.
+     * @return array<string, array<int, array{0: int|null, 1: string}>> Lines that were skipped during parsing.
      *
      * The format is:
      *

@@ -20,9 +20,6 @@ final class FormEmailChange extends FormModel
     private string $oldEmail = '';
     private User $identity;
 
-    /**
-     * @psalm-suppress PropertyTypeCoercion
-     */
     public function __construct(
         Identity $identity,
         private RepositoryUser $repositoryUser,

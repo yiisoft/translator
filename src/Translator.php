@@ -19,13 +19,12 @@ final class Translator implements TranslatorInterface
     private MessageFormatterInterface $defaultMessageFormatter;
 
     /**
-     * @var array Array of category message sources indexed by category names.
-     * @psalm-var array<string, non-empty-list<CategorySource>>
+     * @var array<string, non-empty-list<CategorySource>> Array of category message sources indexed by category names.
      */
     private array $categorySources = [];
 
     /**
-     * @psalm-var array<string, true>
+     * @var array<string, true>
      */
     private array $dispatchedMissingTranslationCategoryEvents = [];
 
@@ -105,6 +104,9 @@ final class Translator implements TranslatorInterface
         return $new;
     }
 
+    /**
+     * @param mixed[] $parameters Message parameters.
+     */
     private function translateUsingCategorySources(
         string $id,
         array $parameters,

@@ -21,25 +21,27 @@ use const T_WHITESPACE;
 /**
  * Extracts translation keys from a string given.
  *
- * @psalm-type TranslatorToken = string|array{0: int, 1: string, 2: int}
+ * @phpstan-type TranslatorToken = string|array{0: int, 1: string, 2: int}
  */
 final class ContentParser
 {
     private string $translatorCall = '->translate';
 
     /**
-     * @psalm-var TranslatorToken[]
+     * @var TranslatorToken[]
      */
     private array $translatorTokens = [];
 
     private int $translatorTokenCount = 0;
 
+    /** @var array<string, string> */
     private static array $brackets = [
         ')' => '(',
         ']' => '[',
         '}' => '{',
     ];
 
+    /** @var array<int, array{0: int|null, 1: string}> */
     private array $skippedLines = [];
 
     /**
@@ -55,7 +57,7 @@ final class ContentParser
     /**
      * @param string $content Code to extract translation keys from.
      *
-     * @return array Extracted messages.
+     * @return array<string, list<string>> Extracted messages.
      */
     public function extract(string $content): array
     {
@@ -82,17 +84,15 @@ final class ContentParser
     }
 
     /**
-     * @return array Lines that were skipped during parsing.
+     * @return array<int, array{0: int|null, 1: string}> Lines that were skipped during parsing.
      *
      * The format is:
      *
      * ```php
      * return [
-     *     'fileName' => [
-     *         [
-     *             int $numberOfLine,
-     *             string $incorrectLine,
-     *         ],
+     *     [
+     *         int $numberOfLine,
+     *         string $incorrectLine,
      *     ],
      * ]
      * ```
@@ -116,9 +116,9 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param array<integer, TranslatorToken> $tokens
+     * @param TranslatorToken[] $tokens
      *
-     * @psalm-suppress UnusedVariable See https://github.com/vimeo/psalm/issues/9080
+     * @return array<string, list<string>>
      */
     private function extractMessagesFromTokens(array $tokens): array
     {
@@ -139,6 +139,7 @@ final class ContentParser
                             $skippedTokens = array_slice($tokens, $startTranslatorTokenIndex, $indexToken - $startTranslatorTokenIndex + 1);
                             $this->skippedLines[] = $this->getLinesData($skippedTokens);
                         } else {
+                            /** @var array<string, list<string>> $messages */
                             $messages = array_merge_recursive($messages, $result);
                         }
                         $startTranslatorTokenIndex = 0;
@@ -172,7 +173,9 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param TranslatorToken[] $tokens
+     * @param TranslatorToken[] $tokens
+     *
+     * @return array<string, list<string>>|null
      */
     private function extractParametersFromTokens(array $tokens): ?array
     {
@@ -186,6 +189,7 @@ final class ContentParser
 
         // Get translation messages from parameters
         if (isset($parameters['parameters'])) {
+            /** @var array<string, list<string>> $messages */
             $messages = array_merge_recursive($messages, $this->extractMessagesFromTokens($parameters['parameters']));
         }
 
@@ -193,9 +197,9 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param TranslatorToken[] $tokens
+     * @param TranslatorToken[] $tokens
      *
-     * @psalm-return array{
+     * @return array{
      *     category?: null|string,
      *     id?: null|string,
      *     parameters?: null|list<TranslatorToken>
@@ -230,7 +234,7 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param TranslatorToken[] $tokens
+     * @param TranslatorToken[] $tokens
      */
     private function getMessageStringFromTokens(array $tokens): ?string
     {
@@ -260,8 +264,8 @@ final class ContentParser
     /**
      * Finds out if two PHP tokens are equal.
      *
-     * @psalm-param TranslatorToken $a
-     * @psalm-param TranslatorToken $b
+     * @param TranslatorToken $a
+     * @param TranslatorToken $b
      */
     private function tokensEqual(array|string $a, array|string $b): bool
     {
@@ -273,7 +277,9 @@ final class ContentParser
     }
 
     /**
-     * @psalm-param TranslatorToken[] $tokens
+     * @param TranslatorToken[] $tokens
+     *
+     * @return array{0: int|null, 1: string}
      */
     private function getLinesData(array $tokens): array
     {

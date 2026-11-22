@@ -39,9 +39,6 @@ final class RepositoryUser implements IdentityRepositoryInterface
     private Token $token;
     private User $user;
 
-    /**
-     * @psalm-suppress PropertyTypeCoercion
-     */
     public function __construct(
         private ActiveRecordFactory $activeRecordFactory,
         private Aliases $aliases,
@@ -55,7 +52,6 @@ final class RepositoryUser implements IdentityRepositoryInterface
 
     /**
      * @return IdentityInterface|null
-     * @psalm-suppress InvalidReturnType, InvalidReturnStatement
      */
     public function findIdentity(string $id): ?IdentityInterface
     {
@@ -185,7 +181,6 @@ final class RepositoryUser implements IdentityRepositoryInterface
      * @param int $length
      *
      * {@see https://gist.github.com/tylerhall/521810}
-     * @psalm-suppress MixedOperand, PossiblyInvalidArrayOffset
      */
     private function generate(int $length): string
     {

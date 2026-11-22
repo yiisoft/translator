@@ -59,7 +59,6 @@ final class RepositoryToken
         /** @var Connection $db */
         $db = $this->activeRecordFactory->getConnection();
 
-        /** @psalm-suppress UndefinedInterfaceMethod */
         $transaction = $db->beginTransaction();
 
         try {
