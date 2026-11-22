@@ -1,6 +1,6 @@
 # Yii Message Translator Change Log
 
-## 3.2.2 under development
+## 3.2.2 November 22, 2026
 
 - Chg #171: Replace Psalm with PHPStan (@vjik)
 - Enh #166: Explicitly import functions and constants in `use` section (@vjik)
