@@ -1,5 +1,9 @@
 # Yii Message Translator Change Log
 
+## 3.2.3 under development
+
+- no changes in this release.
+
 ## 3.2.2 November 22, 2026
 
 - Chg #171: Replace Psalm with PHPStan (@vjik)
