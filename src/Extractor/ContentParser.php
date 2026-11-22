@@ -287,9 +287,7 @@ final class ContentParser
         $codeLines = '';
         foreach ($tokens as $token) {
             if (is_array($token)) {
-                if ($startLine === null) {
-                    $startLine = $token[2];
-                }
+                $startLine ??= $token[2];
                 $codeLines .= $token[1];
             } else {
                 $codeLines .= $token;
